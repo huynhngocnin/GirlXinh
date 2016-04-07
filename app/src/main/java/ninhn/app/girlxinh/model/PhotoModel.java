@@ -5,7 +5,7 @@ package ninhn.app.girlxinh.model;
  */
 public class PhotoModel {
     private String id;
-    private String name;
+    private String title;
     private String url;
     private boolean bookmark;
     private int view;
@@ -22,12 +22,12 @@ public class PhotoModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getUrl() {
