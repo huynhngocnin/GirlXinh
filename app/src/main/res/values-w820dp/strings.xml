@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Gai Xinh</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="view">View</string>
+    <string name="init_view">0</string>
+</resources>

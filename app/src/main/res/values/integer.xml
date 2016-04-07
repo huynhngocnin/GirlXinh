@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="number_column">2</integer>
+    <integer name="init_view">0</integer>
+
+</resources>
