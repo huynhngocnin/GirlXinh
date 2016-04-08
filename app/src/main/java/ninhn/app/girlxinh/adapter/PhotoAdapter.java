@@ -12,6 +12,7 @@ import java.util.List;
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.holder.LoadingViewHolder;
 import ninhn.app.girlxinh.holder.PhotoHolder;
+import ninhn.app.girlxinh.listener.OnItemClickListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
 import ninhn.app.girlxinh.model.PhotoModel;
 
@@ -26,14 +27,16 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private List<PhotoModel> photoModelList;
 
     private OnLoadMoreListener mOnLoadMoreListener;
+    private OnItemClickListener listener;
 
     private boolean isLoading;
     private int visibleThreshold = 5;
     private int lastVisibleItem, totalItemCount;
 
-    public PhotoAdapter(Context context, RecyclerView recyclerView, List<PhotoModel> photoModelList) {
+    public PhotoAdapter(Context context, RecyclerView recyclerView, List<PhotoModel> photoModelList, OnItemClickListener listener) {
         this.context = context;
         this.photoModelList = photoModelList;
+        this.listener = listener;
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -82,15 +85,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof PhotoHolder) {
-            PhotoModel photo = photoModelList.get(position);
-            PhotoHolder photoHolder = (PhotoHolder) holder;
-            photoHolder.title.setText(photo.getTitle());
-            photoHolder.image.setBackgroundResource(R.drawable.image_demo);
-            photoHolder.view.setText(String.valueOf(photo.getView()));
-            //photoHolder.bookmark.setBackgroundResource(R.drawable.ic_bookmark_off);
-            photoHolder.like.setText(String.valueOf(photo.getLike()));
-            photoHolder.comment.setText(String.valueOf(photo.getComment()));
-            photoHolder.share.setText(String.valueOf(photo.getShare()));
+            ((PhotoHolder) holder).bind(photoModelList.get(position), this.listener);
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);

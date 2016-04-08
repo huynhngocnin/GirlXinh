@@ -2,7 +2,6 @@ package ninhn.app.girlxinh.view;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +23,11 @@ import java.util.List;
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.PhotoAdapter;
 import ninhn.app.girlxinh.listener.HidingScrollListener;
+import ninhn.app.girlxinh.listener.OnItemClickListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
-import ninhn.app.girlxinh.listener.RecyclerItemClickListener;
 import ninhn.app.girlxinh.model.PhotoModel;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnItemClickListener {
 
     private List<PhotoModel> photoModelList;
     private RecyclerView mRecyclerView;
@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < 10; i++) {
             PhotoModel photo = new PhotoModel();
             photo.setTitle("Title Bla bla bla " + i + "Cancel to lick here below in the map!");
+            photo.setUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-8.jpg");
             photo.setView(i);
             photo.setLike(i);
             photo.setComment(i);
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        photoAdapter = new PhotoAdapter(this, mRecyclerView, photoModelList);
+        photoAdapter = new PhotoAdapter(this, mRecyclerView, photoModelList, this);
         mRecyclerView.setAdapter(photoAdapter);
 
         photoAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -98,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
                         for (int i = index; i < end; i++) {
                             PhotoModel photo = new PhotoModel();
                             photo.setTitle("Title " + i);
+                            photo.setUrl("http://img-us.24hstatic.com/upload/1-2016/images/2016-02-20/1455969882-1455968466-em-gai-nha-phuong-16.jpg");
                             photo.setView(i);
                             photo.setLike(i);
                             photo.setComment(i);
@@ -124,38 +126,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        handleItemClick(view, position);
-                    }
-                })
-        );
     }
 
-    private void handleItemClick(View view, int position) {
-        switch (view.getId()) {
-            case R.id.photo_item_image_bookmark:
-                Snackbar.make(view, "Bookmark " + position, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+    @Override
+    public void onItemClick(PhotoModel photoModel, int type) {
+        switch (type) {
+            case R.id.photo_item_image_background:
+                Toast.makeText(this, "photo_item_image_background Clicked", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.photo_item_image_like:
-                Snackbar.make(view, "Like " + position, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Toast.makeText(this, "photo_item_image_like Clicked", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.photo_item_image_comment:
-                Snackbar.make(view, "Comment " + position, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Toast.makeText(this, "photo_item_image_comment Clicked", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.photo_item_image_share:
-                Snackbar.make(view, "Share " + position, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Toast.makeText(this, "photo_item_image_share Clicked", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.photo_item_image_bookmark:
+                Toast.makeText(this, "photo_item_image_bookmark Clicked", Toast.LENGTH_SHORT).show();
                 break;
             default:
-                Snackbar.make(view, "Default " + position, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Toast.makeText(this, "default Clicked", Toast.LENGTH_SHORT).show();
                 break;
+
         }
     }
 
