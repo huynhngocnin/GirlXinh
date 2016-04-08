@@ -4,6 +4,9 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="photo_item_margin_left">0dp</dimen>
+    <dimen name="photo_item_margin_top">16dp</dimen>
+
     <dimen name="photo_item_text_title_margin">8dp</dimen>
     <dimen name="photo_item_image_love_margin">8dp</dimen>
     <dimen name="photo_item_image_love_padding">8dp</dimen>
@@ -19,6 +22,6 @@
     <dimen name="staggered_margin">4dp</dimen>
 
 
-
+    <dimen name="photo_item_text_title_background_height">40dp</dimen>
     <dimen name="photo_item_text_title_size">20sp</dimen>
 </resources>

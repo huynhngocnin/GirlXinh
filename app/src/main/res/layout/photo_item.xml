@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/photo_item_margin_top"
+    android:background="@android:color/white">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/layout_action">
 
-        <TextView
-            android:id="@+id/photo_item_text_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/photo_item_text_title_margin"
-            android:textSize="@dimen/photo_item_text_title_size"
-            android:text="@string/app_name"/>
-
         <ImageView
             android:id="@+id/photo_item_image_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/photo_item_text_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/photo_item_text_title_margin"
+            android:shadowColor="@android:color/darker_gray"
+            android:shadowDx="-2"
+            android:shadowDy="-1"
+            android:shadowRadius="1"
+            android:text="@string/app_name"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/photo_item_text_title_size" />
 
         <ImageView
             android:id="@+id/photo_item_image_bookmark"
