@@ -24,6 +24,7 @@ import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.PhotoAdapter;
 import ninhn.app.girlxinh.listener.HidingScrollListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
+import ninhn.app.girlxinh.listener.RecyclerItemClickListener;
 import ninhn.app.girlxinh.model.PhotoModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 }, 5000);
             }
         });
+
         //setting up our OnScrollListener
         mRecyclerView.setOnScrollListener(new HidingScrollListener() {
             @Override
@@ -121,6 +123,40 @@ public class MainActivity extends AppCompatActivity {
                 showViews();
             }
         });
+
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        handleItemClick(view, position);
+                    }
+                })
+        );
+    }
+
+    private void handleItemClick(View view, int position) {
+        switch (view.getId()) {
+            case R.id.photo_item_image_bookmark:
+                Snackbar.make(view, "Bookmark " + position, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                break;
+            case R.id.photo_item_image_like:
+                Snackbar.make(view, "Like " + position, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                break;
+            case R.id.photo_item_image_comment:
+                Snackbar.make(view, "Comment " + position, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                break;
+            case R.id.photo_item_image_share:
+                Snackbar.make(view, "Share " + position, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                break;
+            default:
+                Snackbar.make(view, "Default " + position, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                break;
+        }
     }
 
     private void hideViews() {
