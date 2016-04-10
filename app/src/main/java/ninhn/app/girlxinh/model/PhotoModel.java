@@ -7,11 +7,14 @@ public class PhotoModel {
     private String id;
     private String title;
     private String url;
-    private boolean bookmark;
+    private boolean isBookmark;
     private int view;
     private String facebookID;
+    private boolean isLike;
     private int like;
+    private boolean isComment;
     private int comment;
+    private boolean isShare;
     private int share;
 
     public String getId() {
@@ -39,11 +42,11 @@ public class PhotoModel {
     }
 
     public boolean isBookmark() {
-        return bookmark;
+        return isBookmark;
     }
 
     public void setBookmark(boolean bookmark) {
-        this.bookmark = bookmark;
+        isBookmark = bookmark;
     }
 
     public int getView() {
@@ -62,6 +65,14 @@ public class PhotoModel {
         this.facebookID = facebookID;
     }
 
+    public boolean isLike() {
+        return isLike;
+    }
+
+    public void setLike(boolean like) {
+        isLike = like;
+    }
+
     public int getLike() {
         return like;
     }
@@ -70,12 +81,28 @@ public class PhotoModel {
         this.like = like;
     }
 
+    public boolean isComment() {
+        return isComment;
+    }
+
+    public void setComment(boolean comment) {
+        isComment = comment;
+    }
+
     public int getComment() {
         return comment;
     }
 
     public void setComment(int comment) {
         this.comment = comment;
+    }
+
+    public boolean isShare() {
+        return isShare;
+    }
+
+    public void setShare(boolean share) {
+        isShare = share;
     }
 
     public int getShare() {

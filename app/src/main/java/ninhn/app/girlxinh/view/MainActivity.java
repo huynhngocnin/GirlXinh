@@ -17,6 +17,8 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,9 +42,18 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        View decorView = getWindow().getDecorView();
+        // Hide both the navigation bar and the status bar.
+        // SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
+        // a general rule, you should design your app to hide the status bar whenever you
+        // hide the navigation bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle("Scroll and ...");
+        mToolbar.setTitle("NinHN ");
         setSupportActionBar(mToolbar);
 
         mFabButton = (FloatingActionButton) findViewById(R.id.fab);
@@ -57,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         photoModelList = new ArrayList<PhotoModel>();
         for (int i = 0; i < 10; i++) {
             PhotoModel photo = new PhotoModel();
-            photo.setTitle("Title Bla bla bla " + i + "Cancel to lick here below in the map!");
+            photo.setTitle("Title Bla bla bla " + i + " Cancel to lick here below in the map!");
             photo.setUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-8.jpg");
             photo.setView(i);
             photo.setLike(i);
@@ -99,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                         for (int i = index; i < end; i++) {
                             PhotoModel photo = new PhotoModel();
                             photo.setTitle("Title " + i);
-                            photo.setUrl("http://img-us.24hstatic.com/upload/1-2016/images/2016-02-20/1455969882-1455968466-em-gai-nha-phuong-16.jpg");
+                            photo.setUrl("http://thuvienanhdep.net/wp-content/uploads/2015/09/nhung-hinh-nen-girl-xinh-va-dang-yeu-nhat-cho-de-yeu-cua-ban-nhe-14.jpg");
                             photo.setView(i);
                             photo.setLike(i);
                             photo.setComment(i);
@@ -137,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                 break;
             case R.id.photo_item_image_like:
                 Toast.makeText(this, "photo_item_image_like Clicked", Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.photo_item_image_comment:
                 Toast.makeText(this, "photo_item_image_comment Clicked", Toast.LENGTH_SHORT).show();
@@ -146,6 +158,12 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                 break;
             case R.id.photo_item_image_bookmark:
                 Toast.makeText(this, "photo_item_image_bookmark Clicked", Toast.LENGTH_SHORT).show();
+                if (photoModel.isBookmark()) {
+                    photoModel.setBookmark(false);
+                } else {
+                    photoModel.setBookmark(true);
+                }
+                photoAdapter.notifyDataSetChanged();
                 break;
             default:
                 Toast.makeText(this, "default Clicked", Toast.LENGTH_SHORT).show();

@@ -13,7 +13,9 @@
         <ImageView
             android:id="@+id/photo_item_image_background"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/image_demo" />
 
         <TextView
             android:id="@+id/photo_item_text_title"
@@ -53,6 +55,10 @@
                 android:id="@+id/photo_item_text_view_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:shadowColor="@android:color/white"
+                android:shadowDx="-1"
+                android:shadowDy="-1"
+                android:shadowRadius="1"
                 android:text="@integer/init_view" />
 
         </LinearLayout>

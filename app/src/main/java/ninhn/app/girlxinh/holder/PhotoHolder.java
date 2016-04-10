@@ -43,14 +43,18 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
 
     public void bind(final PhotoModel photoModel, final OnItemClickListener listener) {
         title.setText(photoModel.getTitle());
-        Picasso.with(itemView.getContext()).load("http://img-us.24hstatic.com/upload/1-2016/images/2016-02-20/1455969882-1455968466-em-gai-nha-phuong-16.jpg").into(image);
+        Picasso.with(itemView.getContext()).load(photoModel.getUrl()).into(image);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onItemClick(photoModel, R.id.photo_item_image_background);
             }
         });
-        Picasso.with(itemView.getContext()).load(R.drawable.ic_bookmark_off).into(bookmark);
+        if (photoModel.isBookmark()) {
+            Picasso.with(itemView.getContext()).load(R.drawable.ic_bookmark_on).into(bookmark);
+        } else {
+            Picasso.with(itemView.getContext()).load(R.drawable.ic_bookmark_off).into(bookmark);
+        }
         bookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
