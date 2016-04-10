@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,14 +51,22 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
     }
 
     @Override
-    public void onItemClick(PhotoModel photoModel, int type) {
-        switch (type) {
+    public void onItemClick(PhotoModel photoModel, View type) {
+        switch (type.getId()) {
             case R.id.photo_item_image_background:
                 Toast.makeText(getContext(), "photo_item_image_background Clicked", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.photo_item_image_like:
                 Toast.makeText(getContext(), "photo_item_image_like Clicked", Toast.LENGTH_SHORT).show();
-
+                if (photoModel.isLike()) {
+                    photoModel.setLike(false);
+                } else {
+                    photoModel.setLike(true);
+                    YoYo.with(Techniques.StandUp)
+                            .duration(700)
+                            .playOn(type);
+                }
+                photoAdapter.notifyDataSetChanged();
                 break;
             case R.id.photo_item_image_comment:
                 Toast.makeText(getContext(), "photo_item_image_comment Clicked", Toast.LENGTH_SHORT).show();
@@ -69,6 +80,9 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
                     photoModel.setLove(false);
                 } else {
                     photoModel.setLove(true);
+                    YoYo.with(Techniques.Swing)
+                            .duration(700)
+                            .playOn(type);
                 }
                 photoAdapter.notifyDataSetChanged();
                 break;

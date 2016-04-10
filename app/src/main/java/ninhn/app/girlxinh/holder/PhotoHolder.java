@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.squareup.picasso.Picasso;
 
 import ninhn.app.girlxinh.R;
@@ -47,7 +49,7 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(photoModel, R.id.photo_item_image_background);
+                listener.onItemClick(photoModel, image);
             }
         });
         if (photoModel.isLove()) {
@@ -58,7 +60,7 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
         love.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(photoModel, R.id.photo_item_image_love);
+                listener.onItemClick(photoModel, love);
             }
         });
         view.setText(String.valueOf(photoModel.getView()));
@@ -68,22 +70,26 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
         imageLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(photoModel, R.id.photo_item_image_like);
+                listener.onItemClick(photoModel, imageLike);
             }
         });
         imageComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(photoModel, R.id.photo_item_image_comment);
+                listener.onItemClick(photoModel, imageComment);
             }
         });
 
         imageShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(photoModel, R.id.photo_item_image_share);
+                listener.onItemClick(photoModel, imageShare);
             }
         });
-
+        if (photoModel.isLike()) {
+            Picasso.with(itemView.getContext()).load(R.drawable.ic_post_liked).into(imageLike);
+        } else {
+            Picasso.with(itemView.getContext()).load(R.drawable.ic_post_like).into(imageLike);
+        }
     }
 }

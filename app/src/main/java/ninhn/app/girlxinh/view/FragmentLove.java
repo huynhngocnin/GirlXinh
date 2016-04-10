@@ -48,8 +48,8 @@ public class FragmentLove extends Fragment implements OnItemClickListener {
     }
 
     @Override
-    public void onItemClick(PhotoModel photoModel, int type) {
-        switch (type) {
+    public void onItemClick(PhotoModel photoModel, View type) {
+        switch (type.getId()) {
             case R.id.photo_item_image_background:
                 Toast.makeText(getContext(), "photo_item_image_background Clicked", Toast.LENGTH_SHORT).show();
                 break;
