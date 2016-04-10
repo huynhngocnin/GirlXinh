@@ -5,13 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".view.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:context=".view.MainActivity">
 
     <TextView
+        android:id="@+id/me_info"
+        android:layout_above="@+id/login_button"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Ta la NinHN day ku"/>
+        android:text="Click nút bên dưới để đăng ký nghe ku" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>
