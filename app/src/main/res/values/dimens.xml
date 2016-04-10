@@ -16,8 +16,8 @@
     <dimen name="photo_item_layout_action_height">40dp</dimen>
 
 
-    <dimen name="photo_item_layout_action_icon_padding">4dp</dimen>
-    <dimen name="photo_item_layout_action_icon_share_padding">0dp</dimen>
+    <dimen name="photo_item_layout_action_icon_padding">6dp</dimen>
+    <dimen name="photo_item_layout_action_icon_share_padding">4dp</dimen>
 
     <dimen name="staggered_margin">4dp</dimen>
 

@@ -31,13 +31,13 @@
             android:textSize="@dimen/photo_item_text_title_size" />
 
         <ImageView
-            android:id="@+id/photo_item_image_bookmark"
+            android:id="@+id/photo_item_image_love"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:padding="@dimen/photo_item_image_love_padding"
-            android:src="@drawable/ic_bookmark_off" />
+            android:src="@drawable/ic_photo_love" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/photo_item_image_view_height"
-                android:src="@drawable/ic_view" />
+                android:src="@drawable/ic_photo_view" />
 
             <TextView
                 android:id="@+id/photo_item_text_view_total"
@@ -86,7 +86,7 @@
                 android:paddingBottom="@dimen/photo_item_layout_action_icon_padding"
                 android:paddingTop="@dimen/photo_item_layout_action_icon_padding"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_like" />
+                android:src="@drawable/ic_post_like" />
 
             <TextView
                 android:id="@+id/photo_item_text_like_total"
@@ -111,7 +111,7 @@
                 android:paddingBottom="@dimen/photo_item_layout_action_icon_padding"
                 android:paddingTop="@dimen/photo_item_layout_action_icon_padding"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_comment" />
+                android:src="@drawable/ic_post_comment" />
 
             <TextView
                 android:id="@+id/photo_item_text_comment_total"
@@ -136,7 +136,7 @@
                 android:paddingBottom="@dimen/photo_item_layout_action_icon_share_padding"
                 android:paddingTop="@dimen/photo_item_layout_action_icon_share_padding"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_share" />
+                android:src="@drawable/ic_post_share" />
 
             <TextView
                 android:id="@+id/photo_item_text_share_total"

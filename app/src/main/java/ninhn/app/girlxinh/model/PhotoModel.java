@@ -7,7 +7,7 @@ public class PhotoModel {
     private String id;
     private String title;
     private String url;
-    private boolean isBookmark;
+    private boolean isLove;
     private int view;
     private String facebookID;
     private boolean isLike;
@@ -41,12 +41,12 @@ public class PhotoModel {
         this.url = url;
     }
 
-    public boolean isBookmark() {
-        return isBookmark;
+    public boolean isLove() {
+        return isLove;
     }
 
-    public void setBookmark(boolean bookmark) {
-        isBookmark = bookmark;
+    public void setLove(boolean love) {
+        isLove = love;
     }
 
     public int getView() {

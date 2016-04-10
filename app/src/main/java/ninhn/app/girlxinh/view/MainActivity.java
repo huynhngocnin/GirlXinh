@@ -1,189 +1,85 @@
 package ninhn.app.girlxinh.view;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 
 import ninhn.app.girlxinh.R;
-import ninhn.app.girlxinh.adapter.PhotoAdapter;
-import ninhn.app.girlxinh.listener.HidingScrollListener;
-import ninhn.app.girlxinh.listener.OnItemClickListener;
-import ninhn.app.girlxinh.listener.OnLoadMoreListener;
-import ninhn.app.girlxinh.model.PhotoModel;
+import ninhn.app.girlxinh.adapter.ViewPagerAdapter;
 
-public class MainActivity extends AppCompatActivity implements OnItemClickListener {
+public class MainActivity extends AppCompatActivity {
 
-    private List<PhotoModel> photoModelList;
-    private RecyclerView mRecyclerView;
-    private PhotoAdapter photoAdapter;
 
-    private Toolbar mToolbar;
-    private FloatingActionButton mFabButton;
+    //    private Toolbar mToolbar;
+//    private FloatingActionButton mFabButton;
+    private ViewPager viewPager;
+
+    private void hideSystemUI() {
+        View mDecorView = getWindow().getDecorView();
+        // Set the IMMERSIVE flag.
+        // Set the content to appear under the system bars so that the content
+        // doesn't resize when the system bars hide and show.
+        mDecorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View decorView = getWindow().getDecorView();
-        // Hide both the navigation bar and the status bar.
-        // SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
-        // a general rule, you should design your app to hide the status bar whenever you
-        // hide the navigation bar.
-        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
-
+        //hideSystemUI();
         setContentView(R.layout.activity_main);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle("NinHN ");
-        setSupportActionBar(mToolbar);
+//        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+//        mToolbar.setTitle("NinHN ");
+//        setSupportActionBar(mToolbar);
 
-        mFabButton = (FloatingActionButton) findViewById(R.id.fab);
-        mFabButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        mFabButton = (FloatingActionButton) findViewById(R.id.fab);
+//        mFabButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
-        photoModelList = new ArrayList<PhotoModel>();
-        for (int i = 0; i < 10; i++) {
-            PhotoModel photo = new PhotoModel();
-            photo.setTitle("Title Bla bla bla " + i + " Cancel to lick here below in the map!");
-            photo.setUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-8.jpg");
-            photo.setView(i);
-            photo.setLike(i);
-            photo.setComment(i);
-            photo.setShare(i);
-            photoModelList.add(photo);
-        }
 
-        initRecyclerView();
+        initViewPager();
+
+        initBottomNavigation();
+
+        //initRecyclerView();
     }
 
-    private void initRecyclerView() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
-
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        photoAdapter = new PhotoAdapter(this, mRecyclerView, photoModelList, this);
-        mRecyclerView.setAdapter(photoAdapter);
-
-        photoAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                Log.e("haint", "Load More");
-                photoModelList.add(null);
-                photoAdapter.notifyItemInserted(photoModelList.size() - 1);
-
-                //Load more data for reyclerview
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.e("haint", "Load More 2");
-
-                        //Remove loading item
-                        photoModelList.remove(photoModelList.size() - 1);
-                        photoAdapter.notifyItemRemoved(photoModelList.size());
-
-                        //Load data
-                        int index = photoModelList.size();
-                        int end = index + 10;
-                        for (int i = index; i < end; i++) {
-                            PhotoModel photo = new PhotoModel();
-                            photo.setTitle("Title " + i);
-                            photo.setUrl("http://thuvienanhdep.net/wp-content/uploads/2015/09/nhung-hinh-nen-girl-xinh-va-dang-yeu-nhat-cho-de-yeu-cua-ban-nhe-14.jpg");
-                            photo.setView(i);
-                            photo.setLike(i);
-                            photo.setComment(i);
-                            photo.setShare(i);
-                            photoModelList.add(photo);
-                        }
-                        photoAdapter.notifyDataSetChanged();
-                        photoAdapter.setLoaded();
-                    }
-                }, 5000);
-            }
-        });
-
-        //setting up our OnScrollListener
-        mRecyclerView.setOnScrollListener(new HidingScrollListener() {
-            @Override
-            public void onHide() {
-                hideViews();
-            }
-
-            @Override
-            public void onShow() {
-                showViews();
-            }
-        });
-
+    private void initViewPager() {
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new FragmentHome(), "Home");
+        adapter.addFragment(new FragmentLove(), "Love");
+        adapter.addFragment(new FragmentMe(), "Me");
+        viewPager.setAdapter(adapter);
     }
 
+    private void initBottomNavigation() {
+        int[] colorBar = new int[]{ContextCompat.getColor(this, R.color.colorBarHome), ContextCompat.getColor(this, R.color.colorBarLove), ContextCompat.getColor(this, R.color.colorBarMe)};
+        int[] drawableBar = new int[]{R.drawable.ic_bar_home, R.drawable.ic_bar_love, R.drawable.ic_bar_me};
 
-    @Override
-    public void onItemClick(PhotoModel photoModel, int type) {
-        switch (type) {
-            case R.id.photo_item_image_background:
-                Toast.makeText(this, "photo_item_image_background Clicked", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.photo_item_image_like:
-                Toast.makeText(this, "photo_item_image_like Clicked", Toast.LENGTH_SHORT).show();
-
-                break;
-            case R.id.photo_item_image_comment:
-                Toast.makeText(this, "photo_item_image_comment Clicked", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.photo_item_image_share:
-                Toast.makeText(this, "photo_item_image_share Clicked", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.photo_item_image_bookmark:
-                Toast.makeText(this, "photo_item_image_bookmark Clicked", Toast.LENGTH_SHORT).show();
-                if (photoModel.isBookmark()) {
-                    photoModel.setBookmark(false);
-                } else {
-                    photoModel.setBookmark(true);
-                }
-                photoAdapter.notifyDataSetChanged();
-                break;
-            default:
-                Toast.makeText(this, "default Clicked", Toast.LENGTH_SHORT).show();
-                break;
-
-        }
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        bottomNavigationView.isColoredBackground(true);
+        bottomNavigationView.disableViewPagerSlide();
+        bottomNavigationView.setUpWithViewPager(viewPager, colorBar, drawableBar);
     }
 
-    private void hideViews() {
-        mToolbar.animate().translationY(-mToolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
-
-        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFabButton.getLayoutParams();
-        int fabBottomMargin = lp.bottomMargin;
-        mFabButton.animate().translationY(mFabButton.getHeight() + fabBottomMargin).setInterpolator(new AccelerateInterpolator(2)).start();
-    }
-
-    private void showViews() {
-        mToolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2));
-        mFabButton.animate().translationY(0).setInterpolator(new DecelerateInterpolator(2)).start();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

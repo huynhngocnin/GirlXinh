@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="colorBarHome">#5169a7</color>
+    <color name="colorBarLove">#eb4457</color>
+    <color name="colorBarMe">#6f00ff</color>
+
+
 </resources>

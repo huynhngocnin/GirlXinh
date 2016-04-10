@@ -18,7 +18,7 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
     public TextView title;
     public ImageView image;
     public TextView view;
-    public ImageView bookmark;
+    public ImageView love;
     public TextView like;
     public TextView comment;
     public TextView share;
@@ -32,7 +32,7 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
         title = (TextView) itemView.findViewById(R.id.photo_item_text_title);
         image = (ImageView) itemView.findViewById(R.id.photo_item_image_background);
         view = (TextView) itemView.findViewById(R.id.photo_item_text_view_total);
-        bookmark = (ImageView) itemView.findViewById(R.id.photo_item_image_bookmark);
+        love = (ImageView) itemView.findViewById(R.id.photo_item_image_love);
         like = (TextView) itemView.findViewById(R.id.photo_item_text_like_total);
         comment = (TextView) itemView.findViewById(R.id.photo_item_text_comment_total);
         share = (TextView) itemView.findViewById(R.id.photo_item_text_share_total);
@@ -50,15 +50,15 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
                 listener.onItemClick(photoModel, R.id.photo_item_image_background);
             }
         });
-        if (photoModel.isBookmark()) {
-            Picasso.with(itemView.getContext()).load(R.drawable.ic_bookmark_on).into(bookmark);
+        if (photoModel.isLove()) {
+            Picasso.with(itemView.getContext()).load(R.drawable.ic_photo_loved).into(love);
         } else {
-            Picasso.with(itemView.getContext()).load(R.drawable.ic_bookmark_off).into(bookmark);
+            Picasso.with(itemView.getContext()).load(R.drawable.ic_photo_love).into(love);
         }
-        bookmark.setOnClickListener(new View.OnClickListener() {
+        love.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(photoModel, R.id.photo_item_image_bookmark);
+                listener.onItemClick(photoModel, R.id.photo_item_image_love);
             }
         });
         view.setText(String.valueOf(photoModel.getView()));
