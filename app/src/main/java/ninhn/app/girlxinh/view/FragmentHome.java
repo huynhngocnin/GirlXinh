@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
@@ -32,6 +33,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
     private List<PhotoModel> photoModelList;
     private RecyclerView mRecyclerView;
     private PhotoAdapter photoAdapter;
+    private PullRefreshLayout pullRefreshLayout;
 
     @Nullable
     @Override
@@ -47,7 +49,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
 
         initPhoto();
         initRecyclerView();
-
+        initPullRefresh();
     }
 
     @Override
@@ -55,6 +57,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
         switch (type.getId()) {
             case R.id.photo_item_image_background:
                 Toast.makeText(getContext(), "photo_item_image_background Clicked", Toast.LENGTH_SHORT).show();
+                pullRefreshLayout.setRefreshing(false);
                 break;
             case R.id.photo_item_image_like:
                 Toast.makeText(getContext(), "photo_item_image_like Clicked", Toast.LENGTH_SHORT).show();
@@ -164,6 +167,22 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
 //            }
 //        });
 
+    }
+
+    private void initPullRefresh(){
+        pullRefreshLayout = (PullRefreshLayout) getActivity().findViewById(R.id.pullRefreshLayout);
+
+        // listen refresh event
+        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // start refresh
+                Toast.makeText(getContext(),"Bat dau refresh!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // refresh complete
+        //pullRefreshLayout.setRefreshing(false);
     }
 
 //    private void hideViews() {
