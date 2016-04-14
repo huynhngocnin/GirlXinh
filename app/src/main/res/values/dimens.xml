@@ -5,7 +5,7 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="photo_item_margin_left">0dp</dimen>
-    <dimen name="photo_item_margin_top">16dp</dimen>
+    <dimen name="photo_item_margin_top">8dp</dimen>
 
     <dimen name="photo_item_text_title_margin">8dp</dimen>
     <dimen name="photo_item_image_love_margin">8dp</dimen>

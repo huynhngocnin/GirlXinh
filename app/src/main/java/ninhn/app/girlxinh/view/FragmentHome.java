@@ -98,10 +98,10 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
 
     private void initPhoto(){
         photoModelList = new ArrayList<PhotoModel>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 8; i++) {
             PhotoModel photo = new PhotoModel();
             photo.setTitle("Title Bla bla bla " + i + " Cancel to lick here below in the map!");
-            photo.setUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-8.jpg");
+            photo.setUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-" + (i+2) + ".jpg");
             photo.setView(i);
             photo.setLike(i);
             photo.setComment(i);
