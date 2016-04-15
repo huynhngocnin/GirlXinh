@@ -50,20 +50,20 @@ public class FragmentLove extends Fragment implements OnItemClickListener {
     @Override
     public void onItemClick(PhotoModel photoModel, View type) {
         switch (type.getId()) {
-            case R.id.photo_item_image_background:
+            case R.id.photo_item_body_image_background:
                 Toast.makeText(getContext(), "photo_item_image_background Clicked", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.photo_item_image_like:
+            case R.id.photo_item_footer_image_like:
                 Toast.makeText(getContext(), "photo_item_image_like Clicked", Toast.LENGTH_SHORT).show();
 
                 break;
-            case R.id.photo_item_image_comment:
+            case R.id.photo_item_footer_image_comment:
                 Toast.makeText(getContext(), "photo_item_image_comment Clicked", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.photo_item_image_share:
+            case R.id.photo_item_footer_image_share:
                 Toast.makeText(getContext(), "photo_item_image_share Clicked", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.photo_item_image_love:
+            case R.id.photo_item_header_image_love:
                 Toast.makeText(getContext(), "photo_item_image_love Clicked", Toast.LENGTH_SHORT).show();
                 if (photoModel.isLove()) {
                     photoModel.setLove(false);
@@ -83,7 +83,7 @@ public class FragmentLove extends Fragment implements OnItemClickListener {
         photoModelList = new ArrayList<PhotoModel>();
         for (int i = 0; i < 10; i++) {
             PhotoModel photo = new PhotoModel();
-            photo.setTitle("Title Bla bla bla " + i + " Cancel to lick here below in the map!");
+            photo.setTitle("Title Bla bla bla " + i + "  This is my message from NinHN to everyGuy Cancel to lick here below in the map! - This is my message from NinHN to everyGuy");
             photo.setUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-8.jpg");
             photo.setView(i);
             photo.setLike(i);

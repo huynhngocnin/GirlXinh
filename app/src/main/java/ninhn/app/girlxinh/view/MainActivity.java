@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +16,8 @@ import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.ViewPagerAdapter;
+import ninhn.app.girlxinh.helper.AppValue;
+import ninhn.app.girlxinh.model.DeviceInfo;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,30 +40,45 @@ public class MainActivity extends AppCompatActivity {
 //                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
 //    }
 
+    private void getDeviceInfo() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        DeviceInfo deviceInfo = new DeviceInfo();
+        deviceInfo.setWidth(metrics.widthPixels);
+        deviceInfo.setHeight(metrics.heightPixels);
+        AppValue.getInstance().setDeviceInfo(deviceInfo);
+    }
+
+    private void createToolbar() {
+        //mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        //mToolbar.setTitle("NinHN ");
+        //setSupportActionBar(mToolbar);
+    }
+
+    private void createFloatingButton() {
+        //        mFabButton = (FloatingActionButton) findViewById(R.id.fab);
+        //        mFabButton.setOnClickListener(new View.OnClickListener() {
+        //            @Override
+        //            public void onClick(View view) {
+        //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+        //                        .setAction("Action", null).show();
+        //            }
+        //        });
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //hideSystemUI();
         setContentView(R.layout.activity_main);
-//        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-//        mToolbar.setTitle("NinHN ");
-//        setSupportActionBar(mToolbar);
 
-//        mFabButton = (FloatingActionButton) findViewById(R.id.fab);
-//        mFabButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        getDeviceInfo();
 
         initViewPager();
 
         initBottomNavigation();
-
-        //initRecyclerView();
     }
 
     @Override

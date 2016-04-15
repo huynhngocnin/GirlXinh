@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.baoyz.widget.PullRefreshLayout;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,16 +52,18 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
         initPhoto();
         initRecyclerView();
         initPullRefresh();
+
     }
 
     @Override
     public void onItemClick(PhotoModel photoModel, View type) {
         switch (type.getId()) {
-            case R.id.photo_item_image_background:
+            case R.id.photo_item_body_image_background:
                 Toast.makeText(getContext(), "photo_item_image_background Clicked", Toast.LENGTH_SHORT).show();
                 pullRefreshLayout.setRefreshing(false);
+
                 break;
-            case R.id.photo_item_image_like:
+            case R.id.photo_item_footer_image_like:
                 Toast.makeText(getContext(), "photo_item_image_like Clicked", Toast.LENGTH_SHORT).show();
                 if (photoModel.isLike()) {
                     photoModel.setLike(false);
@@ -71,13 +75,13 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
                 }
                 photoAdapter.notifyDataSetChanged();
                 break;
-            case R.id.photo_item_image_comment:
+            case R.id.photo_item_footer_image_comment:
                 Toast.makeText(getContext(), "photo_item_image_comment Clicked", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.photo_item_image_share:
+            case R.id.photo_item_footer_image_share:
                 Toast.makeText(getContext(), "photo_item_image_share Clicked", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.photo_item_image_love:
+            case R.id.photo_item_header_image_love:
                 Toast.makeText(getContext(), "photo_item_image_love Clicked", Toast.LENGTH_SHORT).show();
                 if (photoModel.isLove()) {
                     photoModel.setLove(false);
@@ -100,7 +104,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
         photoModelList = new ArrayList<PhotoModel>();
         for (int i = 0; i < 8; i++) {
             PhotoModel photo = new PhotoModel();
-            photo.setTitle("Title Bla bla bla " + i + " Cancel to lick here below in the map!");
+            photo.setTitle("Title Bla bla bla " + i + "This is my message from NinHN to everyGuy Cancel to lick here below in the map! - This is my message from NinHN to everyGuy");
             photo.setUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-" + (i+2) + ".jpg");
             photo.setView(i);
             photo.setLike(i);

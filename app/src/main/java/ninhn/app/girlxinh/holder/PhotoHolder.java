@@ -5,11 +5,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.squareup.picasso.Picasso;
 
 import ninhn.app.girlxinh.R;
+import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.listener.OnItemClickListener;
 import ninhn.app.girlxinh.model.PhotoModel;
 
@@ -31,21 +30,25 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
     public PhotoHolder(View itemView) {
         super(itemView);
 
-        title = (TextView) itemView.findViewById(R.id.photo_item_text_title);
-        image = (ImageView) itemView.findViewById(R.id.photo_item_image_background);
-        view = (TextView) itemView.findViewById(R.id.photo_item_text_view_total);
-        love = (ImageView) itemView.findViewById(R.id.photo_item_image_love);
-        like = (TextView) itemView.findViewById(R.id.photo_item_text_like_total);
-        comment = (TextView) itemView.findViewById(R.id.photo_item_text_comment_total);
-        share = (TextView) itemView.findViewById(R.id.photo_item_text_share_total);
-        imageLike = (ImageView) itemView.findViewById(R.id.photo_item_image_like);
-        imageComment = (ImageView) itemView.findViewById(R.id.photo_item_image_comment);
-        imageShare = (ImageView) itemView.findViewById(R.id.photo_item_image_share);
+        title = (TextView) itemView.findViewById(R.id.photo_item_body_text_title);
+        image = (ImageView) itemView.findViewById(R.id.photo_item_body_image_background);
+        view = (TextView) itemView.findViewById(R.id.photo_item_header_text_view);
+        love = (ImageView) itemView.findViewById(R.id.photo_item_header_image_love);
+        like = (TextView) itemView.findViewById(R.id.photo_item_footer_text_like_total);
+        comment = (TextView) itemView.findViewById(R.id.photo_item_footer_text_comment_total);
+        share = (TextView) itemView.findViewById(R.id.photo_item_footer_text_share_total);
+        imageLike = (ImageView) itemView.findViewById(R.id.photo_item_footer_image_like);
+        imageComment = (ImageView) itemView.findViewById(R.id.photo_item_footer_image_comment);
+        imageShare = (ImageView) itemView.findViewById(R.id.photo_item_footer_image_share);
     }
 
     public void bind(final PhotoModel photoModel, final OnItemClickListener listener) {
         title.setText(photoModel.getTitle());
-        Picasso.with(itemView.getContext()).load(photoModel.getUrl()).into(image);
+        Picasso.with(itemView.getContext())
+                .load(photoModel.getUrl())
+                .resize(AppValue.getInstance().getDeviceInfo().getWidth(), 0)
+                .into(image);
+
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,9 +56,9 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
             }
         });
         if (photoModel.isLove()) {
-            Picasso.with(itemView.getContext()).load(R.drawable.ic_photo_loved).into(love);
+            Picasso.with(itemView.getContext()).load(R.drawable.ic_header_loved).into(love);
         } else {
-            Picasso.with(itemView.getContext()).load(R.drawable.ic_photo_love).into(love);
+            Picasso.with(itemView.getContext()).load(R.drawable.ic_header_love).into(love);
         }
         love.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,9 +90,9 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
             }
         });
         if (photoModel.isLike()) {
-            Picasso.with(itemView.getContext()).load(R.drawable.ic_post_liked).into(imageLike);
+            Picasso.with(itemView.getContext()).load(R.drawable.ic_footer_liked).into(imageLike);
         } else {
-            Picasso.with(itemView.getContext()).load(R.drawable.ic_post_like).into(imageLike);
+            Picasso.with(itemView.getContext()).load(R.drawable.ic_footer_like).into(imageLike);
         }
     }
 }

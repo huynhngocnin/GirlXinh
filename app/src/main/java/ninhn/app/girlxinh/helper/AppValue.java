@@ -1,12 +1,14 @@
 package ninhn.app.girlxinh.helper;
 
+import ninhn.app.girlxinh.model.DeviceInfo;
+
 /**
  * Created by NinHN on 4/7/16.
  */
 public class AppValue {
 
     private static AppValue instace;
-    private int value1;
+    private DeviceInfo deviceInfo;
 
     public static AppValue getInstance() {
         if (instace == null) {
@@ -15,11 +17,11 @@ public class AppValue {
         return instace;
     }
 
-    public int getValue1() {
-        return value1;
+    public DeviceInfo getDeviceInfo() {
+        return deviceInfo;
     }
 
-    public void setValue1(int value1) {
-        this.value1 = value1;
+    public void setDeviceInfo(DeviceInfo deviceInfo) {
+        this.deviceInfo = deviceInfo;
     }
 }

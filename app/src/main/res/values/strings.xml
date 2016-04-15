@@ -2,8 +2,13 @@
     <string name="app_name">Girl Xinh</string>
     <string name="action_settings">Settings</string>
 
-    <string name="view">View</string>
-    <string name="init_view">0</string>
+
+    <string name="init_count">0</string>
+
+    <string name="status">Status</string>
+    <string name="user">User</string>
+    <string name="time">Time</string>
+    <string name="views">views</string>
 
     <string name="facebook_app_id">1099253093470604</string>
 </resources>
