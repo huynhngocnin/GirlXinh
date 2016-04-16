@@ -47,6 +47,8 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
         Picasso.with(itemView.getContext())
                 .load(photoModel.getUrl())
                 .resize(AppValue.getInstance().getDeviceInfo().getWidth(), 0)
+                .error(R.drawable.ic_body_load_error)
+                .placeholder(R.drawable.loading_animation)
                 .into(image);
 
         image.setOnClickListener(new View.OnClickListener() {

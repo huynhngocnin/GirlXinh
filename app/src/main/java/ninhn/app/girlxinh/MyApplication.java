@@ -2,6 +2,9 @@ package ninhn.app.girlxinh;
 
 import android.app.Application;
 
+import com.squareup.picasso.LruCache;
+import com.squareup.picasso.Picasso;
+
 import ninhn.app.girlxinh.helper.MyPreferenceManager;
 
 /**
@@ -19,6 +22,11 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+
+        Picasso p = new Picasso.Builder(getApplicationContext())
+                .memoryCache(new LruCache(1024 * 1024 * 50))
+                .build();
+        Picasso.setSingletonInstance(p);
     }
 
     public static synchronized MyApplication getInstance() {
