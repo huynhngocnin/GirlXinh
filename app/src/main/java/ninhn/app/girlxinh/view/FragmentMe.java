@@ -39,9 +39,7 @@ public class FragmentMe extends Fragment {
         //return super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.content_me, container, false);
 
-        FacebookSdk.sdkInitialize(FacebookSdk.getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
-
 
         me_info = (TextView) view.findViewById(R.id.me_info);
         loginButton = (LoginButton) view.findViewById(R.id.login_button);

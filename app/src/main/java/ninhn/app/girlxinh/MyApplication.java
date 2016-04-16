@@ -2,6 +2,7 @@ package ninhn.app.girlxinh;
 
 import android.app.Application;
 
+import com.facebook.FacebookSdk;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.Picasso;
 
@@ -27,6 +28,8 @@ public class MyApplication extends Application {
                 .memoryCache(new LruCache(1024 * 1024 * 50))
                 .build();
         Picasso.setSingletonInstance(p);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
     }
 
     public static synchronized MyApplication getInstance() {
