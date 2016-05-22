@@ -10,6 +10,13 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        android {
+            defaultConfig {
+                manifestPlaceholders = [manifestApplicationId: "${applicationId}",
+                                        onesignal_app_id: "7a69e490-3c7c-4f2c-a318-b9d05f1743ca",
+                                        onesignal_google_project_number: "223292799947"]
+            }
+        }
     }
     buildTypes {
         release {
@@ -33,4 +40,9 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.11.0'
     compile 'com.baoyz.pullrefreshlayout:library:1.2.0'
     compile 'me.grantland:autofittextview:0.2.1'
+
+    compile 'com.onesignal:OneSignal:2.+@aar'
+    compile 'com.google.android.gms:play-services-gcm:+'
+    compile 'com.google.android.gms:play-services-analytics:+'
+    compile "com.google.android.gms:play-services-location:+"
 }

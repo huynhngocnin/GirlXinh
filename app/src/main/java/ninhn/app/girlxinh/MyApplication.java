@@ -3,6 +3,7 @@ package ninhn.app.girlxinh;
 import android.app.Application;
 
 import com.facebook.FacebookSdk;
+import com.onesignal.OneSignal;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.Picasso;
 
@@ -30,6 +31,8 @@ public class MyApplication extends Application {
         Picasso.setSingletonInstance(p);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
+
+        OneSignal.startInit(this).init();
     }
 
     public static synchronized MyApplication getInstance() {
