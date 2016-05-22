@@ -10,5 +10,7 @@
     <string name="time">Time</string>
     <string name="views">views</string>
 
+    <string name="name">Name</string>
+
     <string name="facebook_app_id">1131735883527080</string>
 </resources>

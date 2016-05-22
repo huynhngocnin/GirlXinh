@@ -7,18 +7,58 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.MainActivity">
 
-    <TextView
-        android:id="@+id/me_info"
-        android:layout_above="@+id/login_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Click nút bên dưới để đăng ký nghe ku" />
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+    <RelativeLayout
+        android:id="@+id/me_cover"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/me_cover_heigh"
+        android:background="@color/colorCover">
+
+
+        <com.facebook.login.widget.ProfilePictureView
+            android:id="@+id/image_face"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@android:color/white"
+            android:padding="@dimen/me_cover_image_border" />
+
+
+        <TextView
+            android:id="@+id/me_cover_text_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_face"
+            android:layout_margin="@dimen/me_cover_text_margin"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/name"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/me_cover_text_size" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/me_cover">
+
+        <TextView
+            android:id="@+id/me_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/login_button"
+            android:gravity="center"
+            android:text="Click nút bên dưới để đăng ký nghe ku" />
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+
+    </RelativeLayout>
 
 </RelativeLayout>

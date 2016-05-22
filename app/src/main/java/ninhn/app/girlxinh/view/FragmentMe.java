@@ -11,18 +11,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.login.widget.ProfilePictureView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import me.grantland.widget.AutofitHelper;
+import ninhn.app.girlxinh.MyApplication;
 import ninhn.app.girlxinh.R;
+import ninhn.app.girlxinh.constant.AppConstant;
+import ninhn.app.girlxinh.helper.MyPreferenceManager;
 
 /**
  * Created by NinHN on 4/10/16.
@@ -31,12 +38,14 @@ public class FragmentMe extends Fragment {
 
     private LoginButton loginButton;
     private TextView me_info;
+    private TextView textName;
+    private ProfilePictureView profilePictureView;
     private CallbackManager callbackManager;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //return super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.content_me, container, false);
 
         callbackManager = CallbackManager.Factory.create();
@@ -48,6 +57,17 @@ public class FragmentMe extends Fragment {
         // If using in a fragment
         loginButton.setFragment(this);
         // Other app specific specialization
+
+        textName = (TextView) view.findViewById(R.id.me_cover_text_name);
+        //Fix full name in single line
+        AutofitHelper.create(textName);
+
+        profilePictureView = (ProfilePictureView) view.findViewById(R.id.image_face);
+
+        if (MyApplication.getInstance().getPrefManager() != null) {
+            textName.setText(MyApplication.getInstance().getPrefManager().getUserName());
+            profilePictureView.setProfileId(MyApplication.getInstance().getPrefManager().getUserId());
+        }
 
         // Callback registration
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -65,10 +85,24 @@ public class FragmentMe extends Fragment {
                                     GraphResponse response) {
                                 //Toast.makeText(getActivity(), object.toString(), Toast.LENGTH_SHORT).show();
                                 me_info.setText(object.toString());
+                                if (object.has("name") && object.has("picture")) {
+
+                                    try {
+                                        textName.setText(object.getString(AppConstant.NAME));
+                                        profilePictureView.setProfileId(object.getString(AppConstant.ID));
+
+                                        MyApplication.getInstance().getPrefManager().saveUser(object.getString(AppConstant.ID), object.getString(AppConstant.NAME));
+                                    } catch (JSONException e) {
+
+                                    }
+
+
+                                }
+
                             }
                         });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,link");
+                parameters.putString("fields", "id,name,link,picture.type(normal)");
                 request.setParameters(parameters);
                 request.executeAsync();
             }
@@ -84,17 +118,25 @@ public class FragmentMe extends Fragment {
             }
         });
 
+        //Handle Access Token changed
+        new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,
+                                                       AccessToken currentAccessToken) {
+                if (currentAccessToken == null) {
+                    Toast.makeText(getActivity(), "Logout",Toast.LENGTH_LONG).show();
+                    MyApplication.getInstance().getPrefManager().clearUser();
+                }
+            }
+        };
+
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        me_info.setText("RequestCode = " + requestCode + " RequestCode = " + resultCode + " RequestCode = " + data.toString());
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

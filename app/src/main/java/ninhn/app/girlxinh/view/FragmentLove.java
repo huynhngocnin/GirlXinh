@@ -53,16 +53,16 @@ public class FragmentLove extends Fragment implements OnItemClickListener {
             case R.id.photo_item_body_image_background:
                 Toast.makeText(getContext(), "photo_item_image_background Clicked", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.photo_item_footer_image_like:
-                Toast.makeText(getContext(), "photo_item_image_like Clicked", Toast.LENGTH_SHORT).show();
-
-                break;
+//            case R.id.photo_item_footer_image_like:
+//                Toast.makeText(getContext(), "photo_item_image_like Clicked", Toast.LENGTH_SHORT).show();
+//
+//                break;
             case R.id.photo_item_footer_image_comment:
                 Toast.makeText(getContext(), "photo_item_image_comment Clicked", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.photo_item_footer_image_share:
-                Toast.makeText(getContext(), "photo_item_image_share Clicked", Toast.LENGTH_SHORT).show();
-                break;
+//            case R.id.photo_item_footer_image_share:
+//                Toast.makeText(getContext(), "photo_item_image_share Clicked", Toast.LENGTH_SHORT).show();
+//                break;
             case R.id.photo_item_header_image_love:
                 Toast.makeText(getContext(), "photo_item_image_love Clicked", Toast.LENGTH_SHORT).show();
                 if (photoModel.isLove()) {
@@ -85,6 +85,7 @@ public class FragmentLove extends Fragment implements OnItemClickListener {
             PhotoModel photo = new PhotoModel();
             photo.setTitle("Title Bla bla bla " + i + "  This is my message from NinHN to everyGuy Cancel to lick here below in the map! - This is my message from NinHN to everyGuy");
             photo.setUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-8.jpg");
+            photo.setWebUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-" + (i+2) + ".jpg");
             photo.setView(i);
             photo.setLike(i);
             photo.setComment(i);
@@ -124,6 +125,7 @@ public class FragmentLove extends Fragment implements OnItemClickListener {
                             PhotoModel photo = new PhotoModel();
                             photo.setTitle("Title " + i);
                             photo.setUrl("http://thuvienanhdep.net/wp-content/uploads/2015/09/nhung-hinh-nen-girl-xinh-va-dang-yeu-nhat-cho-de-yeu-cua-ban-nhe-14.jpg");
+                            photo.setWebUrl("http://thuvienanhdep.net/wp-content/uploads/2015/09/nhung-hinh-nen-girl-xinh-va-dang-yeu-nhat-cho-de-yeu-cua-ban-nhe-14.jpg");
                             photo.setView(i);
                             photo.setLike(i);
                             photo.setComment(i);

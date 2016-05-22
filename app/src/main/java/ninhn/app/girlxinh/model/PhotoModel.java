@@ -16,6 +16,7 @@ public class PhotoModel {
     private int comment;
     private boolean isShare;
     private int share;
+    private String webUrl;
 
     public String getId() {
         return id;
@@ -111,5 +112,13 @@ public class PhotoModel {
 
     public void setShare(int share) {
         this.share = share;
+    }
+
+    public String getWebUrl() {
+        return webUrl;
+    }
+
+    public void setWebUrl(String webUrl) {
+        this.webUrl = webUrl;
     }
 }

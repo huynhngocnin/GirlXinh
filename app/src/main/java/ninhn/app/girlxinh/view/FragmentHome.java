@@ -1,5 +1,6 @@
 package ninhn.app.girlxinh.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import com.baoyz.widget.PullRefreshLayout;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.facebook.CallbackManager;
+import com.facebook.share.widget.LikeView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -26,6 +29,7 @@ import ninhn.app.girlxinh.adapter.PhotoAdapter;
 import ninhn.app.girlxinh.listener.OnItemClickListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
 import ninhn.app.girlxinh.model.PhotoModel;
+import ninhn.app.girlxinh.until.DownloadUntil;
 
 /**
  * Created by NinHN on 4/10/16.
@@ -36,6 +40,8 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
     private RecyclerView mRecyclerView;
     private PhotoAdapter photoAdapter;
     private PullRefreshLayout pullRefreshLayout;
+
+    private CallbackManager callbackManager;
 
     @Nullable
     @Override
@@ -52,7 +58,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
         initPhoto();
         initRecyclerView();
         initPullRefresh();
-
+        callbackManager = CallbackManager.Factory.create();
     }
 
     @Override
@@ -63,24 +69,27 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
                 pullRefreshLayout.setRefreshing(false);
 
                 break;
-            case R.id.photo_item_footer_image_like:
-                Toast.makeText(getContext(), "photo_item_image_like Clicked", Toast.LENGTH_SHORT).show();
-                if (photoModel.isLike()) {
-                    photoModel.setLike(false);
-                } else {
-                    photoModel.setLike(true);
-                    YoYo.with(Techniques.StandUp)
-                            .duration(700)
-                            .playOn(type);
-                }
-                photoAdapter.notifyDataSetChanged();
-                break;
+//            case R.id.photo_item_footer_image_like:
+//                Toast.makeText(getContext(), "photo_item_image_like Clicked", Toast.LENGTH_SHORT).show();
+//                if (photoModel.isLike()) {
+//                    photoModel.setLike(false);
+//                } else {
+//                    photoModel.setLike(true);
+//                    YoYo.with(Techniques.StandUp)
+//                            .duration(700)
+//                            .playOn(type);
+//                }
+//                photoAdapter.notifyDataSetChanged();
+//                break;
+//            case R.id.fb_like_button:
+//                Toast.makeText(getActivity(), "Like Click", Toast.LENGTH_LONG).show();
+//                break;
             case R.id.photo_item_footer_image_comment:
                 Toast.makeText(getContext(), "photo_item_image_comment Clicked", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.photo_item_footer_image_share:
-                Toast.makeText(getContext(), "photo_item_image_share Clicked", Toast.LENGTH_SHORT).show();
-                break;
+//            case R.id.photo_item_footer_image_share:
+//                Toast.makeText(getContext(), "photo_item_image_share Clicked", Toast.LENGTH_SHORT).show();
+//                break;
             case R.id.photo_item_header_image_love:
                 Toast.makeText(getContext(), "photo_item_image_love Clicked", Toast.LENGTH_SHORT).show();
                 if (photoModel.isLove()) {
@@ -93,6 +102,9 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
                 }
                 photoAdapter.notifyDataSetChanged();
                 break;
+            case R.id.photo_item_footer_image_download:
+                DownloadUntil.downloadPhoto(getActivity(),photoModel);
+                break;
             default:
                 Toast.makeText(getContext(), "default Clicked", Toast.LENGTH_SHORT).show();
                 break;
@@ -100,12 +112,13 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
         }
     }
 
-    private void initPhoto(){
+    private void initPhoto() {
         photoModelList = new ArrayList<PhotoModel>();
         for (int i = 0; i < 8; i++) {
             PhotoModel photo = new PhotoModel();
             photo.setTitle("Title Bla bla bla " + i + "This is my message from NinHN to everyGuy Cancel to lick here below in the map! - This is my message from NinHN to everyGuy");
-            photo.setUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-" + (i+2) + ".jpg");
+            photo.setUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-" + (i + 2) + ".jpg");
+            photo.setWebUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-" + (i + 2) + ".jpg");
             photo.setView(i);
             photo.setLike(i);
             photo.setComment(i);
@@ -145,6 +158,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
                             PhotoModel photo = new PhotoModel();
                             photo.setTitle("Title " + i);
                             photo.setUrl("http://thuvienanhdep.net/wp-content/uploads/2015/09/nhung-hinh-nen-girl-xinh-va-dang-yeu-nhat-cho-de-yeu-cua-ban-nhe-14.jpg");
+                            photo.setWebUrl("http://thuvienanhdep.net/wp-content/uploads/2015/09/nhung-hinh-nen-girl-xinh-va-dang-yeu-nhat-cho-de-yeu-cua-ban-nhe-14.jpg");
                             photo.setView(i);
                             photo.setLike(i);
                             photo.setComment(i);
@@ -173,7 +187,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
 
     }
 
-    private void initPullRefresh(){
+    private void initPullRefresh() {
         pullRefreshLayout = (PullRefreshLayout) getActivity().findViewById(R.id.pullRefreshLayout);
 
         // listen refresh event
@@ -181,7 +195,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
             @Override
             public void onRefresh() {
                 // start refresh
-                Toast.makeText(getContext(),"Bat dau refresh!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Bat dau refresh!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -189,7 +203,24 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
         //pullRefreshLayout.setRefreshing(false);
     }
 
-//    private void hideViews() {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        Toast.makeText(getActivity(), "Data: " + requestCode + " - " + resultCode + " - " + data.toString(), Toast.LENGTH_LONG).show();
+        //callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (null != data) {
+            if ("com.facebook.platform.action.request.LIKE_DIALOG".equals(data.getStringExtra("com.facebook.platform.protocol.PROTOCOL_ACTION"))) {
+                Bundle bundle = data.getExtras().getBundle("com.facebook.platform.protocol.RESULT_ARGS");
+                if (bundle != null) {
+                    // Here your get the like result
+                    Log.d("NinHN", "Result: " + bundle.getBoolean("object_is_liked"));
+                    callbackManager.onActivityResult(requestCode, resultCode, data);
+                }
+            }
+        }
+    }
+
+    //    private void hideViews() {
 //        mToolbar.animate().translationY(-mToolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
 //
 //        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mFabButton.getLayoutParams();
