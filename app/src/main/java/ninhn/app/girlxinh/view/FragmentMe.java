@@ -74,8 +74,6 @@ public class FragmentMe extends Fragment {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 AccessToken accessToken = loginResult.getAccessToken();
-                //Toast.makeText(getActivity(), "User ID: " + loginResult.getAccessToken().getUserId() + "\nToken: " + loginResult.getAccessToken().getToken(), Toast.LENGTH_SHORT).show();
-
                 GraphRequest request = GraphRequest.newMeRequest(
                         accessToken,
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -83,7 +81,6 @@ public class FragmentMe extends Fragment {
                             public void onCompleted(
                                     JSONObject object,
                                     GraphResponse response) {
-                                //Toast.makeText(getActivity(), object.toString(), Toast.LENGTH_SHORT).show();
                                 me_info.setText(object.toString());
                                 if (object.has("name") && object.has("picture")) {
 
@@ -102,7 +99,7 @@ public class FragmentMe extends Fragment {
                             }
                         });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,link,picture.type(normal)");
+                parameters.putString("fields", "id,name,email,link,picture.type(normal)");
                 request.setParameters(parameters);
                 request.executeAsync();
             }
@@ -124,8 +121,9 @@ public class FragmentMe extends Fragment {
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,
                                                        AccessToken currentAccessToken) {
                 if (currentAccessToken == null) {
-                    Toast.makeText(getActivity(), "Logout",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), AppConstant.LOGOUT, Toast.LENGTH_LONG).show();
                     MyApplication.getInstance().getPrefManager().clearUser();
+
                 }
             }
         };
@@ -136,7 +134,6 @@ public class FragmentMe extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        me_info.setText("RequestCode = " + requestCode + " RequestCode = " + resultCode + " RequestCode = " + data.toString());
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

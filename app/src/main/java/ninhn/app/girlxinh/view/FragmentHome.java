@@ -28,13 +28,15 @@ import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.PhotoAdapter;
 import ninhn.app.girlxinh.listener.OnItemClickListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
+import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.PhotoModel;
+import ninhn.app.girlxinh.service.PhotoGetService;
 import ninhn.app.girlxinh.until.DownloadUntil;
 
 /**
  * Created by NinHN on 4/10/16.
  */
-public class FragmentHome extends Fragment implements OnItemClickListener {
+public class FragmentHome extends Fragment implements OnItemClickListener, TaskListener {
 
     private List<PhotoModel> photoModelList;
     private RecyclerView mRecyclerView;
@@ -92,18 +94,18 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
 //                break;
             case R.id.photo_item_header_image_love:
                 Toast.makeText(getContext(), "photo_item_image_love Clicked", Toast.LENGTH_SHORT).show();
-                if (photoModel.isLove()) {
-                    photoModel.setLove(false);
-                } else {
-                    photoModel.setLove(true);
-                    YoYo.with(Techniques.Swing)
-                            .duration(700)
-                            .playOn(type);
-                }
+//                if (photoModel.isLove()) {
+//                    photoModel.setLove(false);
+//                } else {
+//                    photoModel.setLove(true);
+//                    YoYo.with(Techniques.Swing)
+//                            .duration(700)
+//                            .playOn(type);
+//                }
                 photoAdapter.notifyDataSetChanged();
                 break;
             case R.id.photo_item_footer_image_download:
-                DownloadUntil.downloadPhoto(getActivity(),photoModel);
+                DownloadUntil.downloadPhoto(getActivity(), photoModel);
                 break;
             default:
                 Toast.makeText(getContext(), "default Clicked", Toast.LENGTH_SHORT).show();
@@ -112,19 +114,31 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
         }
     }
 
+    @Override
+    public void onResultAvailable(Object... objects) {
+        photoModelList.addAll((List<PhotoModel>) objects[0]);
+        photoAdapter.notifyDataSetChanged();
+    }
+
     private void initPhoto() {
         photoModelList = new ArrayList<PhotoModel>();
-        for (int i = 0; i < 8; i++) {
-            PhotoModel photo = new PhotoModel();
-            photo.setTitle("Title Bla bla bla " + i + "This is my message from NinHN to everyGuy Cancel to lick here below in the map! - This is my message from NinHN to everyGuy");
-            photo.setUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-" + (i + 2) + ".jpg");
-            photo.setWebUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-" + (i + 2) + ".jpg");
-            photo.setView(i);
-            photo.setLike(i);
-            photo.setComment(i);
-            photo.setShare(i);
-            photoModelList.add(photo);
-        }
+
+        PhotoGetService photoGetService = new PhotoGetService();
+        photoGetService.addListener(this);
+        photoGetService.execute(0);
+
+
+//        for (int i = 0; i < 8; i++) {
+//            PhotoModel photo = new PhotoModel();
+//            photo.setName("Title Bla bla bla " + i + "");
+//            photo.setUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-" + (i + 2) + ".jpg");
+//            photo.setWebUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-" + (i + 2) + ".jpg");
+//            photo.setView(i);
+//            photo.setLike(i);
+//            photo.setComment(i);
+//            photo.setShare(i);
+//            photoModelList.add(photo);
+//        }
     }
 
     private void initRecyclerView() {
@@ -141,34 +155,34 @@ public class FragmentHome extends Fragment implements OnItemClickListener {
                 photoModelList.add(null);
                 photoAdapter.notifyItemInserted(photoModelList.size() - 1);
 
-                //Load more data for reyclerview
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.e("NinHN", "Load More 2");
-
-                        //Remove loading item
-                        photoModelList.remove(photoModelList.size() - 1);
-                        photoAdapter.notifyItemRemoved(photoModelList.size());
-
-                        //Load data
-                        int index = photoModelList.size();
-                        int end = index + 10;
-                        for (int i = index; i < end; i++) {
-                            PhotoModel photo = new PhotoModel();
-                            photo.setTitle("Title " + i);
-                            photo.setUrl("http://thuvienanhdep.net/wp-content/uploads/2015/09/nhung-hinh-nen-girl-xinh-va-dang-yeu-nhat-cho-de-yeu-cua-ban-nhe-14.jpg");
-                            photo.setWebUrl("http://thuvienanhdep.net/wp-content/uploads/2015/09/nhung-hinh-nen-girl-xinh-va-dang-yeu-nhat-cho-de-yeu-cua-ban-nhe-14.jpg");
-                            photo.setView(i);
-                            photo.setLike(i);
-                            photo.setComment(i);
-                            photo.setShare(i);
-                            photoModelList.add(photo);
-                        }
-                        photoAdapter.notifyDataSetChanged();
-                        photoAdapter.setLoaded();
-                    }
-                }, 5000);
+//                //Load more data for reyclerview
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Log.e("NinHN", "Load More 2");
+//
+//                        //Remove loading item
+//                        photoModelList.remove(photoModelList.size() - 1);
+//                        photoAdapter.notifyItemRemoved(photoModelList.size());
+//
+//                        //Load data
+//                        int index = photoModelList.size();
+//                        int end = index + 10;
+//                        for (int i = index; i < end; i++) {
+//                            PhotoModel photo = new PhotoModel();
+//                            photo.setTitle("Title " + i);
+//                            photo.setUrl("http://thuvienanhdep.net/wp-content/uploads/2015/09/nhung-hinh-nen-girl-xinh-va-dang-yeu-nhat-cho-de-yeu-cua-ban-nhe-14.jpg");
+//                            photo.setWebUrl("http://thuvienanhdep.net/wp-content/uploads/2015/09/nhung-hinh-nen-girl-xinh-va-dang-yeu-nhat-cho-de-yeu-cua-ban-nhe-14.jpg");
+//                            photo.setView(i);
+//                            photo.setLike(i);
+//                            photo.setComment(i);
+//                            photo.setShare(i);
+//                            photoModelList.add(photo);
+//                        }
+//                        photoAdapter.notifyDataSetChanged();
+//                        photoAdapter.setLoaded();
+//                    }
+//                }, 5000);
             }
         });
 

@@ -1,37 +1,36 @@
 package ninhn.app.girlxinh.model;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * Created by ninhn on 4/7/2016.
  */
 public class PhotoModel {
-    private String id;
-    private String title;
+    private String name;
+    private String description;
     private String url;
-    private boolean isLove;
-    private int view;
-    private String facebookID;
-    private boolean isLike;
-    private int like;
-    private boolean isComment;
-    private int comment;
-    private boolean isShare;
-    private int share;
-    private String webUrl;
+    private String uploadId;
+    private String uploadName;
+    private long view;
+    private List<String> love;
+    private String id;
+    private Date lastUpTime;
 
-    public String getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getTitle() {
-        return title;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getUrl() {
@@ -42,83 +41,51 @@ public class PhotoModel {
         this.url = url;
     }
 
-    public boolean isLove() {
-        return isLove;
+    public String getUploadId() {
+        return uploadId;
     }
 
-    public void setLove(boolean love) {
-        isLove = love;
+    public void setUploadId(String uploadId) {
+        this.uploadId = uploadId;
     }
 
-    public int getView() {
+    public String getUploadName() {
+        return uploadName;
+    }
+
+    public void setUploadName(String uploadName) {
+        this.uploadName = uploadName;
+    }
+
+    public long getView() {
         return view;
     }
 
-    public void setView(int view) {
+    public void setView(long view) {
         this.view = view;
     }
 
-    public String getFacebookID() {
-        return facebookID;
+    public List<String> getLove() {
+        return love;
     }
 
-    public void setFacebookID(String facebookID) {
-        this.facebookID = facebookID;
+    public void setLove(List<String> love) {
+        this.love = love;
     }
 
-    public boolean isLike() {
-        return isLike;
+    public String getId() {
+        return id;
     }
 
-    public void setLike(boolean like) {
-        isLike = like;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public int getLike() {
-        return like;
+    public Date getLastUpTime() {
+        return lastUpTime;
     }
 
-    public void setLike(int like) {
-        this.like = like;
-    }
-
-    public boolean isComment() {
-        return isComment;
-    }
-
-    public void setComment(boolean comment) {
-        isComment = comment;
-    }
-
-    public int getComment() {
-        return comment;
-    }
-
-    public void setComment(int comment) {
-        this.comment = comment;
-    }
-
-    public boolean isShare() {
-        return isShare;
-    }
-
-    public void setShare(boolean share) {
-        isShare = share;
-    }
-
-    public int getShare() {
-        return share;
-    }
-
-    public void setShare(int share) {
-        this.share = share;
-    }
-
-    public String getWebUrl() {
-        return webUrl;
-    }
-
-    public void setWebUrl(String webUrl) {
-        this.webUrl = webUrl;
+    public void setLastUpTime(Date lastUpTime) {
+        this.lastUpTime = lastUpTime;
     }
 }

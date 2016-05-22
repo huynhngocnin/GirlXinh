@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 
 import static ninhn.app.girlxinh.constant.AppConstant.ID;
 import static ninhn.app.girlxinh.constant.AppConstant.NAME;
+import static ninhn.app.girlxinh.constant.AppConstant.FACEBOOK;
+import static ninhn.app.girlxinh.constant.AppConstant.BLANK;
 
 
 /**
@@ -36,19 +38,27 @@ public class MyPreferenceManager {
         editorUser = prefUser.edit();
     }
 
-    public boolean saveUser(String userId, String userName) {
-        editorUser.putString(ID, userId);
+    public void saveUser(String facebook, String userName) {
+        editorUser.putString(FACEBOOK, facebook);
         editorUser.putString(NAME, userName);
         editorUser.commit();
-        return true;
+    }
+
+    public void saveUserId(String userId){
+        editorUser.putString(ID, userId);
+        editorUser.commit();
     }
 
     public String getUserId(){
-        return prefUser.getString(ID, null);
+        return prefUser.getString(ID, BLANK);
+    }
+
+    public String getUserFacebook(){
+        return prefUser.getString(FACEBOOK, BLANK);
     }
 
     public String getUserName(){
-        return prefUser.getString(NAME, null);
+        return prefUser.getString(NAME, BLANK);
     }
 
     public void clearUser() {

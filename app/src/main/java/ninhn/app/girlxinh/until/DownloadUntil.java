@@ -23,8 +23,8 @@ public class DownloadUntil {
         //path to save file after downloaded
 //        Uri dest = Uri.fromFile(file);
         DownloadManager.Request req = new DownloadManager.Request(uri);
-        req.setTitle(photo.getTitle());
-        req.setDescription(photo.getTitle());
+        req.setTitle(photo.getName());
+        req.setDescription(photo.getDescription());
 
         //set notification can be seen
         req.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
