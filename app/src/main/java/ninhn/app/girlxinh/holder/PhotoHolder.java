@@ -2,6 +2,7 @@ package ninhn.app.girlxinh.holder;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +25,10 @@ import static ninhn.app.girlxinh.constant.UrlConstant.PHOTO_GET;
  * Created by NinHN on 4/7/16.
  */
 public class PhotoHolder extends RecyclerView.ViewHolder {
+
+    public ImageView avatar;
+    public TextView name;
+    public TextView time;
     public TextView title;
     public ImageView image;
     public TextView view;
@@ -35,7 +40,9 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
 
     public PhotoHolder(View itemView) {
         super(itemView);
-
+        avatar = (ImageView) itemView.findViewById(R.id.photo_item_header_image_avatar);
+        name = (TextView) itemView.findViewById(R.id.photo_item_header_text_name);
+        time = (TextView) itemView.findViewById(R.id.photo_item_header_text_time);
         title = (TextView) itemView.findViewById(R.id.photo_item_body_text_title);
         image = (ImageView) itemView.findViewById(R.id.photo_item_body_image_background);
         view = (TextView) itemView.findViewById(R.id.photo_item_header_text_view);
@@ -48,7 +55,20 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(final PhotoModel photoModel, final OnItemClickListener listener) {
+
+        Picasso.with(itemView.getContext())
+                .load(photoModel.getUploadAvatar())
+                .error(R.drawable.ic_bar_me)
+                .placeholder(R.drawable.ic_bar_me)
+                .into(avatar);
+
+        name.setText(photoModel.getUploadName());
+
+        CharSequence timeCurrent  = DateUtils.getRelativeTimeSpanString(photoModel.getCreateTime().getTime(), System.currentTimeMillis(), 0);
+        time.setText(timeCurrent);
+
         title.setText(photoModel.getDescription());
+
         Picasso.with(itemView.getContext())
                 .load(photoModel.getUrl())
                 .resize(AppValue.getInstance().getDeviceInfo().getWidth(), 0)
@@ -56,18 +76,21 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
                 .placeholder(R.drawable.loading_animation)
                 .into(image);
 
-        if (MyApplication.getInstance().getPrefManager() != null && photoModel.getLove().contains(MyApplication.getInstance().getPrefManager().getUserId())) {
+        if (MyApplication.getInstance().getPrefManager() != null && photoModel.getLove() != null && photoModel.getLove().contains(MyApplication.getInstance().getPrefManager().getUserId())) {
             Picasso.with(itemView.getContext()).load(R.drawable.ic_header_loved).into(love);
         } else {
             Picasso.with(itemView.getContext()).load(R.drawable.ic_header_love).into(love);
         }
+
         love.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onItemClick(photoModel, love);
             }
         });
+
         view.setText(String.valueOf(photoModel.getView()));
+
         imageComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,12 +98,10 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
             }
         });
 
-
         likeButton.setLikeViewStyle(LikeView.Style.BUTTON);
         likeButton.setObjectIdAndType(
                 BASE_URL + PHOTO_GET + photoModel.getId(),
                 LikeView.ObjectType.DEFAULT);
-
 
         ShareLinkContent content = new ShareLinkContent.Builder()
                 .setContentUrl(Uri.parse(BASE_URL + PHOTO_GET + photoModel.getId()))

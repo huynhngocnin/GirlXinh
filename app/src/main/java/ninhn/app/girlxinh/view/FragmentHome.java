@@ -57,8 +57,9 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
         super.onActivityCreated(savedInstanceState);
 
 
-        initPhoto();
+
         initRecyclerView();
+        getPhoto();
         initPullRefresh();
         callbackManager = CallbackManager.Factory.create();
     }
@@ -120,8 +121,8 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
         photoAdapter.notifyDataSetChanged();
     }
 
-    private void initPhoto() {
-        photoModelList = new ArrayList<PhotoModel>();
+    private void getPhoto() {
+
 
         PhotoGetService photoGetService = new PhotoGetService();
         photoGetService.addListener(this);
@@ -142,6 +143,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
     }
 
     private void initRecyclerView() {
+        photoModelList = new ArrayList<>();
         mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycleView_home);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -217,22 +219,6 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
         //pullRefreshLayout.setRefreshing(false);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
-        Toast.makeText(getActivity(), "Data: " + requestCode + " - " + resultCode + " - " + data.toString(), Toast.LENGTH_LONG).show();
-        //callbackManager.onActivityResult(requestCode, resultCode, data);
-        if (null != data) {
-            if ("com.facebook.platform.action.request.LIKE_DIALOG".equals(data.getStringExtra("com.facebook.platform.protocol.PROTOCOL_ACTION"))) {
-                Bundle bundle = data.getExtras().getBundle("com.facebook.platform.protocol.RESULT_ARGS");
-                if (bundle != null) {
-                    // Here your get the like result
-                    Log.d("NinHN", "Result: " + bundle.getBoolean("object_is_liked"));
-                    callbackManager.onActivityResult(requestCode, resultCode, data);
-                }
-            }
-        }
-    }
 
     //    private void hideViews() {
 //        mToolbar.animate().translationY(-mToolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));

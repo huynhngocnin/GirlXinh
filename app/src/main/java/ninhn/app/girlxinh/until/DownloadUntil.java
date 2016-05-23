@@ -3,7 +3,11 @@ package ninhn.app.girlxinh.until;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Environment;
 
+import java.io.File;
+
+import ninhn.app.girlxinh.constant.AppConstant;
 import ninhn.app.girlxinh.model.PhotoModel;
 
 
@@ -16,18 +20,22 @@ public class DownloadUntil {
         Uri uri = Uri.parse(photo.getUrl());
 
         //check folder if it doesn't exist, this code will create it.
-//        File file = new File(Variables.PUBLIC_PATH_FOLDER);
-//        if (!file.exists())
-//            file.mkdirs();
-//
+        //Environment.getExternalStorageState();
+        File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        if (!file.exists())
+            file.mkdirs();
+
         //path to save file after downloaded
-//        Uri dest = Uri.fromFile(file);
+        Uri dest = Uri.fromFile(file);
         DownloadManager.Request req = new DownloadManager.Request(uri);
         req.setTitle(photo.getName());
         req.setDescription(photo.getDescription());
 
         //set notification can be seen
         req.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+        //set Destination save
+        req.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, photo.getName() + AppConstant._JPG);
 
         //show file in android gallery after downloaded
         req.allowScanningByMediaScanner();

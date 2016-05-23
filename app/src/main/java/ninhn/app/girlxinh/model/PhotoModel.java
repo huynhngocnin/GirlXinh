@@ -7,6 +7,7 @@ import java.util.List;
  * Created by ninhn on 4/7/2016.
  */
 public class PhotoModel {
+    private String uploadAvatar;
     private String name;
     private String description;
     private String url;
@@ -16,6 +17,15 @@ public class PhotoModel {
     private List<String> love;
     private String id;
     private Date lastUpTime;
+    private Date createTime;
+
+    public String getUploadAvatar() {
+        return uploadAvatar;
+    }
+
+    public void setUploadAvatar(String uploadAvatar) {
+        this.uploadAvatar = uploadAvatar;
+    }
 
     public String getName() {
         return name;
@@ -87,5 +97,13 @@ public class PhotoModel {
 
     public void setLastUpTime(Date lastUpTime) {
         this.lastUpTime = lastUpTime;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

@@ -64,9 +64,12 @@ public class FragmentMe extends Fragment {
 
         profilePictureView = (ProfilePictureView) view.findViewById(R.id.image_face);
 
+        //If login  before
         if (MyApplication.getInstance().getPrefManager() != null) {
+            //Set username to cover
             textName.setText(MyApplication.getInstance().getPrefManager().getUserName());
-            profilePictureView.setProfileId(MyApplication.getInstance().getPrefManager().getUserId());
+            //Set photo to cover
+            profilePictureView.setProfileId(MyApplication.getInstance().getPrefManager().getUserFacebook());
         }
 
         // Callback registration
@@ -82,12 +85,14 @@ public class FragmentMe extends Fragment {
                                     JSONObject object,
                                     GraphResponse response) {
                                 me_info.setText(object.toString());
-                                if (object.has("name") && object.has("picture")) {
+                                if (object.has("name")) {
 
                                     try {
+                                        //Set username to cover
                                         textName.setText(object.getString(AppConstant.NAME));
+                                        //Set photo to cover
                                         profilePictureView.setProfileId(object.getString(AppConstant.ID));
-
+                                        //Save user info to local
                                         MyApplication.getInstance().getPrefManager().saveUser(object.getString(AppConstant.ID), object.getString(AppConstant.NAME));
                                     } catch (JSONException e) {
 
@@ -98,8 +103,11 @@ public class FragmentMe extends Fragment {
 
                             }
                         });
+                //Request login facebook
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,link,picture.type(normal)");
+                //Put fields wanna get value
+                //parameters.putString("fields", "id,name,email,link,picture.type(normal)");
+                parameters.putString("fields", "id,name,email,birthday");
                 request.setParameters(parameters);
                 request.executeAsync();
             }

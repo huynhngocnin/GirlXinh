@@ -3,11 +3,13 @@ package ninhn.app.girlxinh.service;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ninhn.app.girlxinh.constant.UrlConstant;
@@ -38,8 +40,10 @@ public class PhotoGetService extends AsyncTask<Integer, Void, List<PhotoModel>> 
         try {
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-            Object object = restTemplate.getForObject(new URI(UrlConstant.PHOTO_LIST_PAGE + params[0]), Object.class);
-            List<PhotoModel> photolist = (List<PhotoModel>) object;
+
+            ResponseEntity<PhotoModel[]> responseEntity = restTemplate.getForEntity(new URI(UrlConstant.PHOTO_LIST_PAGE + params[0]), PhotoModel[].class);
+            PhotoModel[] photoArray = responseEntity.getBody();
+            List<PhotoModel> photolist = Arrays.asList(photoArray);
             return photolist;
         } catch (Exception e) {
             Log.e("photo-get exeption", e.getMessage(), e);
