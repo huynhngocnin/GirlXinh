@@ -27,11 +27,23 @@ public class PhotoGetService extends AsyncTask<Integer, Void, List<PhotoModel>> 
         myListeners.add(tl);
     }
 
+    // type = 0 : refresh list
+    // type = 1 : load page
+    private int type;
+
+    public PhotoGetService(int type) {
+        this.type = type;
+    }
+
     @Override
     protected void onPostExecute(List<PhotoModel> photoModels) {
         super.onPostExecute(photoModels);
         for (TaskListener tl : myListeners) {
-            tl.onResultAvailable(photoModels);
+            if (photoModels != null) {
+                tl.onResultAvailable(this.type, photoModels);
+            } else {
+                tl.onResultAvailable(this.type, new ArrayList<>());
+            }
         }
     }
 

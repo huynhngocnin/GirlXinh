@@ -1,13 +1,10 @@
 package ninhn.app.girlxinh.view;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
-import com.facebook.CallbackManager;
-import com.facebook.share.widget.LikeView;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +25,10 @@ import ninhn.app.girlxinh.model.PhotoModel;
 import ninhn.app.girlxinh.service.PhotoGetService;
 import ninhn.app.girlxinh.until.DownloadUntil;
 
+import  static ninhn.app.girlxinh.constant.AppConstant.FLAG_PAGE_MORE;
+import  static ninhn.app.girlxinh.constant.AppConstant.FLAG_PAGE_ONE;
+import  static ninhn.app.girlxinh.constant.AppConstant.FLAG_REFRESH;
+
 /**
  * Created by NinHN on 4/10/16.
  */
@@ -43,7 +39,9 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
     private PhotoAdapter photoAdapter;
     private PullRefreshLayout pullRefreshLayout;
 
-    private CallbackManager callbackManager;
+    private int page = 1;
+
+    //private CallbackManager callbackManager;
 
     @Nullable
     @Override
@@ -56,12 +54,10 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
-
         initRecyclerView();
-        getPhoto();
+        getPhotoPage();
         initPullRefresh();
-        callbackManager = CallbackManager.Factory.create();
+        //callbackManager = CallbackManager.Factory.create();
     }
 
     @Override
@@ -72,27 +68,9 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
                 pullRefreshLayout.setRefreshing(false);
 
                 break;
-//            case R.id.photo_item_footer_image_like:
-//                Toast.makeText(getContext(), "photo_item_image_like Clicked", Toast.LENGTH_SHORT).show();
-//                if (photoModel.isLike()) {
-//                    photoModel.setLike(false);
-//                } else {
-//                    photoModel.setLike(true);
-//                    YoYo.with(Techniques.StandUp)
-//                            .duration(700)
-//                            .playOn(type);
-//                }
-//                photoAdapter.notifyDataSetChanged();
-//                break;
-//            case R.id.fb_like_button:
-//                Toast.makeText(getActivity(), "Like Click", Toast.LENGTH_LONG).show();
-//                break;
             case R.id.photo_item_footer_image_comment:
                 Toast.makeText(getContext(), "photo_item_image_comment Clicked", Toast.LENGTH_SHORT).show();
                 break;
-//            case R.id.photo_item_footer_image_share:
-//                Toast.makeText(getContext(), "photo_item_image_share Clicked", Toast.LENGTH_SHORT).show();
-//                break;
             case R.id.photo_item_header_image_love:
                 Toast.makeText(getContext(), "photo_item_image_love Clicked", Toast.LENGTH_SHORT).show();
 //                if (photoModel.isLove()) {
@@ -117,29 +95,41 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
 
     @Override
     public void onResultAvailable(Object... objects) {
-        photoModelList.addAll((List<PhotoModel>) objects[0]);
+        if(FLAG_PAGE_MORE == (int) objects[0]){
+            photoModelList.addAll((List<PhotoModel>) objects[1]);
+            //Remove loading item
+            photoModelList.remove(photoModelList.size() - 1);
+            photoAdapter.notifyItemRemoved(photoModelList.size());
+            //Hide load more progress
+            photoAdapter.setLoaded();
+            page++;
+        }else  if(FLAG_PAGE_ONE == (int)objects[0]){
+            photoModelList.addAll((List<PhotoModel>) objects[1]);
+        }else{
+            photoModelList.clear();
+            photoModelList.addAll((List<PhotoModel>) objects[1]);
+            pullRefreshLayout.setRefreshing(false);
+            page = 1;
+        }
         photoAdapter.notifyDataSetChanged();
     }
 
-    private void getPhoto() {
+    private void getPhotoMore() {
+        PhotoGetService photoGetService = new PhotoGetService(FLAG_PAGE_MORE);
+        photoGetService.addListener(this);
+        photoGetService.execute(page);
+    }
 
-
-        PhotoGetService photoGetService = new PhotoGetService();
+    private void getPhotoPage() {
+        PhotoGetService photoGetService = new PhotoGetService(FLAG_PAGE_ONE);
         photoGetService.addListener(this);
         photoGetService.execute(0);
+    }
 
-
-//        for (int i = 0; i < 8; i++) {
-//            PhotoModel photo = new PhotoModel();
-//            photo.setName("Title Bla bla bla " + i + "");
-//            photo.setUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-" + (i + 2) + ".jpg");
-//            photo.setWebUrl("http://media.doisongphapluat.com/416/2015/11/21/co-gai-xinh-dep-nhuom-rang-den-gay-bao-mang-" + (i + 2) + ".jpg");
-//            photo.setView(i);
-//            photo.setLike(i);
-//            photo.setComment(i);
-//            photo.setShare(i);
-//            photoModelList.add(photo);
-//        }
+    private void getPhotoRefresh() {
+        PhotoGetService photoGetService = new PhotoGetService(FLAG_REFRESH);
+        photoGetService.addListener(this);
+        photoGetService.execute(0);
     }
 
     private void initRecyclerView() {
@@ -156,6 +146,10 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
                 Log.e("NinHN", "Load More");
                 photoModelList.add(null);
                 photoAdapter.notifyItemInserted(photoModelList.size() - 1);
+
+
+
+                getPhotoMore();
 
 //                //Load more data for reyclerview
 //                new Handler().postDelayed(new Runnable() {
@@ -211,7 +205,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
             @Override
             public void onRefresh() {
                 // start refresh
-                Toast.makeText(getContext(), "Bat dau refresh!", Toast.LENGTH_SHORT).show();
+                getPhotoRefresh();
             }
         });
 

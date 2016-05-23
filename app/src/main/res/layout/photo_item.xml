@@ -56,6 +56,7 @@
                     android:id="@+id/photo_item_header_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/photo_item_header_view_margin"
                     android:layout_toLeftOf="@+id/photo_item_header_views"
                     android:text="@string/init_count" />
 
