@@ -30,6 +30,7 @@ import ninhn.app.girlxinh.MyApplication;
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.constant.AppConstant;
 import ninhn.app.girlxinh.helper.MyPreferenceManager;
+import ninhn.app.girlxinh.model.UserModel;
 
 /**
  * Created by NinHN on 4/10/16.
@@ -85,9 +86,20 @@ public class FragmentMe extends Fragment {
                                     JSONObject object,
                                     GraphResponse response) {
                                 me_info.setText(object.toString());
-                                if (object.has("name")) {
-
+                                if (object.has(AppConstant.ID)) {
                                     try {
+//                                        //Create User
+//                                        UserModel userModel = new UserModel();
+//                                        userModel.setName(object.getString(AppConstant.NAME));
+//                                        //userModel.setAvatar();
+//                                        userModel.setBirthday(object.getString(AppConstant.BIRTHDAY));
+//                                        userModel.setEmail(object.getString(AppConstant.EMAIL));
+//                                        //userModel.setPhone();
+//                                        userModel.setFacebook(object.getString(AppConstant.ID));
+//                                        userModel.setFrom(object.getString(AppConstant.LOCATION));
+//                                        //Send user info to server
+
+
                                         //Set username to cover
                                         textName.setText(object.getString(AppConstant.NAME));
                                         //Set photo to cover
@@ -95,19 +107,16 @@ public class FragmentMe extends Fragment {
                                         //Save user info to local
                                         MyApplication.getInstance().getPrefManager().saveUser(object.getString(AppConstant.ID), object.getString(AppConstant.NAME));
                                     } catch (JSONException e) {
-
                                     }
-
-
                                 }
-
                             }
                         });
                 //Request login facebook
                 Bundle parameters = new Bundle();
                 //Put fields wanna get value
                 //parameters.putString("fields", "id,name,email,link,picture.type(normal)");
-                parameters.putString("fields", "id,name,email,birthday");
+                //parameters.putString("fields", "id,name,email,birthday,picture.type(normal)");
+                parameters.putString("fields", "location");
                 request.setParameters(parameters);
                 request.executeAsync();
             }

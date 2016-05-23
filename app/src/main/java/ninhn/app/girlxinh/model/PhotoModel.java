@@ -1,12 +1,12 @@
 package ninhn.app.girlxinh.model;
 
-import java.util.Date;
+
 import java.util.List;
 
 /**
  * Created by ninhn on 4/7/2016.
  */
-public class PhotoModel {
+public class PhotoModel extends Model{
     private String uploadAvatar;
     private String name;
     private String description;
@@ -15,9 +15,7 @@ public class PhotoModel {
     private String uploadName;
     private long view;
     private List<String> love;
-    private String id;
-    private Date lastUpTime;
-    private Date createTime;
+
 
     public String getUploadAvatar() {
         return uploadAvatar;
@@ -83,27 +81,4 @@ public class PhotoModel {
         this.love = love;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Date getLastUpTime() {
-        return lastUpTime;
-    }
-
-    public void setLastUpTime(Date lastUpTime) {
-        this.lastUpTime = lastUpTime;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
 }

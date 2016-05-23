@@ -5,12 +5,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 
@@ -18,6 +15,10 @@ import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.ViewPagerAdapter;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.model.DeviceInfo;
+
+import static ninhn.app.girlxinh.constant.AppConstant.HOME;
+import static ninhn.app.girlxinh.constant.AppConstant.LOVE;
+import static ninhn.app.girlxinh.constant.AppConstant.ME;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -100,9 +101,9 @@ public class MainActivity extends AppCompatActivity {
     private void initViewPager() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new FragmentHome(), "Home");
-        adapter.addFragment(new FragmentLove(), "Love");
-        adapter.addFragment(new FragmentMe(), "Me");
+        adapter.addFragment(new FragmentHome(), HOME);
+        adapter.addFragment(new FragmentLove(), LOVE);
+        adapter.addFragment(new FragmentMe(), ME);
         viewPager.setAdapter(adapter);
     }
 
@@ -113,29 +114,32 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         bottomNavigationView.isColoredBackground(true);
         bottomNavigationView.disableViewPagerSlide();
+        //Set viewpaper to navigation
         bottomNavigationView.setUpWithViewPager(viewPager, colorBar, drawableBar);
+        //Disable Shadow
+        bottomNavigationView.disableShadow();
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 }

@@ -96,13 +96,15 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
     @Override
     public void onResultAvailable(Object... objects) {
         if(FLAG_PAGE_MORE == (int) objects[0]){
-            photoModelList.addAll((List<PhotoModel>) objects[1]);
             //Remove loading item
             photoModelList.remove(photoModelList.size() - 1);
             photoAdapter.notifyItemRemoved(photoModelList.size());
+            //Add list photo had just loaded
+            photoModelList.addAll((List<PhotoModel>) objects[1]);
+            //count page
+            page++;
             //Hide load more progress
             photoAdapter.setLoaded();
-            page++;
         }else  if(FLAG_PAGE_ONE == (int)objects[0]){
             photoModelList.addAll((List<PhotoModel>) objects[1]);
         }else{
@@ -112,6 +114,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
             page = 1;
         }
         photoAdapter.notifyDataSetChanged();
+
     }
 
     private void getPhotoMore() {

@@ -27,8 +27,6 @@ public class PhotoGetService extends AsyncTask<Integer, Void, List<PhotoModel>> 
         myListeners.add(tl);
     }
 
-    // type = 0 : refresh list
-    // type = 1 : load page
     private int type;
 
     public PhotoGetService(int type) {
