@@ -1,6 +1,7 @@
 package ninhn.app.girlxinh.model;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ public class PhotoModel extends Model{
     private String uploadId;
     private String uploadName;
     private long view;
-    private List<String> love;
+    private List<String> love = new ArrayList<>();
 
 
     public String getUploadAvatar() {

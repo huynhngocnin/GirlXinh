@@ -5,12 +5,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.facebook.appevents.AppEventsLogger;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
 
+import ninhn.app.girlxinh.MyApplication;
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.ViewPagerAdapter;
 import ninhn.app.girlxinh.helper.AppValue;
@@ -51,21 +50,25 @@ public class MainActivity extends AppCompatActivity {
         AppValue.getInstance().setDeviceInfo(deviceInfo);
     }
 
-    private void createToolbar() {
-        //mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        //mToolbar.setTitle("NinHN ");
-        //setSupportActionBar(mToolbar);
-    }
+//    private void createToolbar() {
+//        //mToolbar = (Toolbar) findViewById(R.id.toolbar);
+//        //mToolbar.setTitle("NinHN ");
+//        //setSupportActionBar(mToolbar);
+//    }
 
-    private void createFloatingButton() {
-        //        mFabButton = (FloatingActionButton) findViewById(R.id.fab);
-        //        mFabButton.setOnClickListener(new View.OnClickListener() {
-        //            @Override
-        //            public void onClick(View view) {
-        //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-        //                        .setAction("Action", null).show();
-        //            }
-        //        });
+//    private void createFloatingButton() {
+//        //        mFabButton = (FloatingActionButton) findViewById(R.id.fab);
+//        //        mFabButton.setOnClickListener(new View.OnClickListener() {
+//        //            @Override
+//        //            public void onClick(View view) {
+//        //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//        //                        .setAction("Action", null).show();
+//        //            }
+//        //        });
+//    }
+
+    private void initUser(){
+        AppValue.getInstance().setUserModel(MyApplication.getInstance().getPrefManager().getUser());
     }
 
 
@@ -80,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         initViewPager();
 
         initBottomNavigation();
+
+        initUser();
     }
 
     @Override

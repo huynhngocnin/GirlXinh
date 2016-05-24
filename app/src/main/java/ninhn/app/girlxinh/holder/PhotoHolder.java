@@ -1,5 +1,6 @@
 package ninhn.app.girlxinh.holder;
 
+import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
@@ -11,6 +12,9 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.LikeView;
 import com.facebook.share.widget.ShareButton;
 import com.squareup.picasso.Picasso;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import ninhn.app.girlxinh.MyApplication;
 import ninhn.app.girlxinh.R;
@@ -54,7 +58,7 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
 
     }
 
-    public void bind(final PhotoModel photoModel, final OnItemClickListener listener) {
+    public void bind(final Context context, final PhotoModel photoModel, final OnItemClickListener listener) {
 
         Picasso.with(itemView.getContext())
                 .load(photoModel.getUploadAvatar())
@@ -64,7 +68,8 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
 
         name.setText(photoModel.getUploadName());
 
-        CharSequence timeCurrent  = DateUtils.getRelativeTimeSpanString(photoModel.getCreateTime().getTime(), System.currentTimeMillis(), 0);
+        //CharSequence timeCurrent  = DateUtils.getRelativeTimeSpanString(photoModel.getCreateTime().getTime(), System.currentTimeMillis(), 0);
+        CharSequence timeCurrent = DateUtils.getRelativeDateTimeString(context, photoModel.getCreateTime().getTime(), 0, 0, DateUtils.FORMAT_ABBREV_TIME);
         time.setText(timeCurrent);
 
         title.setText(photoModel.getDescription());
@@ -76,7 +81,7 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
                 .placeholder(R.drawable.loading_animation)
                 .into(image);
 
-        if (MyApplication.getInstance().getPrefManager() != null && photoModel.getLove() != null && photoModel.getLove().contains(MyApplication.getInstance().getPrefManager().getUserId())) {
+        if (photoModel.getLove().contains(AppValue.getInstance().getUserModel().getId())) {
             Picasso.with(itemView.getContext()).load(R.drawable.ic_header_loved).into(love);
         } else {
             Picasso.with(itemView.getContext()).load(R.drawable.ic_header_love).into(love);
@@ -89,7 +94,7 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
             }
         });
 
-        view.setText(String.valueOf(photoModel.getView()));
+        view.setText(NumberFormat.getNumberInstance(Locale.US).format(photoModel.getView()));
 
         imageComment.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -5,29 +5,36 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import ninhn.app.girlxinh.MyApplication;
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.PhotoAdapter;
+import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.listener.OnItemClickListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
 import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.PhotoModel;
 import ninhn.app.girlxinh.service.PhotoGetService;
+import ninhn.app.girlxinh.service.PhotoLoveService;
 import ninhn.app.girlxinh.until.DownloadUntil;
 
-import  static ninhn.app.girlxinh.constant.AppConstant.FLAG_PAGE_MORE;
-import  static ninhn.app.girlxinh.constant.AppConstant.FLAG_PAGE_ONE;
-import  static ninhn.app.girlxinh.constant.AppConstant.FLAG_REFRESH;
+import static ninhn.app.girlxinh.constant.AppConstant.FLAG_PHOTO_LOAD;
+
+import static ninhn.app.girlxinh.constant.AppConstant.FLAG_PAGE_MORE;
+import static ninhn.app.girlxinh.constant.AppConstant.FLAG_PAGE_ONE;
+import static ninhn.app.girlxinh.constant.AppConstant.FLAG_REFRESH;
+
 
 /**
  * Created by NinHN on 4/10/16.
@@ -63,31 +70,31 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
     @Override
     public void onItemClick(PhotoModel photoModel, View type) {
         switch (type.getId()) {
-            case R.id.photo_item_body_image_background:
-                Toast.makeText(getContext(), "photo_item_image_background Clicked", Toast.LENGTH_SHORT).show();
-                pullRefreshLayout.setRefreshing(false);
-
-                break;
             case R.id.photo_item_footer_image_comment:
                 Toast.makeText(getContext(), "photo_item_image_comment Clicked", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.photo_item_header_image_love:
-                Toast.makeText(getContext(), "photo_item_image_love Clicked", Toast.LENGTH_SHORT).show();
-//                if (photoModel.isLove()) {
-//                    photoModel.setLove(false);
-//                } else {
-//                    photoModel.setLove(true);
-//                    YoYo.with(Techniques.Swing)
-//                            .duration(700)
-//                            .playOn(type);
-//                }
+                if (photoModel.getLove().contains(AppValue.getInstance().getUserModel().getId())) {
+                    //Call service remove love in this photo
+                    setPhotoLove(PhotoLoveService.LOVE_DOWN, photoModel);
+                    //Handle local
+                    photoModel.getLove().remove(AppValue.getInstance().getUserModel().getId());
+                } else {
+                    //Call service remove love in this photo
+                    setPhotoLove(PhotoLoveService.LOVE_UP, photoModel);
+                    //Handle local
+                    photoModel.getLove().add(AppValue.getInstance().getUserModel().getId());
+                    //Set animation after loved
+                    YoYo.with(Techniques.Swing)
+                            .duration(700)
+                            .playOn(type);
+                }
                 photoAdapter.notifyDataSetChanged();
                 break;
             case R.id.photo_item_footer_image_download:
                 DownloadUntil.downloadPhoto(getActivity(), photoModel);
                 break;
             default:
-                Toast.makeText(getContext(), "default Clicked", Toast.LENGTH_SHORT).show();
                 break;
 
         }
@@ -95,26 +102,40 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
 
     @Override
     public void onResultAvailable(Object... objects) {
-        if(FLAG_PAGE_MORE == (int) objects[0]){
-            //Remove loading item
-            photoModelList.remove(photoModelList.size() - 1);
-            photoAdapter.notifyItemRemoved(photoModelList.size());
-            //Add list photo had just loaded
-            photoModelList.addAll((List<PhotoModel>) objects[1]);
-            //count page
-            page++;
-            //Hide load more progress
-            photoAdapter.setLoaded();
-        }else  if(FLAG_PAGE_ONE == (int)objects[0]){
-            photoModelList.addAll((List<PhotoModel>) objects[1]);
-        }else{
-            photoModelList.clear();
-            photoModelList.addAll((List<PhotoModel>) objects[1]);
-            pullRefreshLayout.setRefreshing(false);
-            page = 1;
+        if (FLAG_PHOTO_LOAD == (int) objects[0]) {
+            if (FLAG_PAGE_MORE == (int) objects[1]) {
+                //Remove loading item
+                photoModelList.remove(photoModelList.size() - 1);
+                photoAdapter.notifyItemRemoved(photoModelList.size());
+                //Add list photo had just loaded
+                photoModelList.addAll((List<PhotoModel>) objects[2]);
+                //count page
+                page++;
+                //Hide load more progress
+                photoAdapter.setLoaded();
+            } else if (FLAG_PAGE_ONE == (int) objects[1]) {
+                photoModelList.addAll((List<PhotoModel>) objects[2]);
+            } else {
+                //Clear current photo list
+                photoModelList.clear();
+                //Add new photo list just loaded
+                photoModelList.addAll((List<PhotoModel>) objects[2]);
+                //Disable refresh control
+                pullRefreshLayout.setRefreshing(false);
+                //Reset page to start
+                page = 1;
+            }
+            //Update list after change
+            photoAdapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(getActivity(), "" + objects[1].toString(), Toast.LENGTH_SHORT).show();
         }
-        photoAdapter.notifyDataSetChanged();
+    }
 
+    private void setPhotoLove(String loveType, PhotoModel photoModel) {
+        PhotoLoveService photoLoveService = new PhotoLoveService();
+        photoLoveService.addListener(this);
+        photoLoveService.execute(loveType, photoModel.getId(), photoModel.getUploadId());
     }
 
     private void getPhotoMore() {
@@ -146,42 +167,10 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
         photoAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                Log.e("NinHN", "Load More");
                 photoModelList.add(null);
                 photoAdapter.notifyItemInserted(photoModelList.size() - 1);
-
-
-
+                //Get more photo when scroll down to bottom
                 getPhotoMore();
-
-//                //Load more data for reyclerview
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Log.e("NinHN", "Load More 2");
-//
-//                        //Remove loading item
-//                        photoModelList.remove(photoModelList.size() - 1);
-//                        photoAdapter.notifyItemRemoved(photoModelList.size());
-//
-//                        //Load data
-//                        int index = photoModelList.size();
-//                        int end = index + 10;
-//                        for (int i = index; i < end; i++) {
-//                            PhotoModel photo = new PhotoModel();
-//                            photo.setTitle("Title " + i);
-//                            photo.setUrl("http://thuvienanhdep.net/wp-content/uploads/2015/09/nhung-hinh-nen-girl-xinh-va-dang-yeu-nhat-cho-de-yeu-cua-ban-nhe-14.jpg");
-//                            photo.setWebUrl("http://thuvienanhdep.net/wp-content/uploads/2015/09/nhung-hinh-nen-girl-xinh-va-dang-yeu-nhat-cho-de-yeu-cua-ban-nhe-14.jpg");
-//                            photo.setView(i);
-//                            photo.setLike(i);
-//                            photo.setComment(i);
-//                            photo.setShare(i);
-//                            photoModelList.add(photo);
-//                        }
-//                        photoAdapter.notifyDataSetChanged();
-//                        photoAdapter.setLoaded();
-//                    }
-//                }, 5000);
             }
         });
 
@@ -201,6 +190,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
     }
 
     private void initPullRefresh() {
+        //Map component to control
         pullRefreshLayout = (PullRefreshLayout) getActivity().findViewById(R.id.pullRefreshLayout);
 
         // listen refresh event
@@ -211,9 +201,6 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
                 getPhotoRefresh();
             }
         });
-
-        // refresh complete
-        //pullRefreshLayout.setRefreshing(false);
     }
 
 

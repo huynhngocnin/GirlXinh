@@ -85,7 +85,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof PhotoHolder) {
-            ((PhotoHolder) holder).bind(photoModelList.get(position), this.listener);
+            ((PhotoHolder) holder).bind(this.context, photoModelList.get(position), this.listener);
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);

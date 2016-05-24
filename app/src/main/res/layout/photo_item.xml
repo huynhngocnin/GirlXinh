@@ -12,13 +12,10 @@
         android:padding="@dimen/photo_item_header_padding">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/photo_item_header_image_avatar"
             android:layout_width="@dimen/photo_item_header_height"
             android:layout_height="@dimen/photo_item_header_height"
-            android:src="@drawable/ic_bar_me"
-            app:civ_border_width="@dimen/photo_item_header_avatar_border"
-            app:civ_border_color="@android:color/holo_blue_dark"/>
+            android:src="@drawable/ic_bar_me"/>
 
 
         <LinearLayout
@@ -72,8 +69,8 @@
 
         <ImageView
             android:id="@+id/photo_item_header_image_love"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/photo_item_header_height"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_header_love" />
 

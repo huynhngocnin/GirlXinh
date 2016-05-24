@@ -10,7 +10,13 @@ public class UrlConstant {
     public static final String SERVER = "http://192.168.1.5:8008";
     public static final String PHOTO_LIST = SERVER + "/photo-list";
     public static final String PHOTO_LIST_PAGE = PHOTO_LIST + "?page=";
+    public static final String PHOTO_LOVE_UP = SERVER + "/photo-love-up";
+    public static final String PHOTO_LOVE_DOWN = SERVER + "/photo-love-down";
 
+    public static final String CONDITION_START = "?";
+    public static final String CONDITION_AND = "&";
+    public static final String CONDITION_PHOTO_ID = "photoId=";
+    public static final String CONDITION_USER_ID = "userId=";
 
-
+    public static final String USER_REGISTER = SERVER + "/user-register";
 }
