@@ -56,11 +56,13 @@ public class PhotoGetService extends AsyncTask<Integer, Void, List<PhotoModel>> 
     private List<PhotoModel> callService(int page) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-        ResponseEntity<PhotoModel[]> responseEntity = restTemplate.getForEntity(UrlConstant.PHOTO_LIST_PAGE + page, PhotoModel[].class);
-        if (responseEntity != null) {
+        try {
+            ResponseEntity<PhotoModel[]> responseEntity = restTemplate.getForEntity(UrlConstant.PHOTO_LIST_PAGE + page, PhotoModel[].class);
             PhotoModel[] photoArray = responseEntity.getBody();
             List<PhotoModel> photolist = Arrays.asList(photoArray);
             return photolist;
+        } catch (Exception e) {
+            Log.d(getClass().toString(), e.getMessage(), e);
         }
         return null;
     }

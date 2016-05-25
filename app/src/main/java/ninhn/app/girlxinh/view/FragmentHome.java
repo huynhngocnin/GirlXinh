@@ -128,14 +128,13 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
             //Update list after change
             photoAdapter.notifyDataSetChanged();
         } else {
-            Toast.makeText(getActivity(), "" + objects[1].toString(), Toast.LENGTH_SHORT).show();
         }
     }
 
     private void setPhotoLove(String loveType, PhotoModel photoModel) {
         PhotoLoveService photoLoveService = new PhotoLoveService();
         photoLoveService.addListener(this);
-        photoLoveService.execute(loveType, photoModel.getId(), photoModel.getUploadId());
+        photoLoveService.execute(loveType, photoModel.getId(), AppValue.getInstance().getUserModel().getId());
     }
 
     private void getPhotoMore() {
