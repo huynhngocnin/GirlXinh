@@ -9,10 +9,10 @@
     tools:context=".view.MainActivity">
 
     <com.baoyz.widget.PullRefreshLayout
-        android:id="@+id/pullRefreshLayout"
+        android:id="@+id/pullRefreshLayout_home"
         android:layout_width="match_parent"
-        app:refreshType="material"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:refreshType="material">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycleView_home"
@@ -20,7 +20,6 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/photo_item_margin_left"
             android:layout_marginRight="@dimen/photo_item_margin_left" />
-
     </com.baoyz.widget.PullRefreshLayout>
 
 </RelativeLayout>

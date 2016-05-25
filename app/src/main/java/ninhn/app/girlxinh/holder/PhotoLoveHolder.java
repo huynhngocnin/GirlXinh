@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,7 +17,6 @@ import com.squareup.picasso.Picasso;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import ninhn.app.girlxinh.MyApplication;
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.listener.OnItemClickListener;
@@ -28,21 +28,21 @@ import static ninhn.app.girlxinh.constant.UrlConstant.PHOTO_GET;
 /**
  * Created by NinHN on 4/7/16.
  */
-public class PhotoHolder extends RecyclerView.ViewHolder {
+public class PhotoLoveHolder extends RecyclerView.ViewHolder {
 
-    public ImageView avatar;
-    public TextView name;
-    public TextView time;
-    public TextView title;
-    public ImageView image;
-    public TextView view;
-    public ImageView love;
-    public ImageView imageComment;
-    public LikeView likeButton;
-    public ShareButton shareButton;
-    public ImageView imageDownload;
+    private ImageView avatar;
+    private TextView name;
+    private TextView time;
+    private TextView title;
+    private ImageView image;
+    private TextView view;
+    private ImageView remove;
+    private ImageView imageComment;
+    private LikeView likeButton;
+    private ShareButton shareButton;
+    private ImageView imageDownload;
 
-    public PhotoHolder(View itemView) {
+    public PhotoLoveHolder(View itemView) {
         super(itemView);
         avatar = (ImageView) itemView.findViewById(R.id.photo_item_header_image_avatar);
         name = (TextView) itemView.findViewById(R.id.photo_item_header_text_name);
@@ -50,12 +50,11 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
         title = (TextView) itemView.findViewById(R.id.photo_item_body_text_title);
         image = (ImageView) itemView.findViewById(R.id.photo_item_body_image_background);
         view = (TextView) itemView.findViewById(R.id.photo_item_header_text_view);
-        love = (ImageView) itemView.findViewById(R.id.photo_item_header_image_love);
+        remove = (ImageView) itemView.findViewById(R.id.photo_item_header_image_love);
         imageComment = (ImageView) itemView.findViewById(R.id.photo_item_footer_image_comment);
         likeButton = (LikeView) itemView.findViewById(R.id.fb_like_button);
         shareButton = (ShareButton) itemView.findViewById(R.id.fb_share_button);
         imageDownload = (ImageView) itemView.findViewById(R.id.photo_item_footer_image_download);
-
     }
 
     public void bind(final Context context, final PhotoModel photoModel, final OnItemClickListener listener) {
@@ -68,9 +67,8 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
 
         name.setText(photoModel.getUploadName());
 
-        //CharSequence timeCurrent  = DateUtils.getRelativeTimeSpanString(photoModel.getCreateTime().getTime(), System.currentTimeMillis(), 0);
-        CharSequence timeCurrent = DateUtils.getRelativeDateTimeString(context, photoModel.getCreateTime().getTime(), 0, 0, DateUtils.FORMAT_ABBREV_TIME);
-        time.setText(timeCurrent);
+        CharSequence photoTime = DateUtils.getRelativeDateTimeString(context, photoModel.getCreateTime().getTime(), 0, 0, DateUtils.FORMAT_ABBREV_TIME);
+        time.setText(photoTime);
 
         title.setText(photoModel.getDescription());
 
@@ -81,16 +79,10 @@ public class PhotoHolder extends RecyclerView.ViewHolder {
                 .placeholder(R.drawable.loading_animation)
                 .into(image);
 
-        if (photoModel.getLove().contains(AppValue.getInstance().getUserModel().getId())) {
-            Picasso.with(itemView.getContext()).load(R.drawable.ic_header_loved).into(love);
-        } else {
-            Picasso.with(itemView.getContext()).load(R.drawable.ic_header_love).into(love);
-        }
-
-        love.setOnClickListener(new View.OnClickListener() {
+        remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(photoModel, love);
+                listener.onItemClick(photoModel, remove);
             }
         });
 

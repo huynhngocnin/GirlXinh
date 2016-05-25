@@ -17,9 +17,8 @@ import com.daimajia.androidanimations.library.YoYo;
 import java.util.ArrayList;
 import java.util.List;
 
-import ninhn.app.girlxinh.MyApplication;
 import ninhn.app.girlxinh.R;
-import ninhn.app.girlxinh.adapter.PhotoAdapter;
+import ninhn.app.girlxinh.adapter.PhotoHomeAdapter;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.listener.OnItemClickListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
@@ -43,17 +42,14 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
 
     private List<PhotoModel> photoModelList;
     private RecyclerView mRecyclerView;
-    private PhotoAdapter photoAdapter;
+    private PhotoHomeAdapter photoHomeAdapter;
     private PullRefreshLayout pullRefreshLayout;
 
     private int page = 1;
 
-    //private CallbackManager callbackManager;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //return super.onCreateView(inflater, container, savedInstanceState);
         return inflater.inflate(R.layout.content_home, container, false);
     }
 
@@ -64,7 +60,6 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
         initRecyclerView();
         getPhotoPage();
         initPullRefresh();
-        //callbackManager = CallbackManager.Factory.create();
     }
 
     @Override
@@ -89,10 +84,14 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
                             .duration(700)
                             .playOn(type);
                 }
-                photoAdapter.notifyDataSetChanged();
+                photoHomeAdapter.notifyDataSetChanged();
                 break;
             case R.id.photo_item_footer_image_download:
                 DownloadUntil.downloadPhoto(getActivity(), photoModel);
+                break;
+            case R.id.photo_item_footer_button_login:
+                MainActivity mainActivity = (MainActivity) getActivity();
+                mainActivity.changeTabTo(2);
                 break;
             default:
                 break;
@@ -106,13 +105,13 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
             if (FLAG_PAGE_MORE == (int) objects[1]) {
                 //Remove loading item
                 photoModelList.remove(photoModelList.size() - 1);
-                photoAdapter.notifyItemRemoved(photoModelList.size());
+                photoHomeAdapter.notifyItemRemoved(photoModelList.size());
                 //Add list photo had just loaded
                 photoModelList.addAll((List<PhotoModel>) objects[2]);
                 //count page
                 page++;
                 //Hide load more progress
-                photoAdapter.setLoaded();
+                photoHomeAdapter.setLoaded();
             } else if (FLAG_PAGE_ONE == (int) objects[1]) {
                 photoModelList.addAll((List<PhotoModel>) objects[2]);
             } else {
@@ -125,10 +124,11 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
                 //Reset page to start
                 page = 1;
             }
-            //Update list after change
-            photoAdapter.notifyDataSetChanged();
+
         } else {
         }
+        //Update list after change
+        photoHomeAdapter.notifyDataSetChanged();
     }
 
     private void setPhotoLove(String loveType, PhotoModel photoModel) {
@@ -160,14 +160,14 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
         mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycleView_home);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        photoAdapter = new PhotoAdapter(getActivity(), mRecyclerView, photoModelList, this);
-        mRecyclerView.setAdapter(photoAdapter);
+        photoHomeAdapter = new PhotoHomeAdapter(getActivity(), mRecyclerView, photoModelList, this);
+        mRecyclerView.setAdapter(photoHomeAdapter);
 
-        photoAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+        photoHomeAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 photoModelList.add(null);
-                photoAdapter.notifyItemInserted(photoModelList.size() - 1);
+                photoHomeAdapter.notifyItemInserted(photoModelList.size() - 1);
                 //Get more photo when scroll down to bottom
                 getPhotoMore();
             }
@@ -190,7 +190,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
 
     private void initPullRefresh() {
         //Map component to control
-        pullRefreshLayout = (PullRefreshLayout) getActivity().findViewById(R.id.pullRefreshLayout);
+        pullRefreshLayout = (PullRefreshLayout) getActivity().findViewById(R.id.pullRefreshLayout_home);
 
         // listen refresh event
         pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {

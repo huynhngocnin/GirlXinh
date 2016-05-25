@@ -8,11 +8,30 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.MainActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycleView_love"
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/pullRefreshLayout_love"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/photo_item_margin_left"
-        android:layout_marginRight="@dimen/photo_item_margin_left" />
+        app:refreshType="material">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycleView_love"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/photo_item_margin_left"
+            android:layout_marginRight="@dimen/photo_item_margin_left" />
+    </com.baoyz.widget.PullRefreshLayout>
+
+    <Button
+        android:id="@+id/button_login"
+        android:layout_margin="@dimen/photo_item_footer_login_margin"
+        android:layout_width="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBarHome"
+        android:drawableLeft="@drawable/ic_logo_facebook_64"
+        android:textColor="@android:color/white"
+        android:visibility="visible"
+        android:text="@string/require_login_love"/>
 
 </RelativeLayout>

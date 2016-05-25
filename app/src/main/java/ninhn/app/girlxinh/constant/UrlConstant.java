@@ -12,6 +12,7 @@ public class UrlConstant {
     public static final String PHOTO_LIST_PAGE = PHOTO_LIST + "?page=";
     public static final String PHOTO_LOVE_UP = SERVER + "/photo-love-up";
     public static final String PHOTO_LOVE_DOWN = SERVER + "/photo-love-down";
+    public static final String PHOTO_USER_LOVE = SERVER + "/user-photo-love";
 
     public static final String CONDITION_START = "?";
     public static final String CONDITION_AND = "&";

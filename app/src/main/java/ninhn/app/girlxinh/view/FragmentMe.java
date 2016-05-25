@@ -31,6 +31,7 @@ import ninhn.app.girlxinh.MyApplication;
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.constant.AppConstant;
 import ninhn.app.girlxinh.constant.JSONConstant;
+import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.helper.MyPreferenceManager;
 import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.UserModel;
@@ -93,13 +94,17 @@ public class FragmentMe extends Fragment implements TaskListener {
     }
 
     private void setCoverInfo(UserModel userModel) {
-        //If login  before
-        if (MyApplication.getInstance().getPrefManager() != null) {
-            //Set username to cover
-            textName.setText(userModel.getName());
-            //Set photo to cover
-            profilePictureView.setProfileId(userModel.getFacebook());
-        }
+        //Set username to cover
+        textName.setText(userModel.getName());
+        //Set photo to cover
+        profilePictureView.setProfileId(userModel.getFacebook());
+    }
+
+    private void clearCoverInfo() {
+        //Set username to cover
+        textName.setText(AppConstant.BLANK);
+        //Set photo to cover
+        profilePictureView.setProfileId(null);
     }
 
     private void registerLogin() {
@@ -132,12 +137,10 @@ public class FragmentMe extends Fragment implements TaskListener {
 
             @Override
             public void onCancel() {
-                Toast.makeText(getActivity(), "Cancen roi nhe ku", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(FacebookException exception) {
-                Toast.makeText(getActivity(), "Error roi! Lam lai di", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -149,9 +152,10 @@ public class FragmentMe extends Fragment implements TaskListener {
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,
                                                        AccessToken currentAccessToken) {
                 if (currentAccessToken == null) {
-                    Toast.makeText(getActivity(), AppConstant.LOGOUT, Toast.LENGTH_LONG).show();
                     MyApplication.getInstance().getPrefManager().clearUser();
-
+                    clearCoverInfo();
+                    //Set to gloval
+                    AppValue.getInstance().setUserModel(new UserModel());
                 }
             }
         };
@@ -192,14 +196,18 @@ public class FragmentMe extends Fragment implements TaskListener {
     private void handleLoginComplete(JSONObject object) {
         //Parse json to UserModel
         UserModel userModel = parseJSON(object);
-        //Set profile info
-        setCoverInfo(userModel);
         //Check json response
         if (userModel != null) {
             //Send user info to server
             UserRegisterService userRegisterService = new UserRegisterService();
             userRegisterService.addListener(this);
             userRegisterService.execute(userModel);
+            //Set profile info
+            setCoverInfo(userModel);
+            //Save user
+            MyApplication.getInstance().getPrefManager().saveUser(userModel);
+            //Set to gloval
+            AppValue.getInstance().setUserModel(userModel);
         }
     }
 

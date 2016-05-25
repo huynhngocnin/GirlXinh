@@ -11,7 +11,7 @@ import java.util.List;
 
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.holder.LoadingViewHolder;
-import ninhn.app.girlxinh.holder.PhotoHolder;
+import ninhn.app.girlxinh.holder.PhotoLoveHolder;
 import ninhn.app.girlxinh.listener.OnItemClickListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
 import ninhn.app.girlxinh.model.PhotoModel;
@@ -19,7 +19,7 @@ import ninhn.app.girlxinh.model.PhotoModel;
 /**
  * Created by ninhn on 4/8/2016.
  */
-public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PhotoLoveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
 
@@ -33,7 +33,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private int visibleThreshold = 5;
     private int lastVisibleItem, totalItemCount;
 
-    public PhotoAdapter(Context context, RecyclerView recyclerView, List<PhotoModel> photoModelList, OnItemClickListener listener) {
+    public PhotoLoveAdapter(Context context, RecyclerView recyclerView, List<PhotoModel> photoModelList, OnItemClickListener listener) {
         this.context = context;
         this.photoModelList = photoModelList;
         this.listener = listener;
@@ -74,7 +74,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
             View view = LayoutInflater.from(this.context).inflate(R.layout.photo_item, parent, false);
-            return new PhotoHolder(view);
+            return new PhotoLoveHolder(view);
         } else if (viewType == VIEW_TYPE_LOADING) {
             View view = LayoutInflater.from(this.context).inflate(R.layout.layout_loading_item, parent, false);
             return new LoadingViewHolder(view);
@@ -84,8 +84,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof PhotoHolder) {
-            ((PhotoHolder) holder).bind(this.context, photoModelList.get(position), this.listener);
+        if (holder instanceof PhotoLoveHolder) {
+            ((PhotoLoveHolder) holder).bind(this.context, photoModelList.get(position), this.listener);
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);

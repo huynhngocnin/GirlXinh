@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 
 import com.facebook.appevents.AppEventsLogger;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
+import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItemClickListener;
 
 import ninhn.app.girlxinh.MyApplication;
 import ninhn.app.girlxinh.R;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     //    private Toolbar mToolbar;
 //    private FloatingActionButton mFabButton;
     private ViewPager viewPager;
+    private BottomNavigationView bottomNavigationView;
 
 //    private void hideSystemUI() {
 //        View mDecorView = getWindow().getDecorView();
@@ -116,13 +118,18 @@ public class MainActivity extends AppCompatActivity {
         int[] colorBar = new int[]{ContextCompat.getColor(this, R.color.colorBarHome), ContextCompat.getColor(this, R.color.colorBarLove), ContextCompat.getColor(this, R.color.colorBarMe)};
         int[] drawableBar = new int[]{R.drawable.ic_bar_home, R.drawable.ic_bar_love, R.drawable.ic_bar_me};
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         bottomNavigationView.isColoredBackground(true);
         bottomNavigationView.disableViewPagerSlide();
         //Set viewpaper to navigation
         bottomNavigationView.setUpWithViewPager(viewPager, colorBar, drawableBar);
         //Disable Shadow
         bottomNavigationView.disableShadow();
+
+    }
+
+    public void changeTabTo(int tabIndex){
+        bottomNavigationView.selectTab(tabIndex);
     }
 
 

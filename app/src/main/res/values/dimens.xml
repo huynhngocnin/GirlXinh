@@ -33,6 +33,7 @@
 
     <dimen name="photo_item_body_title_padding">8dp</dimen>
     <dimen name="photo_item_footer_padding">4dp</dimen>
+    <dimen name="photo_item_footer_login_margin">2dp</dimen>
 
     <dimen name="me_cover_heigh">200dp</dimen>
     <dimen name="me_cover_image_border">2dp</dimen>
