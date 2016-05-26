@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.widget.Toast;
 
 import com.facebook.appevents.AppEventsLogger;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 //        //        });
 //    }
 
-    private void initUser(){
+    private void initUser() {
         AppValue.getInstance().setUserModel(MyApplication.getInstance().getPrefManager().getUser());
     }
 
@@ -112,6 +113,22 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new FragmentLove(), LOVE);
         adapter.addFragment(new FragmentMe(), ME);
         viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (1 == position) {
+                    ((FragmentLove) getSupportFragmentManager().getFragments().get(1)).loginDone();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     private void initBottomNavigation() {
@@ -120,15 +137,14 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         bottomNavigationView.isColoredBackground(true);
-        bottomNavigationView.disableViewPagerSlide();
+        //bottomNavigationView.disableViewPagerSlide();
         //Set viewpaper to navigation
         bottomNavigationView.setUpWithViewPager(viewPager, colorBar, drawableBar);
         //Disable Shadow
         bottomNavigationView.disableShadow();
-
     }
 
-    public void changeTabTo(int tabIndex){
+    public void changeTabTo(int tabIndex) {
         bottomNavigationView.selectTab(tabIndex);
     }
 

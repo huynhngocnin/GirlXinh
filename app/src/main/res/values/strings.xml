@@ -15,5 +15,6 @@
     <string name="facebook_app_id">1131735883527080</string>
     <string name="require_login_home">Login to use social and download</string>
     <string name="require_login_love">Login to use love album</string>
+    <string name="no_photo_is_loved">No photo is loved</string>
 
 </resources>

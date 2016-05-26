@@ -175,7 +175,7 @@
             android:drawableLeft="@drawable/ic_logo_facebook_48"
             android:background="@color/colorBarHome"
             android:textColor="@android:color/white"
-            android:visibility="visible"
+            android:visibility="gone"
             android:text="@string/require_login_home"/>
 
 

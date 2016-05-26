@@ -40,7 +40,7 @@ public class UserLoveService extends AsyncTask<String, Void, List<PhotoModel>> {
 
     @Override
     protected List<PhotoModel> doInBackground(String... params) {
-        return  callService(params[0]);
+        return callService(params[0]);
     }
 
     private List<PhotoModel> callService(String userId) {
@@ -50,8 +50,11 @@ public class UserLoveService extends AsyncTask<String, Void, List<PhotoModel>> {
             Log.d(getClass().toString(), UrlConstant.PHOTO_USER_LOVE + CONDITION_START + CONDITION_USER_ID + userId);
             ResponseEntity<PhotoModel[]> responseEntity = restTemplate.getForEntity(UrlConstant.PHOTO_USER_LOVE + CONDITION_START + CONDITION_USER_ID + userId, PhotoModel[].class);
             PhotoModel[] photoArray = responseEntity.getBody();
-            List<PhotoModel> photolist = Arrays.asList(photoArray);
-            return photolist;
+            if (photoArray != null) {
+                List<PhotoModel> photolist = Arrays.asList(photoArray);
+                return photolist;
+            }
+            return new ArrayList<>();
         } catch (Exception e) {
             Log.d(getClass().toString(), e.getMessage(), e);
         }

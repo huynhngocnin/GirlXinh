@@ -34,4 +34,8 @@ public class AppValue {
     public void setUserModel(UserModel userModel) {
         this.userModel = userModel;
     }
+
+    public void clearUserModel(){
+        this.userModel = new UserModel();
+    }
 }

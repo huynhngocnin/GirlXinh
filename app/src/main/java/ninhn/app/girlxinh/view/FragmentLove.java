@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
@@ -39,6 +40,9 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
     private PullRefreshLayout pullRefreshLayout;
 
     private Button buttonLogin;
+    private TextView textNoPhoto;
+
+    private List<PhotoModel> photoModelListTemp;
 
     @Nullable
     @Override
@@ -53,19 +57,17 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
         initRecyclerView();
         initPullRefresh();
 
-        if (AppValue.getInstance().getUserModel().getId() != AppConstant.BLANK) {
-            getPhotoLove();
-        } else {
-            buttonLogin = (Button) getActivity().findViewById(R.id.button_login);
-            buttonLogin.setVisibility(View.VISIBLE);
-            buttonLogin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MainActivity mainActivity = (MainActivity) getActivity();
-                    mainActivity.changeTabTo(2);
-                }
-            });
-        }
+        textNoPhoto = (TextView) getActivity().findViewById(R.id.love_text_no_photo);
+        buttonLogin = (Button) getActivity().findViewById(R.id.love_button_login);
+        buttonLogin.setVisibility(View.VISIBLE);
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity mainActivity = (MainActivity) getActivity();
+                mainActivity.changeTabTo(2);
+            }
+        });
+
     }
 
     @Override
@@ -79,6 +81,10 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
                 setPhotoLove(PhotoLoveService.LOVE_DOWN, photoModel);
                 //Handle local
                 photoModelList.remove(photoModel);
+                if (photoModelList.size() == 0) {
+                    //Show text when have photo
+                    textNoPhoto.setVisibility(View.VISIBLE);
+                }
                 break;
             default:
                 break;
@@ -90,8 +96,16 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
         if (AppConstant.FLAG_PHOTO_LOAD == (int) objects[0]) {
             //Clear current photo list
             photoModelList.clear();
-            //Add new photo list just loaded
-            photoModelList.addAll((List<PhotoModel>) objects[1]);
+            photoModelListTemp = (List<PhotoModel>) objects[1];
+            if (photoModelListTemp != null && photoModelListTemp.size() > 0) {
+                //Add new photo list just loaded
+                photoModelList.addAll(photoModelListTemp);
+                //Remove text show when no photo
+                textNoPhoto.setVisibility(View.GONE);
+            } else {
+                //Show text when have photo
+                textNoPhoto.setVisibility(View.VISIBLE);
+            }
             //Disable refresh control
             pullRefreshLayout.setRefreshing(false);
         } else {
@@ -99,6 +113,18 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
         }
         //Update list after change
         photoLoveAdapter.notifyDataSetChanged();
+    }
+
+    public void loginDone() {
+        if (AppValue.getInstance().getUserModel().getId() != AppConstant.BLANK) {
+            getPhotoLove();
+            buttonLogin.setVisibility(View.GONE);
+        } else {
+            buttonLogin.setVisibility(View.VISIBLE);
+            photoModelList.clear();
+            //Update list after change
+            photoLoveAdapter.notifyDataSetChanged();
+        }
     }
 
     private void initRecyclerView() {

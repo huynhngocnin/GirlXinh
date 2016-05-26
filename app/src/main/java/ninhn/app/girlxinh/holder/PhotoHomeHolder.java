@@ -100,6 +100,8 @@ public class PhotoHomeHolder extends RecyclerView.ViewHolder {
 
         if (AppValue.getInstance().getUserModel().getId() != AppConstant.BLANK) {
 
+            login.setVisibility(View.GONE);
+
             imageComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -19,6 +19,7 @@ import java.util.List;
 
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.PhotoHomeAdapter;
+import ninhn.app.girlxinh.constant.AppConstant;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.listener.OnItemClickListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
@@ -27,6 +28,7 @@ import ninhn.app.girlxinh.model.PhotoModel;
 import ninhn.app.girlxinh.service.PhotoGetService;
 import ninhn.app.girlxinh.service.PhotoLoveService;
 import ninhn.app.girlxinh.until.DownloadUntil;
+import ninhn.app.girlxinh.until.ToastUntil;
 
 import static ninhn.app.girlxinh.constant.AppConstant.FLAG_PHOTO_LOAD;
 
@@ -69,22 +71,26 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
                 Toast.makeText(getContext(), "photo_item_image_comment Clicked", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.photo_item_header_image_love:
-                if (photoModel.getLove().contains(AppValue.getInstance().getUserModel().getId())) {
-                    //Call service remove love in this photo
-                    setPhotoLove(PhotoLoveService.LOVE_DOWN, photoModel);
-                    //Handle local
-                    photoModel.getLove().remove(AppValue.getInstance().getUserModel().getId());
+                if (AppValue.getInstance().getUserModel().getId() != AppConstant.BLANK) {
+                    if (photoModel.getLove().contains(AppValue.getInstance().getUserModel().getId())) {
+                        //Call service remove love in this photo
+                        setPhotoLove(PhotoLoveService.LOVE_DOWN, photoModel);
+                        //Handle local
+                        photoModel.getLove().remove(AppValue.getInstance().getUserModel().getId());
+                    } else {
+                        //Call service remove love in this photo
+                        setPhotoLove(PhotoLoveService.LOVE_UP, photoModel);
+                        //Handle local
+                        photoModel.getLove().add(AppValue.getInstance().getUserModel().getId());
+                        //Set animation after loved
+                        YoYo.with(Techniques.Swing)
+                                .duration(700)
+                                .playOn(type);
+                    }
+                    photoHomeAdapter.notifyDataSetChanged();
                 } else {
-                    //Call service remove love in this photo
-                    setPhotoLove(PhotoLoveService.LOVE_UP, photoModel);
-                    //Handle local
-                    photoModel.getLove().add(AppValue.getInstance().getUserModel().getId());
-                    //Set animation after loved
-                    YoYo.with(Techniques.Swing)
-                            .duration(700)
-                            .playOn(type);
+                    ToastUntil.showLong(getActivity(), getString(R.string.require_login_love));
                 }
-                photoHomeAdapter.notifyDataSetChanged();
                 break;
             case R.id.photo_item_footer_image_download:
                 DownloadUntil.downloadPhoto(getActivity(), photoModel);

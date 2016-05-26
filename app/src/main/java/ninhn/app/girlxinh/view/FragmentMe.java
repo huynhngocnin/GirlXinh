@@ -3,6 +3,7 @@ package ninhn.app.girlxinh.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -72,13 +73,14 @@ public class FragmentMe extends Fragment implements TaskListener {
     public void onResultAvailable(Object... objects) {
         UserModel userModel = (UserModel) objects[0];
         if (userModel != null) {
-            //Set cover profile
-            setCoverInfo(userModel);
             //Save user info to local
             MyApplication.getInstance().getPrefManager().saveUser(userModel);
+            //Set to gloval
+            AppValue.getInstance().setUserModel(userModel);
 
+            Toast.makeText(getActivity(),AppValue.getInstance().getUserModel().getId(),Toast.LENGTH_LONG).show();
         } else {
-
+            Snackbar.make(textName, "Login fail. please try again!", Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -155,7 +157,7 @@ public class FragmentMe extends Fragment implements TaskListener {
                     MyApplication.getInstance().getPrefManager().clearUser();
                     clearCoverInfo();
                     //Set to gloval
-                    AppValue.getInstance().setUserModel(new UserModel());
+                    AppValue.getInstance().clearUserModel();
                 }
             }
         };
@@ -204,10 +206,6 @@ public class FragmentMe extends Fragment implements TaskListener {
             userRegisterService.execute(userModel);
             //Set profile info
             setCoverInfo(userModel);
-            //Save user
-            MyApplication.getInstance().getPrefManager().saveUser(userModel);
-            //Set to gloval
-            AppValue.getInstance().setUserModel(userModel);
         }
     }
 

@@ -2,11 +2,13 @@ package ninhn.app.girlxinh.model;
 
 import java.util.Date;
 
+import ninhn.app.girlxinh.constant.AppConstant;
+
 /**
  * Created by NinHN on 5/23/16.
  */
 public class Model {
-    private String id;
+    private String id = AppConstant.BLANK;
     private Date lastUpTime;
     private Date createTime;
 
