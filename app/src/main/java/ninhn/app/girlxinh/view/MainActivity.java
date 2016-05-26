@@ -1,6 +1,7 @@
 package ninhn.app.girlxinh.view;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.ViewPagerAdapter;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.model.DeviceInfo;
+import ninhn.app.girlxinh.until.ToastUntil;
 
 import static ninhn.app.girlxinh.constant.AppConstant.HOME;
 import static ninhn.app.girlxinh.constant.AppConstant.LOVE;
@@ -106,6 +108,11 @@ public class MainActivity extends AppCompatActivity {
         AppEventsLogger.deactivateApp(this);
     }
 
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        super.onAttachFragment(fragment);
+    }
+
     private void initViewPager() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -113,22 +120,24 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new FragmentLove(), LOVE);
         adapter.addFragment(new FragmentMe(), ME);
         viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (1 == position) {
-                    ((FragmentLove) getSupportFragmentManager().getFragments().get(1)).loginDone();
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
+//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//            }
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                ToastUntil.showLong(getApplication(), "Fragment: " +position);
+//                if (1 == position) {
+//                    ((FragmentLove) getSupportFragmentManager().getFragments().get(1)).loginDone();
+//                    ToastUntil.showShort(getApplication(), getSupportFragmentManager().getFragments().get(1).getClass().toString());
+//                }
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//            }
+//        });
     }
 
     private void initBottomNavigation() {

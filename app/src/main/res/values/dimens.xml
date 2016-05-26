@@ -41,5 +41,6 @@
     <dimen name="me_cover_text_margin">8dp</dimen>
 
     <dimen name="love_text_no_photo_is_loved">24sp</dimen>
+    <dimen name="love_layout_padding">6dp</dimen>
 
 </resources>

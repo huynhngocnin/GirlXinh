@@ -21,6 +21,7 @@ import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.PhotoHomeAdapter;
 import ninhn.app.girlxinh.constant.AppConstant;
 import ninhn.app.girlxinh.helper.AppValue;
+import ninhn.app.girlxinh.helper.BusProvider;
 import ninhn.app.girlxinh.listener.OnItemClickListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
 import ninhn.app.girlxinh.listener.TaskListener;

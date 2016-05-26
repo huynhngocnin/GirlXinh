@@ -23,6 +23,8 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.login.widget.ProfilePictureView;
+import com.squareup.otto.Produce;
+import com.squareup.otto.Subscribe;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +34,9 @@ import ninhn.app.girlxinh.MyApplication;
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.constant.AppConstant;
 import ninhn.app.girlxinh.constant.JSONConstant;
+import ninhn.app.girlxinh.event.LoginChangedEvent;
 import ninhn.app.girlxinh.helper.AppValue;
+import ninhn.app.girlxinh.helper.BusProvider;
 import ninhn.app.girlxinh.helper.MyPreferenceManager;
 import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.UserModel;
@@ -49,24 +53,42 @@ public class FragmentMe extends Fragment implements TaskListener {
     private ProfilePictureView profilePictureView;
     private CallbackManager callbackManager;
 
+    private int loginStatus = AppConstant.BUS_LOGOUT;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.content_me, container, false);
+        return inflater.inflate(R.layout.content_me, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         //Register callback
         callbackManager = CallbackManager.Factory.create();
 
         //Map control to component
-        mapComponent(view);
+        mapComponent();
         //Set profile show if login before
         setCoverInfo(MyApplication.getInstance().getPrefManager().getUser());
         //Handle callback after login success
         registerLogin();
         //Handle callback after logout
         handleLogout();
+    }
 
-        return view;
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Register ourselves so that we can provide the initial value.
+        BusProvider.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.getInstance().unregister(this);
     }
 
     @Override
@@ -77,20 +99,22 @@ public class FragmentMe extends Fragment implements TaskListener {
             MyApplication.getInstance().getPrefManager().saveUser(userModel);
             //Set to gloval
             AppValue.getInstance().setUserModel(userModel);
-
-            Toast.makeText(getActivity(),AppValue.getInstance().getUserModel().getId(),Toast.LENGTH_LONG).show();
+            //Set status login
+            loginStatus = AppConstant.BUS_LOGIN;
+            //Set change status of Bus
+            BusProvider.getInstance().post(produceLoginEvent());
         } else {
             Snackbar.make(textName, "Login fail. please try again!", Snackbar.LENGTH_SHORT).show();
         }
     }
 
-    private void mapComponent(View view) {
-        me_info = (TextView) view.findViewById(R.id.me_info);
-        textName = (TextView) view.findViewById(R.id.me_cover_text_name);
+    private void mapComponent() {
+        me_info = (TextView) getActivity().findViewById(R.id.me_info);
+        textName = (TextView) getActivity().findViewById(R.id.me_cover_text_name);
         //Fix full name in single line
         AutofitHelper.create(textName);
-        profilePictureView = (ProfilePictureView) view.findViewById(R.id.image_face);
-        loginButton = (LoginButton) view.findViewById(R.id.login_button);
+        profilePictureView = (ProfilePictureView) getActivity().findViewById(R.id.image_face);
+        loginButton = (LoginButton) getActivity().findViewById(R.id.login_button);
         // If using in a fragment
         loginButton.setFragment(this);
     }
@@ -158,6 +182,10 @@ public class FragmentMe extends Fragment implements TaskListener {
                     clearCoverInfo();
                     //Set to gloval
                     AppValue.getInstance().clearUserModel();
+                    //Set status login
+                    loginStatus = AppConstant.BUS_LOGOUT;
+                    //Set change status of Bus
+                    BusProvider.getInstance().post(produceLoginEvent());
                 }
             }
         };
@@ -213,5 +241,10 @@ public class FragmentMe extends Fragment implements TaskListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Produce public LoginChangedEvent produceLoginEvent() {
+        // Provide an initial value for location based on the last known position.
+        return new LoginChangedEvent(this.loginStatus);
     }
 }

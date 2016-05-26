@@ -9,12 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,9 @@ import java.util.List;
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.PhotoLoveAdapter;
 import ninhn.app.girlxinh.constant.AppConstant;
+import ninhn.app.girlxinh.event.LoginChangedEvent;
 import ninhn.app.girlxinh.helper.AppValue;
+import ninhn.app.girlxinh.helper.BusProvider;
 import ninhn.app.girlxinh.listener.OnItemClickListener;
 import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.PhotoModel;
@@ -39,6 +41,7 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
     private PhotoLoveAdapter photoLoveAdapter;
     private PullRefreshLayout pullRefreshLayout;
 
+    private LinearLayout linearLogin;
     private Button buttonLogin;
     private TextView textNoPhoto;
 
@@ -57,9 +60,8 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
         initRecyclerView();
         initPullRefresh();
 
-        textNoPhoto = (TextView) getActivity().findViewById(R.id.love_text_no_photo);
+        linearLogin = (LinearLayout) getActivity().findViewById(R.id.love_linear_login);
         buttonLogin = (Button) getActivity().findViewById(R.id.love_button_login);
-        buttonLogin.setVisibility(View.VISIBLE);
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +70,27 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
             }
         });
 
+        textNoPhoto = (TextView) getActivity().findViewById(R.id.love_text_no_photo);
+
+        loginDone();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Register ourselves so that we can provide the initial value.
+        BusProvider.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.getInstance().unregister(this);
+    }
+
+    @Subscribe
+    public void onLoginChanged(LoginChangedEvent event) {
+        loginDone();
     }
 
     @Override
@@ -115,12 +138,12 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
         photoLoveAdapter.notifyDataSetChanged();
     }
 
-    public void loginDone() {
+    private void loginDone() {
         if (AppValue.getInstance().getUserModel().getId() != AppConstant.BLANK) {
             getPhotoLove();
-            buttonLogin.setVisibility(View.GONE);
+            linearLogin.setVisibility(View.GONE);
         } else {
-            buttonLogin.setVisibility(View.VISIBLE);
+            linearLogin.setVisibility(View.VISIBLE);
             photoModelList.clear();
             //Update list after change
             photoLoveAdapter.notifyDataSetChanged();

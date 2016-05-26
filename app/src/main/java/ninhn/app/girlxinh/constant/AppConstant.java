@@ -35,4 +35,8 @@ public class AppConstant {
     public static final String USER_AVATAR = "userAvatar";
     public static final String USER_CREATED = "userCreated";
 
+    //Logout
+    public static final int BUS_LOGOUT = 0;
+    //Login
+    public static final int BUS_LOGIN = 1;
 }
