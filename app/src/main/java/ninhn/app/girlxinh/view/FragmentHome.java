@@ -1,13 +1,18 @@
 package ninhn.app.girlxinh.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
@@ -69,7 +74,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
     public void onItemClick(PhotoModel photoModel, View type) {
         switch (type.getId()) {
             case R.id.photo_item_footer_image_comment:
-                Toast.makeText(getContext(), "photo_item_image_comment Clicked", Toast.LENGTH_SHORT).show();
+                showComment(photoModel);
                 break;
             case R.id.photo_item_header_image_love:
                 if (AppValue.getInstance().getUserModel().getId() != AppConstant.BLANK) {
@@ -195,6 +200,12 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
 
     }
 
+    private void showComment(PhotoModel photo){
+        Intent intent = new Intent(getActivity(), CommentActivity.class);
+        intent.putExtra("url", "http://vngirl.xyz/app");
+        startActivity(intent);
+    }
+
     private void initPullRefresh() {
         //Map component to control
         pullRefreshLayout = (PullRefreshLayout) getActivity().findViewById(R.id.pullRefreshLayout_home);
@@ -208,7 +219,6 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
             }
         });
     }
-
 
     //    private void hideViews() {
 //        mToolbar.animate().translationY(-mToolbar.getHeight()).setInterpolator(new AccelerateInterpolator(2));
