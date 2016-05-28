@@ -1,5 +1,6 @@
 package ninhn.app.girlxinh.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import java.util.List;
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.PhotoLoveAdapter;
 import ninhn.app.girlxinh.constant.AppConstant;
+import ninhn.app.girlxinh.constant.UrlConstant;
 import ninhn.app.girlxinh.event.LoginChangedEvent;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.helper.BusProvider;
@@ -97,7 +99,8 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
     public void onItemClick(PhotoModel photoModel, View type) {
         switch (type.getId()) {
             case R.id.photo_item_footer_image_comment:
-                break;
+                showComment(photoModel);
+            break;
             case R.id.photo_item_header_image_love:
                 photoLoveAdapter.notifyDataSetChanged();
                 //Call service remove love in this photo
@@ -184,5 +187,11 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
                 getPhotoLove();
             }
         });
+    }
+
+    private void showComment (PhotoModel photo){
+        Intent intent = new Intent(getActivity(), CommentActivity.class);
+        intent.putExtra(CommentActivity.COMMENT_URL, UrlConstant.SOCIAL_URL + photo.getId());
+        startActivity(intent);
     }
 }

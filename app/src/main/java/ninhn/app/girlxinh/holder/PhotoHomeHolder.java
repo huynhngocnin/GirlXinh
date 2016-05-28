@@ -17,15 +17,14 @@ import com.squareup.picasso.Picasso;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import ninhn.app.girlxinh.MyApplication;
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.constant.AppConstant;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.listener.OnItemClickListener;
 import ninhn.app.girlxinh.model.PhotoModel;
 
-import static ninhn.app.girlxinh.constant.UrlConstant.BASE_URL;
 import static ninhn.app.girlxinh.constant.UrlConstant.PHOTO_GET;
+import static ninhn.app.girlxinh.constant.UrlConstant.SOCIAL_URL;
 
 /**
  * Created by NinHN on 4/7/16.
@@ -111,11 +110,11 @@ public class PhotoHomeHolder extends RecyclerView.ViewHolder {
 
             likeButton.setLikeViewStyle(LikeView.Style.BUTTON);
             likeButton.setObjectIdAndType(
-                    BASE_URL + PHOTO_GET + photoModel.getId(),
+                    SOCIAL_URL + photoModel.getId(),
                     LikeView.ObjectType.DEFAULT);
 
             ShareLinkContent content = new ShareLinkContent.Builder()
-                    .setContentUrl(Uri.parse(BASE_URL + PHOTO_GET + photoModel.getId()))
+                    .setContentUrl(Uri.parse(SOCIAL_URL + photoModel.getId()))
                     .build();
             shareButton.setShareContent(content);
 

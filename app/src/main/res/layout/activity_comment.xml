@@ -6,6 +6,7 @@
     tools:context="ninhn.app.girlxinh.view.CommentActivity">
 
     <ProgressBar
+        android:id="@+id/comment_progress"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

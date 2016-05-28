@@ -25,6 +25,7 @@ import java.util.List;
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.PhotoHomeAdapter;
 import ninhn.app.girlxinh.constant.AppConstant;
+import ninhn.app.girlxinh.constant.UrlConstant;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.helper.BusProvider;
 import ninhn.app.girlxinh.listener.OnItemClickListener;
@@ -202,7 +203,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
 
     private void showComment(PhotoModel photo){
         Intent intent = new Intent(getActivity(), CommentActivity.class);
-        intent.putExtra("url", "http://vngirl.xyz/app");
+        intent.putExtra(CommentActivity.COMMENT_URL, UrlConstant.SOCIAL_URL + photo.getId());
         startActivity(intent);
     }
 
