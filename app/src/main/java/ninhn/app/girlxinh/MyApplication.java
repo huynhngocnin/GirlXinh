@@ -1,12 +1,14 @@
 package ninhn.app.girlxinh;
 
 import android.app.Application;
+import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.onesignal.OneSignal;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.Picasso;
 
+import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.helper.MyPreferenceManager;
 
 /**
@@ -33,6 +35,10 @@ public class MyApplication extends Application {
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         OneSignal.startInit(this).init();
+
+        System.setProperty("http.keepAlive", "false");
+
+        initUser();
     }
 
     public static synchronized MyApplication getInstance() {
@@ -44,6 +50,11 @@ public class MyApplication extends Application {
             pref = new MyPreferenceManager(this);
         }
         return pref;
+    }
+
+    private void initUser() {
+        AppValue.getInstance().setUserModel(MyApplication.getInstance().getPrefManager().getUser());
+        AppValue.getInstance().setLogin(MyApplication.getInstance().getPrefManager().isLogin());
     }
 
 }

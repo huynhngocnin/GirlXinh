@@ -11,6 +11,7 @@ public class AppValue {
     private static AppValue instace;
     private DeviceInfo deviceInfo;
     private UserModel userModel;
+    private boolean isLogin;
 
     public static AppValue getInstance() {
         if (instace == null) {
@@ -37,5 +38,13 @@ public class AppValue {
 
     public void clearUserModel(){
         this.userModel = new UserModel();
+    }
+
+    public boolean isLogin() {
+        return isLogin;
+    }
+
+    public void setLogin(boolean login) {
+        isLogin = login;
     }
 }

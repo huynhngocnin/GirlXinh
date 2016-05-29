@@ -8,7 +8,7 @@ import ninhn.app.girlxinh.constant.AppConstant;
  * Created by NinHN on 5/23/16.
  */
 public class Model {
-    private String id = AppConstant.BLANK;
+    private String id;
     private Date lastUpTime;
     private Date createTime;
 

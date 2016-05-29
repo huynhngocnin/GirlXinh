@@ -22,6 +22,16 @@
             android:layout_marginRight="@dimen/photo_item_margin_left" />
     </com.baoyz.widget.PullRefreshLayout>
 
+    <TextView
+        android:id="@+id/love_text_no_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:text="@string/no_photo_is_loved"
+        android:textSize="@dimen/love_text_no_photo_is_loved"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/love_linear_login"
         android:layout_width="match_parent"
@@ -42,14 +52,6 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/love_text_no_photo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:gravity="center"
-        android:text="@string/no_photo_is_loved"
-        android:textSize="@dimen/love_text_no_photo_is_loved"
-        android:visibility="gone" />
+
 
 </RelativeLayout>

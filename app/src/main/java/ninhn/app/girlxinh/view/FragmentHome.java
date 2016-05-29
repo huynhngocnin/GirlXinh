@@ -90,7 +90,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
                 break;
             case R.id.photo_item_header_image_love:
                 if (ConnectionUntil.isConnection(getActivity())) {
-                    if (AppValue.getInstance().getUserModel().getId() != AppConstant.BLANK) {
+                    if (AppValue.getInstance().isLogin()) {
                         if (photoModel.getLove().contains(AppValue.getInstance().getUserModel().getId())) {
                             //Call service remove love in this photo
                             setPhotoLove(PhotoLoveService.LOVE_DOWN, photoModel);

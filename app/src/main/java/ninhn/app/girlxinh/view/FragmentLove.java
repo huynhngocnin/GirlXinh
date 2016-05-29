@@ -152,7 +152,7 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
     }
 
     private void loginDone() {
-        if (AppValue.getInstance().getUserModel().getId() != AppConstant.BLANK) {
+        if (AppValue.getInstance().isLogin()) {
             getPhotoLove();
             linearLogin.setVisibility(View.GONE);
         } else {

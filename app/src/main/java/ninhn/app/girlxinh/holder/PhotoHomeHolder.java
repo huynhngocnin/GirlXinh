@@ -97,7 +97,7 @@ public class PhotoHomeHolder extends RecyclerView.ViewHolder {
 
         view.setText(NumberFormat.getNumberInstance(Locale.US).format(photoModel.getView()));
 
-        if (AppValue.getInstance().getUserModel().getId() != AppConstant.BLANK) {
+        if (AppValue.getInstance().isLogin()) {
 
             login.setVisibility(View.GONE);
 

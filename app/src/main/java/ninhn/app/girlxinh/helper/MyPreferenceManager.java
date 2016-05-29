@@ -10,6 +10,7 @@ import ninhn.app.girlxinh.model.UserModel;
 
 import static ninhn.app.girlxinh.constant.AppConstant.BLANK;
 import static ninhn.app.girlxinh.constant.AppConstant.USER_ID;
+import static ninhn.app.girlxinh.constant.AppConstant.USER_LOGIN;
 import static ninhn.app.girlxinh.constant.AppConstant.USER_NAME;
 import static ninhn.app.girlxinh.constant.AppConstant.USER_AVATAR;
 import static ninhn.app.girlxinh.constant.AppConstant.USER_EMAIL;
@@ -49,6 +50,15 @@ public class MyPreferenceManager {
         editorUser = prefUser.edit();
     }
 
+    public void setLogin(boolean isLogin){
+        editorUser.putBoolean(USER_LOGIN, isLogin);
+        editorUser.commit();
+    }
+
+    public boolean isLogin(){
+        return prefUser.getBoolean(USER_LOGIN, false);
+    }
+
     public void saveUser(UserModel userModel) {
         editorUser.putString(USER_ID, userModel.getId());
         editorUser.putString(USER_NAME, userModel.getName());
@@ -64,7 +74,7 @@ public class MyPreferenceManager {
 
     public UserModel getUser() {
         UserModel userModel = new UserModel();
-        userModel.setId(prefUser.getString(USER_ID, BLANK));
+        userModel.setId(prefUser.getString(USER_ID, null));
         userModel.setName(prefUser.getString(USER_NAME, BLANK));
         userModel.setEmail(prefUser.getString(USER_EMAIL, BLANK));
         userModel.setPhone(prefUser.getString(USER_PHONE, BLANK));

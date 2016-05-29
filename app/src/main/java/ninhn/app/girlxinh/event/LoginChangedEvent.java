@@ -4,17 +4,17 @@ package ninhn.app.girlxinh.event;
  * Created by NinHN on 5/27/16.
  */
 public class LoginChangedEvent {
-    private int status;
+    private boolean status;
 
-    public LoginChangedEvent(int status){
+    public LoginChangedEvent(boolean status){
         this.status = status;
     }
 
-    public int getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 }

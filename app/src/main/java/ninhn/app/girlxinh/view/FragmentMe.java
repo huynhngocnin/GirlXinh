@@ -51,7 +51,7 @@ public class FragmentMe extends Fragment implements TaskListener {
     private ProfilePictureView profilePictureView;
     private CallbackManager callbackManager;
 
-    private int loginStatus = AppConstant.BUS_LOGOUT;
+    //private int loginStatus = AppConstant.BUS_LOGOUT;
 
     @Nullable
     @Override
@@ -69,7 +69,7 @@ public class FragmentMe extends Fragment implements TaskListener {
         //Map control to component
         mapComponent();
         //Set profile show if login before
-        setCoverInfo(MyApplication.getInstance().getPrefManager().getUser());
+        setCoverInfo(AppValue.getInstance().getUserModel());
         //Handle callback after login success
         registerLogin();
         //Handle callback after logout
@@ -95,14 +95,16 @@ public class FragmentMe extends Fragment implements TaskListener {
         if (userModel != null) {
             //Save user info to local
             MyApplication.getInstance().getPrefManager().saveUser(userModel);
-            //Set to gloval
+            //Save login to local
+            MyApplication.getInstance().getPrefManager().setLogin(true);
+            //Set to global
             AppValue.getInstance().setUserModel(userModel);
             //Set status login
-            loginStatus = AppConstant.BUS_LOGIN;
+            AppValue.getInstance().setLogin(true);
             //Set change status of Bus
             BusProvider.getInstance().post(produceLoginEvent());
         } else {
-            Snackbar.make(textName, "Login fail. please try again!", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(textName, getString(R.string.login_fail), Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -174,12 +176,16 @@ public class FragmentMe extends Fragment implements TaskListener {
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,
                                                        AccessToken currentAccessToken) {
                 if (currentAccessToken == null) {
+                    //Clear user info in local
                     MyApplication.getInstance().getPrefManager().clearUser();
+                    //Set login is false
+                    MyApplication.getInstance().getPrefManager().setLogin(false);
+                    //Clear cover info
                     clearCoverInfo();
                     //Set to gloval
                     AppValue.getInstance().clearUserModel();
                     //Set status login
-                    loginStatus = AppConstant.BUS_LOGOUT;
+                    AppValue.getInstance().setLogin(false);
                     //Set change status of Bus
                     BusProvider.getInstance().post(produceLoginEvent());
                 }
@@ -239,8 +245,9 @@ public class FragmentMe extends Fragment implements TaskListener {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Produce public LoginChangedEvent produceLoginEvent() {
+    @Produce
+    public LoginChangedEvent produceLoginEvent() {
         // Provide an initial value for location based on the last known position.
-        return new LoginChangedEvent(this.loginStatus);
+        return new LoginChangedEvent(AppValue.getInstance().isLogin());
     }
 }
