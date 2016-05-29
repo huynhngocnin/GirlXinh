@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.squareup.otto.Subscribe;
@@ -33,6 +32,7 @@ import ninhn.app.girlxinh.model.PhotoModel;
 import ninhn.app.girlxinh.service.PhotoLoveService;
 import ninhn.app.girlxinh.service.UserLoveService;
 import ninhn.app.girlxinh.until.ConnectionUntil;
+import ninhn.app.girlxinh.until.DialogUntil;
 import ninhn.app.girlxinh.until.ToastUntil;
 
 /**
@@ -101,17 +101,25 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
     public void onItemClick(PhotoModel photoModel, View type) {
         switch (type.getId()) {
             case R.id.photo_item_footer_image_comment:
-                showComment(photoModel);
-            break;
+                if (ConnectionUntil.isConnection(getActivity())) {
+                    showComment(photoModel);
+                } else {
+                    DialogUntil.showNetworkStage(getActivity(), false);
+                }
+                break;
             case R.id.photo_item_header_image_love:
-                photoLoveAdapter.notifyDataSetChanged();
-                //Call service remove love in this photo
-                setPhotoLove(PhotoLoveService.LOVE_DOWN, photoModel);
-                //Handle local
-                photoModelList.remove(photoModel);
-                if (photoModelList.size() == 0) {
-                    //Show text when have photo
-                    textNoPhoto.setVisibility(View.VISIBLE);
+                if (ConnectionUntil.isConnection(getActivity())) {
+                    photoLoveAdapter.notifyDataSetChanged();
+                    //Call service remove love in this photo
+                    setPhotoLove(PhotoLoveService.LOVE_DOWN, photoModel);
+                    //Handle local
+                    photoModelList.remove(photoModel);
+                    if (photoModelList.size() == 0) {
+                        //Show text when have photo
+                        textNoPhoto.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    DialogUntil.showNetworkStage(getActivity(), false);
                 }
                 break;
             default:
@@ -185,10 +193,10 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
         pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if(!ConnectionUntil.isConnection(getActivity())){
+                if (!ConnectionUntil.isConnection(getActivity())) {
                     ToastUntil.showShort(getActivity(), getString(R.string.network_connect_no));
                     pullRefreshLayout.setRefreshing(false);
-                }else {
+                } else {
                     // start refresh
                     getPhotoLove();
                 }
@@ -196,7 +204,7 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
         });
     }
 
-    private void showComment (PhotoModel photo){
+    private void showComment(PhotoModel photo) {
         Intent intent = new Intent(getActivity(), CommentActivity.class);
         intent.putExtra(CommentActivity.COMMENT_URL, UrlConstant.SOCIAL_URL + photo.getId());
         startActivity(intent);

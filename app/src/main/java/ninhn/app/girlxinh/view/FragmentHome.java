@@ -4,16 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.WebView;
-import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.daimajia.androidanimations.library.Techniques;
@@ -37,6 +32,7 @@ import ninhn.app.girlxinh.model.PhotoModel;
 import ninhn.app.girlxinh.service.PhotoGetService;
 import ninhn.app.girlxinh.service.PhotoLoveService;
 import ninhn.app.girlxinh.until.ConnectionUntil;
+import ninhn.app.girlxinh.until.DialogUntil;
 import ninhn.app.girlxinh.until.DownloadUntil;
 import ninhn.app.girlxinh.until.ToastUntil;
 
@@ -78,32 +74,44 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
     public void onItemClick(PhotoModel photoModel, View type) {
         switch (type.getId()) {
             case R.id.photo_item_footer_image_comment:
-                showComment(photoModel);
+                if (ConnectionUntil.isConnection(getActivity())) {
+                    showComment(photoModel);
+                } else {
+                    DialogUntil.showNetworkStage(getActivity(), false);
+                }
                 break;
             case R.id.photo_item_header_image_love:
-                if (AppValue.getInstance().getUserModel().getId() != AppConstant.BLANK) {
-                    if (photoModel.getLove().contains(AppValue.getInstance().getUserModel().getId())) {
-                        //Call service remove love in this photo
-                        setPhotoLove(PhotoLoveService.LOVE_DOWN, photoModel);
-                        //Handle local
-                        photoModel.getLove().remove(AppValue.getInstance().getUserModel().getId());
+                if (ConnectionUntil.isConnection(getActivity())) {
+                    if (AppValue.getInstance().getUserModel().getId() != AppConstant.BLANK) {
+                        if (photoModel.getLove().contains(AppValue.getInstance().getUserModel().getId())) {
+                            //Call service remove love in this photo
+                            setPhotoLove(PhotoLoveService.LOVE_DOWN, photoModel);
+                            //Handle local
+                            photoModel.getLove().remove(AppValue.getInstance().getUserModel().getId());
+                        } else {
+                            //Call service remove love in this photo
+                            setPhotoLove(PhotoLoveService.LOVE_UP, photoModel);
+                            //Handle local
+                            photoModel.getLove().add(AppValue.getInstance().getUserModel().getId());
+                            //Set animation after loved
+                            YoYo.with(Techniques.Swing)
+                                    .duration(700)
+                                    .playOn(type);
+                        }
+                        photoHomeAdapter.notifyDataSetChanged();
                     } else {
-                        //Call service remove love in this photo
-                        setPhotoLove(PhotoLoveService.LOVE_UP, photoModel);
-                        //Handle local
-                        photoModel.getLove().add(AppValue.getInstance().getUserModel().getId());
-                        //Set animation after loved
-                        YoYo.with(Techniques.Swing)
-                                .duration(700)
-                                .playOn(type);
+                        ToastUntil.showLong(getActivity(), getString(R.string.require_login_love));
                     }
-                    photoHomeAdapter.notifyDataSetChanged();
                 } else {
-                    ToastUntil.showLong(getActivity(), getString(R.string.require_login_love));
+                    DialogUntil.showNetworkStage(getActivity(), false);
                 }
                 break;
             case R.id.photo_item_footer_image_download:
-                DownloadUntil.downloadPhoto(getActivity(), photoModel);
+                if (ConnectionUntil.isConnection(getActivity())) {
+                    DownloadUntil.downloadPhoto(getActivity(), photoModel);
+                } else {
+                    DialogUntil.showNetworkStage(getActivity(), false);
+                }
                 break;
             case R.id.photo_item_footer_button_login:
                 MainActivity mainActivity = (MainActivity) getActivity();
@@ -113,6 +121,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
                 break;
 
         }
+
     }
 
     @Override
