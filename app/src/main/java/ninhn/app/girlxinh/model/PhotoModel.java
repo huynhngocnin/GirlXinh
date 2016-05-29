@@ -4,17 +4,19 @@ package ninhn.app.girlxinh.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import ninhn.app.girlxinh.constant.AppConstant;
+
 /**
  * Created by ninhn on 4/7/2016.
  */
-public class PhotoModel extends Model{
-    private String uploadAvatar;
-    private String name;
-    private String description;
-    private String url;
-    private String uploadId;
-    private String uploadName;
-    private long view;
+public class PhotoModel extends Model {
+    private String uploadAvatar = AppConstant.BLANK;
+    private String name = AppConstant.BLANK;
+    private String description = AppConstant.BLANK;
+    private String url = AppConstant.BLANK;
+    private String uploadId = AppConstant.BLANK;
+    private String uploadName = AppConstant.BLANK;
+    private long view = 0;
     private List<String> love = new ArrayList<>();
 
 

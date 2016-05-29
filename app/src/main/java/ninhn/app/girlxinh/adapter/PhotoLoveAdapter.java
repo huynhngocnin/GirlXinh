@@ -76,7 +76,7 @@ public class PhotoLoveAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             View view = LayoutInflater.from(this.context).inflate(R.layout.photo_item, parent, false);
             return new PhotoLoveHolder(view);
         } else if (viewType == VIEW_TYPE_LOADING) {
-            View view = LayoutInflater.from(this.context).inflate(R.layout.layout_loading_item, parent, false);
+            View view = LayoutInflater.from(this.context).inflate(R.layout.loading_item, parent, false);
             return new LoadingViewHolder(view);
         }
         return null;

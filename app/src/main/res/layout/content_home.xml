@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/darker_gray"
+    android:paddingLeft="@dimen/photo_list_padding"
+    android:paddingRight="@dimen/photo_list_padding"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.MainActivity">
 

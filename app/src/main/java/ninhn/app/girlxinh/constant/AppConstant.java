@@ -39,4 +39,7 @@ public class AppConstant {
     public static final int BUS_LOGOUT = 0;
     //Login
     public static final int BUS_LOGIN = 1;
+
+    public static final int ADMOB_INIT_POSITION = -1;
+    public static final int ADMOB_CYCLE_SHOW = 10;
 }

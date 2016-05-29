@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import ninhn.app.girlxinh.R;
+import ninhn.app.girlxinh.holder.AdmobViewHolder;
 import ninhn.app.girlxinh.holder.LoadingViewHolder;
 import ninhn.app.girlxinh.holder.PhotoHomeHolder;
 import ninhn.app.girlxinh.listener.OnItemClickListener;
@@ -22,6 +23,7 @@ import ninhn.app.girlxinh.model.PhotoModel;
 public class PhotoHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
+    private final int VIEW_TYPE_ADMOB = 2;
 
     private Context context;
     private List<PhotoModel> photoModelList;
@@ -67,17 +69,29 @@ public class PhotoHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        return photoModelList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+        if (photoModelList.get(position) != null) {
+            if (!context.getString(R.string.banner_ad_unit_id).equals(photoModelList.get(position).getId())) {
+                return VIEW_TYPE_ITEM;
+            } else {
+                return VIEW_TYPE_ADMOB;
+            }
+        } else {
+            return VIEW_TYPE_LOADING;
+        }
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
         if (viewType == VIEW_TYPE_ITEM) {
-            View view = LayoutInflater.from(this.context).inflate(R.layout.photo_item, parent, false);
+            view = LayoutInflater.from(this.context).inflate(R.layout.photo_item, parent, false);
             return new PhotoHomeHolder(view);
         } else if (viewType == VIEW_TYPE_LOADING) {
-            View view = LayoutInflater.from(this.context).inflate(R.layout.layout_loading_item, parent, false);
+            view = LayoutInflater.from(this.context).inflate(R.layout.loading_item, parent, false);
             return new LoadingViewHolder(view);
+        } else if (viewType == VIEW_TYPE_ADMOB) {
+            view = LayoutInflater.from(this.context).inflate(R.layout.admob_item, parent, false);
+            return new AdmobViewHolder(view);
         }
         return null;
     }
@@ -89,6 +103,8 @@ public class PhotoHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);
+        } else if (holder instanceof AdmobViewHolder) {
+            //Dont handle
         }
     }
 

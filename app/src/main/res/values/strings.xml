@@ -24,4 +24,5 @@
     <string name="network_connect_no">Unable access internet, please check internet connection</string>
     <string name="network_connect_yes">Internet is connected</string>
 
+    <string name="banner_ad_unit_id">ca-app-pub-8284127915682026/7328378938</string>
 </resources>
