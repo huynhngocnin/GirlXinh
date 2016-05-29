@@ -193,21 +193,18 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
     }
 
     private void getPhotoMore() {
-        Toast.makeText(getActivity(), "Getmore", Toast.LENGTH_SHORT).show();
         PhotoGetService photoGetService = new PhotoGetService(FLAG_PAGE_MORE);
         photoGetService.addListener(this);
         photoGetService.execute(page);
     }
 
     private void getPhotoPage() {
-        Toast.makeText(getActivity(), "GetPage", Toast.LENGTH_SHORT).show();
         PhotoGetService photoGetService = new PhotoGetService(FLAG_PAGE_ONE);
         photoGetService.addListener(this);
         photoGetService.execute(0);
     }
 
     private void getPhotoRefresh() {
-        Toast.makeText(getActivity(), "Refresh", Toast.LENGTH_SHORT).show();
         PhotoGetService photoGetService = new PhotoGetService(FLAG_REFRESH);
         photoGetService.addListener(this);
         photoGetService.execute(0);
