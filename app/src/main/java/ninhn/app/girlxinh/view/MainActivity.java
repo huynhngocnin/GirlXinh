@@ -17,6 +17,8 @@ import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.ViewPagerAdapter;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.model.DeviceInfo;
+import ninhn.app.girlxinh.until.ConnectionUntil;
+import ninhn.app.girlxinh.until.DialogUntil;
 import ninhn.app.girlxinh.until.ToastUntil;
 
 import static ninhn.app.girlxinh.constant.AppConstant.HOME;
@@ -90,11 +92,16 @@ public class MainActivity extends AppCompatActivity {
         initBottomNavigation();
 
         initUser();
+
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
+
+        if (!ConnectionUntil.isConnection(this)) {
+            DialogUntil.showNetworkStage(this, false);
+        }
 
         // Logs 'install' and 'app activate' App Events.
         AppEventsLogger.activateApp(this);

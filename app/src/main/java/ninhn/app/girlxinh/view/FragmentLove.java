@@ -32,6 +32,8 @@ import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.PhotoModel;
 import ninhn.app.girlxinh.service.PhotoLoveService;
 import ninhn.app.girlxinh.service.UserLoveService;
+import ninhn.app.girlxinh.until.ConnectionUntil;
+import ninhn.app.girlxinh.until.ToastUntil;
 
 /**
  * Created by NinHN on 4/10/16.
@@ -183,8 +185,13 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
         pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // start refresh
-                getPhotoLove();
+                if(!ConnectionUntil.isConnection(getActivity())){
+                    ToastUntil.showShort(getActivity(), getString(R.string.network_connect_no));
+                    pullRefreshLayout.setRefreshing(false);
+                }else {
+                    // start refresh
+                    getPhotoLove();
+                }
             }
         });
     }

@@ -16,7 +16,7 @@
         <activity
             android:name=".view.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,7 +38,17 @@
             android:authorities="com.facebook.app.FacebookContentProvider1131735883527080"
             android:exported="true" />
 
-        <activity android:name=".view.CommentActivity"></activity>
+        <activity
+            android:name=".view.CommentActivity"
+            android:theme="@style/AppTheme"></activity>
+
+        <receiver
+            android:name=".receiver.NetworkChangeReceiver"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

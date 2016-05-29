@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.baoyz.widget.PullRefreshLayout;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.PhotoHomeAdapter;
 import ninhn.app.girlxinh.constant.AppConstant;
 import ninhn.app.girlxinh.constant.UrlConstant;
+import ninhn.app.girlxinh.event.ConnectChangedEvent;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.helper.BusProvider;
 import ninhn.app.girlxinh.listener.OnItemClickListener;
@@ -34,6 +36,7 @@ import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.PhotoModel;
 import ninhn.app.girlxinh.service.PhotoGetService;
 import ninhn.app.girlxinh.service.PhotoLoveService;
+import ninhn.app.girlxinh.until.ConnectionUntil;
 import ninhn.app.girlxinh.until.DownloadUntil;
 import ninhn.app.girlxinh.until.ToastUntil;
 
@@ -144,6 +147,26 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
         photoHomeAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Register ourselves so that we can provide the initial value.
+        BusProvider.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.getInstance().unregister(this);
+    }
+
+    @Subscribe
+    public void onConnectChanged(ConnectChangedEvent event) {
+        if (0 == photoModelList.size()) {
+            getPhotoPage();
+        }
+    }
+
     private void setPhotoLove(String loveType, PhotoModel photoModel) {
         PhotoLoveService photoLoveService = new PhotoLoveService();
         photoLoveService.addListener(this);
@@ -201,7 +224,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
 
     }
 
-    private void showComment(PhotoModel photo){
+    private void showComment(PhotoModel photo) {
         Intent intent = new Intent(getActivity(), CommentActivity.class);
         intent.putExtra(CommentActivity.COMMENT_URL, UrlConstant.SOCIAL_URL + photo.getId());
         startActivity(intent);
@@ -215,8 +238,13 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
         pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // start refresh
-                getPhotoRefresh();
+                if (!ConnectionUntil.isConnection(getActivity())) {
+                    ToastUntil.showShort(getActivity(), getString(R.string.network_connect_no));
+                    pullRefreshLayout.setRefreshing(false);
+                } else {
+                    // start refresh
+                    getPhotoRefresh();
+                }
             }
         });
     }

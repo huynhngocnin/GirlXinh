@@ -37,7 +37,6 @@ import ninhn.app.girlxinh.constant.JSONConstant;
 import ninhn.app.girlxinh.event.LoginChangedEvent;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.helper.BusProvider;
-import ninhn.app.girlxinh.helper.MyPreferenceManager;
 import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.UserModel;
 import ninhn.app.girlxinh.service.UserRegisterService;
