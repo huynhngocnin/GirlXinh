@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.daimajia.androidanimations.library.Techniques;
@@ -136,32 +137,23 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
         if (FLAG_PHOTO_LOAD == (int) objects[0]) {
             photoModelListTemp = (List<PhotoModel>) objects[2];
             if (FLAG_PAGE_MORE == (int) objects[1]) {
-                //Remove loading item
-                photoModelList.remove(photoModelList.size() - 1);
-                photoHomeAdapter.notifyItemRemoved(photoModelList.size());
-                //Add list photo had just loaded
-                photoModelList.addAll(photoModelListTemp);
-                //Add admob to show list
-                addAdmobToList(photoModelListTemp);
-                //count page
-                page++;
-                //Hide load more progress
-                photoHomeAdapter.setLoaded();
+                if (photoModelList.size() > 0) {
+                    //Remove loading item
+                    photoModelList.remove(photoModelList.size() - 1);
+                    photoHomeAdapter.notifyItemRemoved(photoModelList.size());
+                    //Add list photo had just loaded and admob to list
+                    addPhotoToList(false);
+                    //count page
+                    page++;
+                    //Hide load more progress
+                    photoHomeAdapter.setLoaded();
+                }
             } else if (FLAG_PAGE_ONE == (int) objects[1]) {
-                photoModelList.addAll(photoModelListTemp);
-                //Clear admob are added before
-                admobCount = ADMOB_INIT_POSITION;
-                //Add admob to show list
-                addAdmobToList(photoModelListTemp);
+                //Add list photo had just loaded and admob to list
+                addPhotoToList(true);
             } else {
-                //Clear current photo list
-                photoModelList.clear();
-                //Add new photo list just loaded
-                photoModelList.addAll(photoModelListTemp);
-                //Clear admob are added before
-                admobCount = ADMOB_INIT_POSITION;
-                //Add admob to show list
-                addAdmobToList(photoModelListTemp);
+                //Add list photo had just loaded and admob to list
+                addPhotoToList(true);
                 //Disable refresh control
                 pullRefreshLayout.setRefreshing(false);
                 //Reset page to start
@@ -201,18 +193,21 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
     }
 
     private void getPhotoMore() {
+        Toast.makeText(getActivity(), "Getmore", Toast.LENGTH_SHORT).show();
         PhotoGetService photoGetService = new PhotoGetService(FLAG_PAGE_MORE);
         photoGetService.addListener(this);
         photoGetService.execute(page);
     }
 
     private void getPhotoPage() {
+        Toast.makeText(getActivity(), "GetPage", Toast.LENGTH_SHORT).show();
         PhotoGetService photoGetService = new PhotoGetService(FLAG_PAGE_ONE);
         photoGetService.addListener(this);
         photoGetService.execute(0);
     }
 
     private void getPhotoRefresh() {
+        Toast.makeText(getActivity(), "Refresh", Toast.LENGTH_SHORT).show();
         PhotoGetService photoGetService = new PhotoGetService(FLAG_REFRESH);
         photoGetService.addListener(this);
         photoGetService.execute(0);
@@ -296,6 +291,19 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
         } else if (photoModels.size() >= 10) {
             addAdmobItem(1);
         }
+    }
+
+    private void addPhotoToList(boolean isClearList) {
+        if (isClearList) {
+            //Clear current photo list
+            photoModelList.clear();
+            //Clear admob are added before
+            admobCount = ADMOB_INIT_POSITION;
+        }
+        //Add new photo list just loaded
+        photoModelList.addAll(photoModelListTemp);
+        //Add admob to show list
+        addAdmobToList(photoModelListTemp);
     }
 
     //    private void hideViews() {
