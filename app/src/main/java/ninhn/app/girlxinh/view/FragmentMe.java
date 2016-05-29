@@ -47,7 +47,6 @@ import ninhn.app.girlxinh.service.UserRegisterService;
 public class FragmentMe extends Fragment implements TaskListener {
 
     private LoginButton loginButton;
-    private TextView me_info;
     private TextView textName;
     private ProfilePictureView profilePictureView;
     private CallbackManager callbackManager;
@@ -108,7 +107,6 @@ public class FragmentMe extends Fragment implements TaskListener {
     }
 
     private void mapComponent() {
-        me_info = (TextView) getActivity().findViewById(R.id.me_info);
         textName = (TextView) getActivity().findViewById(R.id.me_cover_text_name);
         //Fix full name in single line
         AutofitHelper.create(textName);
@@ -145,7 +143,6 @@ public class FragmentMe extends Fragment implements TaskListener {
                             public void onCompleted(
                                     JSONObject object,
                                     GraphResponse response) {
-                                me_info.setText(object.toString());
                                 //Handle response after login complete
                                 handleLoginComplete(object);
 

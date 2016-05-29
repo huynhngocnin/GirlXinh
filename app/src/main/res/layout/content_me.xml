@@ -44,14 +44,6 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/me_cover">
 
-        <TextView
-            android:id="@+id/me_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/login_button"
-            android:gravity="center"
-            android:text="Click nút bên dưới để đăng ký nghe ku" />
-
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
             android:layout_width="wrap_content"
