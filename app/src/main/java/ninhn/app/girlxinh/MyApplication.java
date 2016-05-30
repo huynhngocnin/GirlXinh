@@ -28,7 +28,7 @@ public class MyApplication extends Application {
         mInstance = this;
 
         Picasso p = new Picasso.Builder(getApplicationContext())
-                .memoryCache(new LruCache(1024 * 1024 * 15))
+                .memoryCache(new LruCache(1024 * 1024 * 50))
                 .build();
         Picasso.setSingletonInstance(p);
 
