@@ -16,6 +16,7 @@
         <activity
             android:name=".view.MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +28,7 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <meta-data
@@ -38,7 +40,9 @@
             android:authorities="com.facebook.app.FacebookContentProvider1131735883527080"
             android:exported="true" />
 
-        <activity android:name=".view.CommentActivity"></activity>
+        <activity
+            android:name=".view.CommentActivity"
+            android:screenOrientation="portrait"></activity>
 
         <receiver android:name=".receiver.NetworkChangeReceiver">
             <intent-filter>
