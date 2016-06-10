@@ -1,19 +1,26 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        androidkeystore {
+            keyAlias 'ninhnandroidkey'
+            keyPassword 'troidatoi'
+            storeFile file('/Users/NinHN/Work/Studio/Android/androidglobal.jks')
+            storePassword 'maoi123'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-
     defaultConfig {
         applicationId "ninhn.app.girlxinh"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "0.0.2"
         android {
             defaultConfig {
-                manifestPlaceholders = [manifestApplicationId: "${applicationId}",
-                                        onesignal_app_id: "7a69e490-3c7c-4f2c-a318-b9d05f1743ca",
+                manifestPlaceholders = [manifestApplicationId          : "${applicationId}",
+                                        onesignal_app_id               : "7a69e490-3c7c-4f2c-a318-b9d05f1743ca",
                                         onesignal_google_project_number: "223292799947"]
             }
         }
@@ -22,9 +29,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.androidkeystore
         }
     }
-
     packagingOptions {
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/LICENSE'
@@ -50,14 +57,11 @@ dependencies {
     compile 'com.baoyz.pullrefreshlayout:library:1.2.0'
     compile 'me.grantland:autofittextview:0.2.1'
     compile 'de.hdodenhof:circleimageview:2.0.0'
-
     compile 'com.onesignal:OneSignal:2.+@aar'
     compile 'com.google.android.gms:play-services-gcm:+'
     compile 'com.google.android.gms:play-services-analytics:+'
-    compile "com.google.android.gms:play-services-location:+"
-
+    compile 'com.google.android.gms:play-services-location:+'
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
-
     compile 'com.google.android.gms:play-services-ads:8.4.0'
 }
