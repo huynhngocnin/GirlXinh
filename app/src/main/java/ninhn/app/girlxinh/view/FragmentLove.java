@@ -33,6 +33,7 @@ import ninhn.app.girlxinh.service.PhotoLoveService;
 import ninhn.app.girlxinh.service.UserLoveService;
 import ninhn.app.girlxinh.until.ConnectionUntil;
 import ninhn.app.girlxinh.until.DialogUntil;
+import ninhn.app.girlxinh.until.DownloadUntil;
 import ninhn.app.girlxinh.until.ToastUntil;
 
 /**
@@ -118,6 +119,13 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
                         //Show text when have photo
                         textNoPhoto.setVisibility(View.VISIBLE);
                     }
+                } else {
+                    DialogUntil.showNetworkStage(getActivity(), false);
+                }
+                break;
+            case R.id.photo_item_footer_image_download:
+                if (ConnectionUntil.isConnection(getActivity())) {
+                    DownloadUntil.downloadPhoto(getActivity(), photoModel);
                 } else {
                     DialogUntil.showNetworkStage(getActivity(), false);
                 }

@@ -24,7 +24,6 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
         // Register ourselves so that we can provide the initial value.
         BusProvider.getInstance().register(this);
         if (ConnectionUntil.isConnection(context)) {
-            ToastUntil.showLong(context,context.getString(R.string.network_connect_yes));
             BusProvider.getInstance().post(produceConnectEvent());
         } else {
             ToastUntil.showLong(context,context.getString(R.string.network_connect_no));
