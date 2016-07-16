@@ -4,13 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
-    <dimen name="photo_item_image_love_margin">8dp</dimen>
-    <dimen name="photo_item_image_love_padding">8dp</dimen>
-
     <dimen name="photo_item_image_view_margin">8dp</dimen>
     <dimen name="photo_item_layout_action_height">40dp</dimen>
-
-    <dimen name="photo_item_">4dp</dimen>
 
     <dimen name="photo_item_layout_action_icon_padding">4dp</dimen>
     <dimen name="photo_item_layout_action_icon_share_padding">0dp</dimen>

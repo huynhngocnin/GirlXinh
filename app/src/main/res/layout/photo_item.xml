@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="2dp"
-                android:paddingTop="2dp"
+                android:paddingTop="@dimen/photo_item_text_user_padding"
                 android:text="@string/user"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/time"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/photo_item_text_detail_padding" />
 
                 <TextView
                     android:id="@+id/photo_item_header_text_view"
@@ -55,15 +55,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/photo_item_header_view_margin"
                     android:layout_toLeftOf="@+id/photo_item_header_views"
-                    android:text="@string/init_count" />
+                    android:text="@string/init_count"
+                    android:textSize="@dimen/photo_item_text_detail_padding" />
 
                 <TextView
                     android:id="@+id/photo_item_header_views"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-
-                    android:text="@string/views" />
+                    android:text="@string/views"
+                    android:textSize="@dimen/photo_item_text_detail_padding" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -72,6 +73,7 @@
             android:layout_width="@dimen/photo_item_header_height"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
+            android:padding="@dimen/photo_item_image_love_padding"
             android:src="@drawable/ic_header_remove" />
 
     </RelativeLayout>
@@ -112,7 +114,8 @@
                 <com.facebook.share.widget.LikeView
                     android:id="@+id/fb_like_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/photo_item_layout_action_icon_padding" />
 
             </LinearLayout>
 
@@ -138,7 +141,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="28"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="@dimen/photo_item_layout_action_icon_padding">
 
                 <com.facebook.share.widget.ShareButton
                     android:id="@+id/fb_share_button"
@@ -168,14 +172,14 @@
 
         <Button
             android:id="@+id/photo_item_footer_button_login"
-            android:layout_margin="@dimen/photo_item_footer_login_margin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:drawableLeft="@drawable/ic_logo_facebook_48"
+            android:layout_margin="@dimen/photo_item_footer_login_margin"
             android:background="@color/colorBarHome"
+            android:drawableLeft="@drawable/ic_logo_facebook_48"
+            android:text="@string/require_login_home"
             android:textColor="@android:color/white"
-            android:visibility="gone"
-            android:text="@string/require_login_home"/>
+            android:visibility="gone" />
 
 
     </RelativeLayout>
