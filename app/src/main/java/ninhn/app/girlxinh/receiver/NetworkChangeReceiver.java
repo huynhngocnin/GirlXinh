@@ -18,18 +18,16 @@ import ninhn.app.girlxinh.until.ToastUntil;
 public class NetworkChangeReceiver extends BroadcastReceiver {
 
     private Context context;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         this.context = context;
         // Register ourselves so that we can provide the initial value.
         BusProvider.getInstance().register(this);
-        if (ConnectionUntil.isConnection(context)) {
-            BusProvider.getInstance().post(produceConnectEvent());
-        } else {
-            ToastUntil.showLong(context,context.getString(R.string.network_connect_no));
-        }
+        BusProvider.getInstance().post(produceConnectEvent());
         BusProvider.getInstance().unregister(this);
     }
+
     @Produce
     public ConnectChangedEvent produceConnectEvent() {
         // Provide an initial value for location based on the last known position.

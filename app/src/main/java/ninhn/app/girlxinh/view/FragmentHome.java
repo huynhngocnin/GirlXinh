@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
 import com.daimajia.androidanimations.library.Techniques;
@@ -21,9 +20,9 @@ import java.util.List;
 
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.PhotoHomeAdapter;
-import ninhn.app.girlxinh.constant.AppConstant;
 import ninhn.app.girlxinh.constant.UrlConstant;
 import ninhn.app.girlxinh.event.ConnectChangedEvent;
+import ninhn.app.girlxinh.event.LoginChangedEvent;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.helper.BusProvider;
 import ninhn.app.girlxinh.listener.OnItemClickListener;
@@ -39,10 +38,9 @@ import ninhn.app.girlxinh.until.ToastUntil;
 
 import static ninhn.app.girlxinh.constant.AppConstant.ADMOB_CYCLE_SHOW;
 import static ninhn.app.girlxinh.constant.AppConstant.ADMOB_INIT_POSITION;
-import static ninhn.app.girlxinh.constant.AppConstant.FLAG_PHOTO_LOAD;
-
 import static ninhn.app.girlxinh.constant.AppConstant.FLAG_PAGE_MORE;
 import static ninhn.app.girlxinh.constant.AppConstant.FLAG_PAGE_ONE;
+import static ninhn.app.girlxinh.constant.AppConstant.FLAG_PHOTO_LOAD;
 import static ninhn.app.girlxinh.constant.AppConstant.FLAG_REFRESH;
 
 
@@ -123,7 +121,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
                 break;
             case R.id.photo_item_footer_button_login:
                 MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.changeTabTo(2);
+                mainActivity.changeNavigationTabTo(3);
                 break;
             default:
                 break;
@@ -183,6 +181,13 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
     public void onConnectChanged(ConnectChangedEvent event) {
         if (0 == photoModelList.size()) {
             getPhotoPage();
+        }
+    }
+
+    @Subscribe
+    public void onLoginChanged(LoginChangedEvent event) {
+        if (photoHomeAdapter != null) {
+            photoHomeAdapter.notifyDataSetChanged();
         }
     }
 

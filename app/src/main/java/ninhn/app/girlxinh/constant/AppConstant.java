@@ -5,15 +5,8 @@ package ninhn.app.girlxinh.constant;
  */
 public class AppConstant {
 
-    public static final String HOME = "Home";
-    public static final String LOVE = "Love";
-    public static final String ME = "Me";
-
-
     public static final String BLANK = "";
 
-
-    public static final String LOGOUT = "Logout";
     public static final String _JPG = ".jpg";
 
 

@@ -8,14 +8,14 @@
     tools:context=".view.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+    <FrameLayout
+        android:id="@+id/containerView"
+        android:layout_above="@+id/bottom_navigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bottomNavigation" />
+        android:layout_height="match_parent"></FrameLayout>
 
-    <com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
+    <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" />

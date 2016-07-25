@@ -71,7 +71,7 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
             @Override
             public void onClick(View v) {
                 MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.changeTabTo(2);
+                mainActivity.changeNavigationTabTo(3);
             }
         });
 

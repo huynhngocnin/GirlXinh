@@ -2,37 +2,32 @@ package ninhn.app.girlxinh.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.widget.Toast;
 
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.facebook.appevents.AppEventsLogger;
-import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView;
-import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItemClickListener;
 
-import ninhn.app.girlxinh.MyApplication;
 import ninhn.app.girlxinh.R;
-import ninhn.app.girlxinh.adapter.ViewPagerAdapter;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.model.DeviceInfo;
 import ninhn.app.girlxinh.until.ConnectionUntil;
 import ninhn.app.girlxinh.until.DialogUntil;
-import ninhn.app.girlxinh.until.ToastUntil;
 
-import static ninhn.app.girlxinh.constant.AppConstant.HOME;
-import static ninhn.app.girlxinh.constant.AppConstant.LOVE;
-import static ninhn.app.girlxinh.constant.AppConstant.ME;
+public class MainActivity extends AppCompatActivity implements AHBottomNavigation.OnTabSelectedListener {
 
-public class MainActivity extends AppCompatActivity {
-
-
-    //private Toolbar mToolbar;
     //private FloatingActionButton mFabButton;
-    private ViewPager viewPager;
-    private BottomNavigationView bottomNavigationView;
+    private AHBottomNavigation ahBottomNavigation;
 
+    private FragmentManager mFragmentManager;
+    private FragmentTransaction mFragmentTransaction;
+    private FragmentHome fragmentHome;
+    private FragmentLove fragmentLove;
+    private FragmentMe fragmentMe;
+    private Fragment currenFragment;
 
     private void getDeviceInfo() {
         DisplayMetrics metrics = new DisplayMetrics();
@@ -44,26 +39,6 @@ public class MainActivity extends AppCompatActivity {
         AppValue.getInstance().setDeviceInfo(deviceInfo);
     }
 
-//    private void createToolbar() {
-//        //mToolbar = (Toolbar) findViewById(R.id.toolbar);
-//        //mToolbar.setTitle("NinHN ");
-//        //setSupportActionBar(mToolbar);
-//    }
-
-//    private void createFloatingButton() {
-//        //        mFabButton = (FloatingActionButton) findViewById(R.id.fab);
-//        //        mFabButton.setOnClickListener(new View.OnClickListener() {
-//        //            @Override
-//        //            public void onClick(View view) {
-//        //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//        //                        .setAction("Action", null).show();
-//        //            }
-//        //        });
-//    }
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
         getDeviceInfo();
 
-        initViewPager();
-
         initBottomNavigation();
+        initFragment();
+        initHome();
     }
 
     @Override
@@ -83,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         if (!ConnectionUntil.isConnection(this)) {
             DialogUntil.showNetworkStage(this, false);
         }
-
         // Logs 'install' and 'app activate' App Events.
         AppEventsLogger.activateApp(this);
     }
@@ -91,80 +65,175 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-
         // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this);
     }
 
-    @Override
-    public void onAttachFragment(Fragment fragment) {
-        super.onAttachFragment(fragment);
-    }
-
-    private void initViewPager() {
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new FragmentHome(), HOME);
-        adapter.addFragment(new FragmentLove(), LOVE);
-        adapter.addFragment(new FragmentMe(), ME);
-        viewPager.setAdapter(adapter);
-//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                ToastUntil.showLong(getApplication(), "Fragment: " +position);
-//                if (1 == position) {
-//                    ((FragmentLove) getSupportFragmentManager().getFragments().get(1)).loginDone();
-//                    ToastUntil.showShort(getApplication(), getSupportFragmentManager().getFragments().get(1).getClass().toString());
-//                }
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//            }
-//        });
-    }
-
     private void initBottomNavigation() {
-        int[] colorBar = new int[]{ContextCompat.getColor(this, R.color.colorBarHome), ContextCompat.getColor(this, R.color.colorBarLove), ContextCompat.getColor(this, R.color.colorBarMe)};
-        int[] drawableBar = new int[]{R.drawable.ic_bar_home, R.drawable.ic_bar_love, R.drawable.ic_bar_me};
 
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
-        bottomNavigationView.isColoredBackground(true);
-        //bottomNavigationView.disableViewPagerSlide();
-        //Set viewpaper to navigation
-        bottomNavigationView.setUpWithViewPager(viewPager, colorBar, drawableBar);
-        //Disable Shadow
-        bottomNavigationView.disableShadow();
+        ahBottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
+
+        // Create items
+        AHBottomNavigationItem itemHome = new AHBottomNavigationItem(R.string.home, R.drawable.ic_bar_home, R.color.colorBarBackground);
+        AHBottomNavigationItem itemLove = new AHBottomNavigationItem(R.string.love, R.drawable.ic_bar_love, R.color.colorBarBackground);
+        AHBottomNavigationItem itemUpload = new AHBottomNavigationItem(R.string.upload, R.drawable.ic_bar_upload, R.color.colorBarBackground);
+        AHBottomNavigationItem itemMe = new AHBottomNavigationItem(R.string.me, R.drawable.ic_bar_me, R.color.colorBarBackground);
+
+        // Add items
+        ahBottomNavigation.addItem(itemHome);
+        ahBottomNavigation.addItem(itemLove);
+        ahBottomNavigation.addItem(itemUpload);
+        ahBottomNavigation.addItem(itemMe);
+
+        // Disable the translation inside the CoordinatorLayout
+        ahBottomNavigation.setBehaviorTranslationEnabled(false);
+
+        // Force to tint the drawable (useful for font with icon for example)
+        ahBottomNavigation.setForceTint(true);
+
+        // Force the titles to be displayed (against Material Design guidelines!)
+        ahBottomNavigation.setForceTitlesDisplay(true);
+
+        // Use colored navigation with circle reveal effect
+        ahBottomNavigation.setColored(true);
+
+        // Customize notification (title, background, typeface)
+        ahBottomNavigation.setNotificationBackgroundColorResource(R.color.colorBarNotification);
+
+        // Set listeners
+        ahBottomNavigation.setOnTabSelectedListener(this);
+
     }
 
-    public void changeTabTo(int tabIndex) {
-        bottomNavigationView.selectTab(tabIndex);
+    @Override
+    public boolean onTabSelected(int position, boolean wasSelected) {
+        if (!wasSelected) {
+            boolean fragmentPopped;
+            switch (position) {
+                case 0:
+                    //mFragmentManager.popBackStack(fragmentHome.getClass().getName(), 0);
+                    //showFragment(fragmentHome);
+                    displayFragmentHome();
+                    break;
+                case 1:
+                    displayFragmentLove();
+                    break;
+                case 2:
+                    displayFragmentHome();
+                    break;
+                case 3:
+                    displayFragmentMe();
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            switch (position) {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                default:
+                    break;
+            }
+        }
+        return true;
+    }
+
+    private void initFragment() {
+        fragmentHome = new FragmentHome();
+        fragmentLove = new FragmentLove();
+        fragmentMe = new FragmentMe();
+    }
+
+    private void initHome() {
+        mFragmentManager = getSupportFragmentManager();
+        mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.add(R.id.containerView, fragmentHome);
+        mFragmentTransaction.commit();
+    }
+
+    private void showFragment(final Fragment fragment) {
+        mFragmentTransaction = mFragmentManager.beginTransaction();
+        if (fragment.isHidden()) {
+            mFragmentTransaction.show(fragment);
+            mFragmentTransaction.hide(currenFragment);
+            mFragmentTransaction.commit();
+            currenFragment = fragment;
+        }
+
+    }
+
+    private void displayFragmentHome() {
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
+        if (fragmentHome.isAdded()) { // if the fragment is already in container
+            ft.show(fragmentHome);
+        } else { // fragment needs to be added to frame container
+            ft.add(R.id.containerView, fragmentHome);
+        }
+        // Hide fragmentLove
+        if (fragmentLove.isAdded()) {
+            ft.hide(fragmentLove);
+        }
+        // Hide fragmentMe
+        if (fragmentMe.isAdded()) {
+            ft.hide(fragmentMe);
+        }
+        // Commit changes
+        ft.commit();
+    }
+
+    private void displayFragmentLove() {
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
+        if (fragmentLove.isAdded()) { // if the fragment is already in container
+            ft.show(fragmentLove);
+        } else { // fragment needs to be added to frame container
+            ft.add(R.id.containerView, fragmentLove);
+        }
+        // Hide fragmentHome
+        if (fragmentHome.isAdded()) {
+            ft.hide(fragmentHome);
+        }
+        // Hide fragmentMe
+        if (fragmentMe.isAdded()) {
+            ft.hide(fragmentMe);
+        }
+        // Commit changes
+        ft.commit();
+    }
+
+    private void displayFragmentMe() {
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
+        if (fragmentMe.isAdded()) { // if the fragment is already in container
+            ft.show(fragmentMe);
+        } else { // fragment needs to be added to frame container
+            ft.add(R.id.containerView, fragmentMe);
+        }
+        // Hide fragmentLove
+        if (fragmentLove.isAdded()) {
+            ft.hide(fragmentLove);
+        }
+        // Hide fragmentHome
+        if (fragmentHome.isAdded()) {
+            ft.hide(fragmentHome);
+        }
+        // Commit changes
+        ft.commit();
+    }
+
+    public void changeNavigationTabTo(int tabIndex) {
+        // Set current item programmatically
+        ahBottomNavigation.setCurrentItem(tabIndex);
+    }
+
+    public void setNavigationNotification(int tab, int total) {
+        // Add or remove notification for each item
+        ahBottomNavigation.setNotification(String.valueOf(total), tab);
     }
 
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 }

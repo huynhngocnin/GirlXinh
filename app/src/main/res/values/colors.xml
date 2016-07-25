@@ -5,10 +5,11 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="colorBarHome">#5169a7</color>
-    <color name="colorBarLove">#eb4457</color>
+    <color name="colorBarLove">#9051d2</color>
+    <color name="colorBarUpload">#8b7355</color>
     <color name="colorBarMe">#6f00ff</color>
+    <color name="colorBarNotification">#F63D2B</color>
     <color name="colorCover">#262626</color>
-
-
+    <color name="colorBarBackground">#5169a7</color>
 
 </resources>
