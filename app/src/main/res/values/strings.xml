@@ -33,4 +33,7 @@
     <string name="upload">Upload</string>
     <string name="me">Me</string>
     <string name="logout">Logout</string>
+
+    <string name="publish">Publish</string>
+    <string name="review">Review</string>
 </resources>

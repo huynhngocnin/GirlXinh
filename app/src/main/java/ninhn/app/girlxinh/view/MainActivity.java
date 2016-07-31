@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity implements AHBottomNavigatio
     private FragmentTransaction mFragmentTransaction;
     private FragmentHome fragmentHome;
     private FragmentLove fragmentLove;
+    private FragmentUploadTabs fragmentUploadTabs;
     private FragmentMe fragmentMe;
-    private Fragment currenFragment;
 
     private void getDeviceInfo() {
         DisplayMetrics metrics = new DisplayMetrics();
@@ -108,18 +108,15 @@ public class MainActivity extends AppCompatActivity implements AHBottomNavigatio
     @Override
     public boolean onTabSelected(int position, boolean wasSelected) {
         if (!wasSelected) {
-            boolean fragmentPopped;
             switch (position) {
                 case 0:
-                    //mFragmentManager.popBackStack(fragmentHome.getClass().getName(), 0);
-                    //showFragment(fragmentHome);
                     displayFragmentHome();
                     break;
                 case 1:
                     displayFragmentLove();
                     break;
                 case 2:
-                    displayFragmentHome();
+                    displayFragmentUpload();
                     break;
                 case 3:
                     displayFragmentMe();
@@ -147,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements AHBottomNavigatio
     private void initFragment() {
         fragmentHome = new FragmentHome();
         fragmentLove = new FragmentLove();
+        fragmentUploadTabs = new FragmentUploadTabs();
         fragmentMe = new FragmentMe();
     }
 
@@ -155,17 +153,6 @@ public class MainActivity extends AppCompatActivity implements AHBottomNavigatio
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.add(R.id.containerView, fragmentHome);
         mFragmentTransaction.commit();
-    }
-
-    private void showFragment(final Fragment fragment) {
-        mFragmentTransaction = mFragmentManager.beginTransaction();
-        if (fragment.isHidden()) {
-            mFragmentTransaction.show(fragment);
-            mFragmentTransaction.hide(currenFragment);
-            mFragmentTransaction.commit();
-            currenFragment = fragment;
-        }
-
     }
 
     private void displayFragmentHome() {
@@ -178,6 +165,10 @@ public class MainActivity extends AppCompatActivity implements AHBottomNavigatio
         // Hide fragmentLove
         if (fragmentLove.isAdded()) {
             ft.hide(fragmentLove);
+        }
+        // Hide fragmentHome
+        if (fragmentUploadTabs.isAdded()) {
+            ft.hide(fragmentUploadTabs);
         }
         // Hide fragmentMe
         if (fragmentMe.isAdded()) {
@@ -194,9 +185,38 @@ public class MainActivity extends AppCompatActivity implements AHBottomNavigatio
         } else { // fragment needs to be added to frame container
             ft.add(R.id.containerView, fragmentLove);
         }
+
         // Hide fragmentHome
         if (fragmentHome.isAdded()) {
             ft.hide(fragmentHome);
+        }
+        // Hide fragmentHome
+        if (fragmentUploadTabs.isAdded()) {
+            ft.hide(fragmentUploadTabs);
+        }
+        // Hide fragmentMe
+        if (fragmentMe.isAdded()) {
+            ft.hide(fragmentMe);
+        }
+        // Commit changes
+        ft.commit();
+    }
+
+    private void displayFragmentUpload() {
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
+        if (fragmentUploadTabs.isAdded()) { // if the fragment is already in container
+            ft.show(fragmentUploadTabs);
+        } else { // fragment needs to be added to frame container
+            ft.add(R.id.containerView, fragmentUploadTabs);
+        }
+
+        // Hide fragmentHome
+        if (fragmentHome.isAdded()) {
+            ft.hide(fragmentHome);
+        }
+        // Hide fragmentLove
+        if (fragmentLove.isAdded()) {
+            ft.hide(fragmentLove);
         }
         // Hide fragmentMe
         if (fragmentMe.isAdded()) {
@@ -213,9 +233,14 @@ public class MainActivity extends AppCompatActivity implements AHBottomNavigatio
         } else { // fragment needs to be added to frame container
             ft.add(R.id.containerView, fragmentMe);
         }
+
         // Hide fragmentLove
         if (fragmentLove.isAdded()) {
             ft.hide(fragmentLove);
+        }
+        // Hide fragmentHome
+        if (fragmentUploadTabs.isAdded()) {
+            ft.hide(fragmentUploadTabs);
         }
         // Hide fragmentHome
         if (fragmentHome.isAdded()) {

@@ -47,4 +47,6 @@
     <dimen name="love_text_no_photo_is_loved">24sp</dimen>
     <dimen name="love_layout_padding">6dp</dimen>
 
+    <dimen name="upload_float_margin">8dp</dimen>
+
 </resources>
