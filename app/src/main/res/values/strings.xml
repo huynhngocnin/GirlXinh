@@ -36,4 +36,6 @@
 
     <string name="publish">Publish</string>
     <string name="review">Review</string>
+
+    <string name="hint_photo_description">Description for this photo...</string>
 </resources>

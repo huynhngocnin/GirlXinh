@@ -1,5 +1,6 @@
 package ninhn.app.girlxinh.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -18,7 +19,7 @@ import ninhn.app.girlxinh.until.ToastUntil;
 /**
  * Created by NinHN on 7/31/2016.
  */
-public class FragmentUploadTabs extends Fragment implements View.OnClickListener{
+public class FragmentUploadTabs extends Fragment implements View.OnClickListener {
 
     private static TabLayout tabLayout;
     private static ViewPager viewPager;
@@ -61,13 +62,18 @@ public class FragmentUploadTabs extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.float_upload_new:
-                ToastUntil.showShort(getActivity(), "OK");
+                showUploadActivity();
                 break;
             default:
                 break;
         }
+    }
+
+    private void showUploadActivity() {
+        Intent intent = new Intent(getActivity(), UploadActivity.class);
+        startActivity(intent);
     }
 
     class MyAdapter extends FragmentPagerAdapter {

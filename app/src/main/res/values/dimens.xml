@@ -5,6 +5,8 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="photo_list_padding">0dp</dimen>
+    <dimen name="upload_photo_padding">6dp</dimen>
+    <dimen name="upload_photo_marging">4dp</dimen>
 
     <dimen name="photo_item_margin_left">0dp</dimen>
     <dimen name="photo_item_margin_top">8dp</dimen>

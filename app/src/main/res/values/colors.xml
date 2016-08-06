@@ -12,6 +12,8 @@
     <color name="colorCover">#262626</color>
     <color name="colorBarBackground">#5169a7</color>
 
+    <color name="colorUploadButton">#5169a7</color>
+
     <color name="orange">#FA0</color>
     <color name="white">#FFF</color>
 
