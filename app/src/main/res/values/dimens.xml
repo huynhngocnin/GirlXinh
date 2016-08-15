@@ -8,38 +8,38 @@
     <dimen name="upload_photo_padding">6dp</dimen>
     <dimen name="upload_photo_marging">4dp</dimen>
 
-    <dimen name="photo_item_margin_left">0dp</dimen>
-    <dimen name="photo_item_margin_top">8dp</dimen>
+    <dimen name="photo_item_view_margin_left">0dp</dimen>
+    <dimen name="photo_item_view_margin_top">8dp</dimen>
 
-    <dimen name="photo_item_text_title_margin">8dp</dimen>
+    <dimen name="photo_item_view_text_title_margin">8dp</dimen>
 
-    <dimen name="photo_item_image_view_height">32dp</dimen>
-    <dimen name="photo_item_image_view_margin">8dp</dimen>
-    <dimen name="photo_item_layout_action_height">42dp</dimen>
-    <dimen name="photo_item_image_love_padding">4dp</dimen>
-    <dimen name="photo_item_text_user_padding">2dp</dimen>
-    <dimen name="photo_item_text_detail_padding">12sp</dimen>
+    <dimen name="photo_item_view_image_view_height">32dp</dimen>
+    <dimen name="photo_item_view_image_view_margin">8dp</dimen>
+    <dimen name="photo_item_view_layout_action_height">42dp</dimen>
+    <dimen name="photo_item_view_image_love_padding">8dp</dimen>
+    <dimen name="photo_item_view_text_user_padding">2dp</dimen>
+    <dimen name="photo_item_view_text_detail_padding">12sp</dimen>
 
 
 
-    <dimen name="photo_item_layout_action_icon_padding">4dp</dimen>
+    <dimen name="photo_item_view_layout_action_icon_padding">4dp</dimen>
 
     <dimen name="staggered_margin">4dp</dimen>
 
 
-    <dimen name="photo_item_text_title_background_height">40dp</dimen>
-    <dimen name="photo_item_text_title_size">20sp</dimen>
+    <dimen name="photo_item_view_text_title_background_height">40dp</dimen>
+    <dimen name="photo_item_view_text_title_size">20sp</dimen>
 
-    <dimen name="photo_item_view_divider">0.5dp</dimen>
-    <dimen name="photo_item_header_height">50dp</dimen>
-    <dimen name="photo_item_header_padding">4dp</dimen>
-    <dimen name="photo_item_header_view_margin">4dp</dimen>
-    <dimen name="photo_item_header_item_padding">2dp</dimen>
-    <dimen name="photo_item_header_avatar_border">1dp</dimen>
+    <dimen name="photo_item_view_view_divider">0.5dp</dimen>
+    <dimen name="photo_item_view_header_height">50dp</dimen>
+    <dimen name="photo_item_view_header_padding">4dp</dimen>
+    <dimen name="photo_item_view_header_view_margin">4dp</dimen>
+    <dimen name="photo_item_view_header_item_padding">2dp</dimen>
+    <dimen name="photo_item_view_header_avatar_border">1dp</dimen>
 
-    <dimen name="photo_item_body_title_padding">8dp</dimen>
-    <dimen name="photo_item_footer_padding">4dp</dimen>
-    <dimen name="photo_item_footer_login_margin">2dp</dimen>
+    <dimen name="photo_item_view_body_title_padding">8dp</dimen>
+    <dimen name="photo_item_view_footer_padding">4dp</dimen>
+    <dimen name="photo_item_view_footer_login_margin">2dp</dimen>
 
     <dimen name="me_cover_heigh">200dp</dimen>
     <dimen name="me_cover_image_border">2dp</dimen>
@@ -50,5 +50,8 @@
     <dimen name="love_layout_padding">6dp</dimen>
 
     <dimen name="upload_float_margin">8dp</dimen>
+
+
+    <dimen name="photo_item_review_button_margin">4dp</dimen>
 
 </resources>

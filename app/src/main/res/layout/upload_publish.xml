@@ -20,8 +20,8 @@
             android:id="@+id/recycleView_upload_publish"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/photo_item_margin_left"
-            android:layout_marginRight="@dimen/photo_item_margin_left" />
+            android:layout_marginLeft="@dimen/photo_item_view_margin_left"
+            android:layout_marginRight="@dimen/photo_item_view_margin_left" />
     </com.baoyz.widget.PullRefreshLayout>
 
 </RelativeLayout>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/photo_item_view_margin_top"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/photo_item_view_header_height"
+        android:padding="@dimen/photo_item_view_header_padding">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/photo_item_review_admin_header_image_avatar"
+            android:layout_width="@dimen/photo_item_view_header_height"
+            android:layout_height="@dimen/photo_item_view_header_height"
+            android:src="@drawable/ic_bar_me" />
+
+        <TextView
+            android:id="@+id/photo_item_review_admin_header_text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/photo_item_review_admin_header_image_avatar"
+            android:paddingBottom="2dp"
+            android:paddingTop="@dimen/photo_item_view_text_user_padding"
+            android:text="@string/user"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/photo_item_review_admin_header_text_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/photo_item_review_admin_header_text_name"
+            android:layout_marginBottom="@dimen/photo_item_view_header_item_padding"
+            android:layout_toRightOf="@+id/photo_item_review_admin_header_image_avatar"
+            android:text="@string/time"
+            android:textSize="@dimen/photo_item_view_text_detail_padding" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/photo_item_review_admin_body_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/photo_item_view_body_title_padding"
+        android:text="@string/status" />
+
+
+    <ImageView
+        android:id="@+id/photo_item_review_admin_body_image_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_body_load" />
+
+    <EditText
+        android:id="@+id/photo_item_review_admin_body_edit_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_photo_review_feedback"
+        android:padding="@dimen/photo_item_view_body_title_padding" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/photo_item_review_admin_reject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/photo_item_review_button_margin"
+            android:layout_weight="1"
+            android:background="@color/colorReviewButton"
+            android:text="@string/reject"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/photo_item_review_admin_approve"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/photo_item_review_button_margin"
+            android:layout_weight="1"
+            android:background="@color/colorReviewButton"
+            android:text="@string/approve"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+</LinearLayout>

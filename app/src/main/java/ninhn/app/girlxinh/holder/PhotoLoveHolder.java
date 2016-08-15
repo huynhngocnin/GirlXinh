@@ -42,17 +42,17 @@ public class PhotoLoveHolder extends RecyclerView.ViewHolder {
 
     public PhotoLoveHolder(View itemView) {
         super(itemView);
-        avatar = (ImageView) itemView.findViewById(R.id.photo_item_header_image_avatar);
-        name = (TextView) itemView.findViewById(R.id.photo_item_header_text_name);
-        time = (TextView) itemView.findViewById(R.id.photo_item_header_text_time);
-        title = (TextView) itemView.findViewById(R.id.photo_item_body_text_title);
-        image = (ImageView) itemView.findViewById(R.id.photo_item_body_image_background);
-        view = (TextView) itemView.findViewById(R.id.photo_item_header_text_view);
-        remove = (ImageView) itemView.findViewById(R.id.photo_item_header_image_love);
-        imageComment = (ImageView) itemView.findViewById(R.id.photo_item_footer_image_comment);
+        avatar = (ImageView) itemView.findViewById(R.id.photo_item_view_header_image_avatar);
+        name = (TextView) itemView.findViewById(R.id.photo_item_view_header_text_name);
+        time = (TextView) itemView.findViewById(R.id.photo_item_view_header_text_time);
+        title = (TextView) itemView.findViewById(R.id.photo_item_view_body_text_title);
+        image = (ImageView) itemView.findViewById(R.id.photo_item_view_body_image_background);
+        view = (TextView) itemView.findViewById(R.id.photo_item_view_header_text_view);
+        remove = (ImageView) itemView.findViewById(R.id.photo_item_view_header_image_love);
+        imageComment = (ImageView) itemView.findViewById(R.id.photo_item_view_footer_image_comment);
         likeButton = (LikeView) itemView.findViewById(R.id.fb_like_button);
         shareButton = (ShareButton) itemView.findViewById(R.id.fb_share_button);
-        imageDownload = (ImageView) itemView.findViewById(R.id.photo_item_footer_image_download);
+        imageDownload = (ImageView) itemView.findViewById(R.id.photo_item_view_footer_image_download);
     }
 
     public void bind(final Context context, final PhotoModel photoModel, final OnItemClickListener listener) {

@@ -101,14 +101,14 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
     @Override
     public void onItemClick(PhotoModel photoModel, View type) {
         switch (type.getId()) {
-            case R.id.photo_item_footer_image_comment:
+            case R.id.photo_item_view_footer_image_comment:
                 if (ConnectionUntil.isConnection(getActivity())) {
                     showComment(photoModel);
                 } else {
                     DialogUntil.showNetworkStage(getActivity(), false);
                 }
                 break;
-            case R.id.photo_item_header_image_love:
+            case R.id.photo_item_view_header_image_love:
                 if (ConnectionUntil.isConnection(getActivity())) {
                     photoLoveAdapter.notifyDataSetChanged();
                     //Call service remove love in this photo
@@ -123,7 +123,7 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
                     DialogUntil.showNetworkStage(getActivity(), false);
                 }
                 break;
-            case R.id.photo_item_footer_image_download:
+            case R.id.photo_item_view_footer_image_download:
                 if (ConnectionUntil.isConnection(getActivity())) {
                     DownloadUntil.downloadPhoto(getActivity(), photoModel);
                 } else {

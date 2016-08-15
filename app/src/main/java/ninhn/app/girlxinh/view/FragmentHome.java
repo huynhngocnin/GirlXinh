@@ -79,14 +79,14 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
     @Override
     public void onItemClick(PhotoModel photoModel, View type) {
         switch (type.getId()) {
-            case R.id.photo_item_footer_image_comment:
+            case R.id.photo_item_view_footer_image_comment:
                 if (ConnectionUntil.isConnection(getActivity())) {
                     showComment(photoModel);
                 } else {
                     DialogUntil.showNetworkStage(getActivity(), false);
                 }
                 break;
-            case R.id.photo_item_header_image_love:
+            case R.id.photo_item_view_header_image_love:
                 if (ConnectionUntil.isConnection(getActivity())) {
                     if (AppValue.getInstance().isLogin()) {
                         if (photoModel.getLove().contains(AppValue.getInstance().getUserModel().getId())) {
@@ -112,14 +112,14 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
                     DialogUntil.showNetworkStage(getActivity(), false);
                 }
                 break;
-            case R.id.photo_item_footer_image_download:
+            case R.id.photo_item_view_footer_image_download:
                 if (ConnectionUntil.isConnection(getActivity())) {
                     DownloadUntil.downloadPhoto(getActivity(), photoModel);
                 } else {
                     DialogUntil.showNetworkStage(getActivity(), false);
                 }
                 break;
-            case R.id.photo_item_footer_button_login:
+            case R.id.photo_item_view_footer_button_login:
                 MainActivity mainActivity = (MainActivity) getActivity();
                 mainActivity.changeNavigationTabTo(3);
                 break;

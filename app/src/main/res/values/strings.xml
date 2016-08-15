@@ -16,15 +16,7 @@
     <string name="name">Name</string>
 
     <string name="facebook_app_id">1131735883527080</string>
-    <string name="require_login_home">Login to use social and download</string>
-    <string name="require_login_love">Login to use love album</string>
-    <string name="no_photo_is_loved">No photo is loved</string>
 
-    <string name="login_fail">Login fail. please try again</string>
-
-    <string name="network_info">Network Info</string>
-    <string name="network_connect_no">Unable access internet, please check internet connection</string>
-    <string name="network_connect_yes">Internet is connected</string>
 
     <string name="banner_ad_unit_id">ca-app-pub-8284127915682026/7328378938</string>
 
@@ -37,5 +29,9 @@
     <string name="publish">Publish</string>
     <string name="review">Review</string>
 
+    <string name="approve">Approve</string>
+    <string name="reject">Reject</string>
+
     <string name="hint_photo_description">Description for this photo...</string>
+    <string name="hint_photo_review_feedback">Message feedback...</string>
 </resources>

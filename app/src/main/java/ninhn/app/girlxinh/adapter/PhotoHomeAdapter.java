@@ -84,7 +84,7 @@ public class PhotoHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         if (viewType == VIEW_TYPE_ITEM) {
-            view = LayoutInflater.from(this.context).inflate(R.layout.photo_item, parent, false);
+            view = LayoutInflater.from(this.context).inflate(R.layout.photo_item_view, parent, false);
             return new PhotoHomeHolder(view);
         } else if (viewType == VIEW_TYPE_LOADING) {
             view = LayoutInflater.from(this.context).inflate(R.layout.loading_item, parent, false);

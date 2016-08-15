@@ -2,36 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/photo_item_margin_top"
+    android:layout_marginBottom="@dimen/photo_item_view_margin_top"
     android:background="@android:color/white"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/photo_item_header_height"
-        android:padding="@dimen/photo_item_header_padding">
+        android:layout_height="@dimen/photo_item_view_header_height"
+        android:padding="@dimen/photo_item_view_header_padding">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/photo_item_header_image_avatar"
-            android:layout_width="@dimen/photo_item_header_height"
-            android:layout_height="@dimen/photo_item_header_height"
+            android:id="@+id/photo_item_view_header_image_avatar"
+            android:layout_width="@dimen/photo_item_view_header_height"
+            android:layout_height="@dimen/photo_item_view_header_height"
             android:src="@drawable/ic_bar_me" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/photo_item_header_image_love"
-            android:layout_toRightOf="@+id/photo_item_header_image_avatar"
+            android:layout_toLeftOf="@+id/photo_item_view_header_image_love"
+            android:layout_toRightOf="@+id/photo_item_view_header_image_avatar"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/photo_item_header_text_name"
+                android:id="@+id/photo_item_view_header_text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="2dp"
-                android:paddingTop="@dimen/photo_item_text_user_padding"
+                android:paddingTop="@dimen/photo_item_view_text_user_padding"
                 android:text="@string/user"
                 android:textColor="@android:color/black"
                 android:textStyle="bold" />
@@ -39,62 +39,62 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/photo_item_header_item_padding"
+                android:layout_marginBottom="@dimen/photo_item_view_header_item_padding"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/photo_item_header_text_time"
+                    android:id="@+id/photo_item_view_header_text_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/time"
-                    android:textSize="@dimen/photo_item_text_detail_padding" />
+                    android:textSize="@dimen/photo_item_view_text_detail_padding" />
 
                 <TextView
-                    android:id="@+id/photo_item_header_text_view"
+                    android:id="@+id/photo_item_view_header_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/photo_item_header_view_margin"
-                    android:layout_toLeftOf="@+id/photo_item_header_views"
+                    android:layout_marginRight="@dimen/photo_item_view_header_view_margin"
+                    android:layout_toLeftOf="@+id/photo_item_view_header_views"
                     android:text="@string/init_count"
-                    android:textSize="@dimen/photo_item_text_detail_padding" />
+                    android:textSize="@dimen/photo_item_view_text_detail_padding" />
 
                 <TextView
-                    android:id="@+id/photo_item_header_views"
+                    android:id="@+id/photo_item_view_header_views"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:text="@string/views"
-                    android:textSize="@dimen/photo_item_text_detail_padding" />
+                    android:textSize="@dimen/photo_item_view_text_detail_padding" />
             </RelativeLayout>
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/photo_item_header_image_love"
-            android:layout_width="@dimen/photo_item_header_height"
+            android:id="@+id/photo_item_view_header_image_love"
+            android:layout_width="@dimen/photo_item_view_header_height"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:padding="@dimen/photo_item_image_love_padding"
+            android:padding="@dimen/photo_item_view_image_love_padding"
             android:src="@drawable/ic_header_remove" />
 
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/photo_item_body_text_title"
+        android:id="@+id/photo_item_view_body_text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/photo_item_body_title_padding"
+        android:padding="@dimen/photo_item_view_body_title_padding"
         android:text="@string/status" />
 
 
     <ImageView
-        android:id="@+id/photo_item_body_image_background"
+        android:id="@+id/photo_item_view_body_image_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_body_load" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/photo_item_layout_action_height">
+        android:layout_height="@dimen/photo_item_view_layout_action_height">
 
         <LinearLayout
             android:id="@+id/layout_action"
@@ -102,7 +102,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
-            android:padding="@dimen/photo_item_footer_padding">
+            android:padding="@dimen/photo_item_view_footer_padding">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -115,7 +115,7 @@
                     android:id="@+id/fb_like_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/photo_item_layout_action_icon_padding" />
+                    android:padding="@dimen/photo_item_view_layout_action_icon_padding" />
 
             </LinearLayout>
 
@@ -127,10 +127,10 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/photo_item_footer_image_comment"
+                    android:id="@+id/photo_item_view_footer_image_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:padding="@dimen/photo_item_layout_action_icon_padding"
+                    android:padding="@dimen/photo_item_view_layout_action_icon_padding"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_footer_comment" />
 
@@ -142,7 +142,7 @@
                 android:layout_weight="28"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="@dimen/photo_item_layout_action_icon_padding">
+                android:padding="@dimen/photo_item_view_layout_action_icon_padding">
 
                 <com.facebook.share.widget.ShareButton
                     android:id="@+id/fb_share_button"
@@ -159,10 +159,10 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/photo_item_footer_image_download"
+                    android:id="@+id/photo_item_view_footer_image_download"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:padding="@dimen/photo_item_layout_action_icon_padding"
+                    android:padding="@dimen/photo_item_view_layout_action_icon_padding"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_footer_download" />
 
@@ -171,10 +171,10 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/photo_item_footer_button_login"
+            android:id="@+id/photo_item_view_footer_button_login"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/photo_item_footer_login_margin"
+            android:layout_margin="@dimen/photo_item_view_footer_login_margin"
             android:background="@color/colorBarHome"
             android:drawableLeft="@drawable/ic_logo_facebook_48"
             android:text="@string/require_login_home"
