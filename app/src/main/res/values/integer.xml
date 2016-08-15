@@ -2,5 +2,6 @@
 <resources>
     <integer name="number_column">2</integer>
     <integer name="init_view">0</integer>
+    <integer name="photo_description_max_length">100</integer>
 
 </resources>

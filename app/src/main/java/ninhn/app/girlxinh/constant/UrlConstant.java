@@ -16,10 +16,15 @@ public class UrlConstant {
     public static final String PHOTO_LOVE_DOWN = SERVER + "/photo-love-down";
     public static final String PHOTO_USER_LOVE = SERVER + "/user-photo-love";
 
+    public static final String PHOTO_USER_UPLOAD = SERVER + "/user-photo-upload";
+
     public static final String CONDITION_START = "?";
     public static final String CONDITION_AND = "&";
     public static final String CONDITION_PHOTO_ID = "photoId=";
     public static final String CONDITION_USER_ID = "userId=";
+
+    public static final String PHOTO_INFO = "photo-info";
+    public static final String PHOTO_FILE = "photo-file";
 
     public static final String USER_REGISTER = SERVER + "/user-register";
 

@@ -5,35 +5,51 @@
     android:orientation="vertical"
     android:padding="@dimen/upload_photo_padding">
 
-    <EditText
-        android:id="@+id/edt_upload_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_photo_description"
-        android:textColor="@color/colorUploadButton" />
-
     <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/progress_upload_status"
+        android:layout_marginBottom="@dimen/upload_photo_marging">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edt_upload_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="@integer/photo_description_max_length"
+                android:hint="@string/hint_photo_description"
+                android:textColor="@color/colorUploadButton" />
+
+            <ImageView
+                android:id="@+id/img_upload_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/upload_photo_marging"
+                android:src="@drawable/upload_icon" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress_upload_status"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btn_upload_submit"
-        android:layout_below="@+id/edt_upload_description">
-
-        <ImageView
-            android:id="@+id/img_upload_photo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/upload_photo_marging"
-            android:src="@drawable/upload_icon" />
-
-    </ScrollView>
+        android:indeterminate="true"
+        android:background="@android:color/transparent"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btn_upload_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/upload_photo_marging"
         android:background="@color/colorUploadButton"
         android:text="@string/upload"
         android:textColor="@android:color/white" />
