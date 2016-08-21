@@ -12,7 +12,6 @@ public class AppConstant {
 
     public static final ArrayList ARRAY_EMPTY = new ArrayList<>();
 
-
     public static final int FLAG_PAGE_MORE = 2;
     public static final int FLAG_PAGE_ONE = 1;
     public static final int FLAG_REFRESH = 0;
@@ -20,7 +19,7 @@ public class AppConstant {
     public static final int FLAG_PHOTO_LOAD = 0;
     public static final int FLAG_PHOTO_LOVE = 1;
 
-
+    //Key is saved in share_preference
     public static final String USER_LOGIN = "userLogin";
     public static final String USER_ID = "userId";
     public static final String USER_NAME = "userName";

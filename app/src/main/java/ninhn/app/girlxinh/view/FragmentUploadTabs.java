@@ -90,18 +90,16 @@ public class FragmentUploadTabs extends Fragment implements View.OnClickListener
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new FragmentUploadPublish();
-                case 1:
                     return new FragmentUploadReview();
+                case 1:
+                    return new FragmentUploadPublish();
             }
             return null;
         }
 
         @Override
         public int getCount() {
-
             return int_items;
-
         }
 
         /**
@@ -113,9 +111,9 @@ public class FragmentUploadTabs extends Fragment implements View.OnClickListener
 
             switch (position) {
                 case 0:
-                    return getString(R.string.publish);
-                case 1:
                     return getString(R.string.review);
+                case 1:
+                    return getString(R.string.publish);
             }
             return null;
         }

@@ -19,13 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ninhn.app.girlxinh.R;
-import ninhn.app.girlxinh.adapter.PhotoHomeAdapter;
+import ninhn.app.girlxinh.adapter.PhotoPublishAdapter;
 import ninhn.app.girlxinh.constant.UrlConstant;
 import ninhn.app.girlxinh.event.ConnectChangedEvent;
 import ninhn.app.girlxinh.event.LoginChangedEvent;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.helper.BusProvider;
-import ninhn.app.girlxinh.listener.OnItemClickListener;
+import ninhn.app.girlxinh.listener.HidingScrollListener;
+import ninhn.app.girlxinh.listener.OnPhotoPublishItemClickListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
 import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.PhotoModel;
@@ -47,11 +48,11 @@ import static ninhn.app.girlxinh.constant.AppConstant.FLAG_REFRESH;
 /**
  * Created by NinHN on 4/10/16.
  */
-public class FragmentHome extends Fragment implements OnItemClickListener, TaskListener {
+public class FragmentHome extends Fragment implements OnPhotoPublishItemClickListener, TaskListener {
 
     private List<PhotoModel> photoModelList;
     private RecyclerView mRecyclerView;
-    private PhotoHomeAdapter photoHomeAdapter;
+    private PhotoPublishAdapter photoPublishAdapter;
     private PullRefreshLayout pullRefreshLayout;
 
     private List<PhotoModel> photoModelListTemp;
@@ -104,7 +105,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
                                     .duration(700)
                                     .playOn(type);
                         }
-                        photoHomeAdapter.notifyDataSetChanged();
+                        photoPublishAdapter.notifyDataSetChanged();
                     } else {
                         ToastUntil.showLong(getActivity(), getString(R.string.require_login_love));
                     }
@@ -120,8 +121,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
                 }
                 break;
             case R.id.photo_item_view_footer_button_login:
-                MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.changeNavigationTabTo(3);
+                ((MainActivity) getActivity()).changeNavigationTabTo(3);
                 break;
             default:
                 break;
@@ -138,13 +138,13 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
                 if (photoModelList.size() > 0) {
                     //Remove loading item
                     photoModelList.remove(photoModelList.size() - 1);
-                    photoHomeAdapter.notifyItemRemoved(photoModelList.size());
+                    photoPublishAdapter.notifyItemRemoved(photoModelList.size());
                     //Add list photo had just loaded and admob to list
                     addPhotoToList(false);
                     //count page
                     page++;
                     //Hide load more progress
-                    photoHomeAdapter.setLoaded();
+                    photoPublishAdapter.setLoaded();
                 }
             } else if (FLAG_PAGE_ONE == (int) objects[1]) {
                 //Add list photo had just loaded and admob to list
@@ -161,7 +161,7 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
         } else {
         }
         //Update list after change
-        photoHomeAdapter.notifyDataSetChanged();
+        photoPublishAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -186,8 +186,8 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
 
     @Subscribe
     public void onLoginChanged(LoginChangedEvent event) {
-        if (photoHomeAdapter != null) {
-            photoHomeAdapter.notifyDataSetChanged();
+        if (photoPublishAdapter != null) {
+            photoPublishAdapter.notifyDataSetChanged();
         }
     }
 
@@ -220,31 +220,31 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
         mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycleView_home);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        photoHomeAdapter = new PhotoHomeAdapter(getActivity(), mRecyclerView, photoModelList, this);
-        mRecyclerView.setAdapter(photoHomeAdapter);
+        photoPublishAdapter = new PhotoPublishAdapter(getActivity(), mRecyclerView, photoModelList, this);
+        mRecyclerView.setAdapter(photoPublishAdapter);
 
-        photoHomeAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+        photoPublishAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 photoModelList.add(null);
-                photoHomeAdapter.notifyItemInserted(photoModelList.size() - 1);
+                photoPublishAdapter.notifyItemInserted(photoModelList.size() - 1);
                 //Get more photo when scroll down to bottom
                 getPhotoMore();
             }
         });
 
-        //setting up our OnScrollListener
-//        mRecyclerView.setOnScrollListener(new HidingScrollListener() {
-//            @Override
-//            public void onHide() {
-//                hideViews();
-//            }
-//
-//            @Override
-//            public void onShow() {
-//                showViews();
-//            }
-//        });
+        //Setting up our OnScrollListener
+        mRecyclerView.setOnScrollListener(new HidingScrollListener() {
+            @Override
+            public void onHide() {
+                ((MainActivity) getActivity()).hideNavigation();
+            }
+
+            @Override
+            public void onShow() {
+                ((MainActivity) getActivity()).restoreNagivation();
+            }
+        });
 
     }
 

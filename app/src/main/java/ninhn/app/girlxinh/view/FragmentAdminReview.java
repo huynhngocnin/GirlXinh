@@ -9,9 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +29,10 @@ import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.PhotoModel;
 import ninhn.app.girlxinh.model.PhotoReviewModel;
 import ninhn.app.girlxinh.service.PhotoLoveUserService;
-import ninhn.app.girlxinh.service.PhotoReviewUserService;
+import ninhn.app.girlxinh.service.PhotoReviewAdminService;
 import ninhn.app.girlxinh.until.ConnectionUntil;
 import ninhn.app.girlxinh.until.DialogUntil;
+import ninhn.app.girlxinh.until.DownloadUntil;
 import ninhn.app.girlxinh.until.ToastUntil;
 
 import static ninhn.app.girlxinh.constant.AppConstant.ADMOB_CYCLE_SHOW;
@@ -43,7 +45,7 @@ import static ninhn.app.girlxinh.constant.AppConstant.FLAG_REFRESH;
 /**
  * Created by NinHN on 7/31/2016.
  */
-public class FragmentUploadReview extends Fragment implements TaskListener, OnPhotoReviewItemClickListener {
+public class FragmentAdminReview extends Fragment implements TaskListener, OnPhotoReviewItemClickListener {
 
     private List<PhotoReviewModel> photoReviewModelList;
     private RecyclerView mRecyclerView;
@@ -55,7 +57,6 @@ public class FragmentUploadReview extends Fragment implements TaskListener, OnPh
     private int page = 1;
     private int admobCount = ADMOB_INIT_POSITION;
     private PhotoReviewModel admobModel;
-    private TextView textNoPhoto;
 
     @Nullable
     @Override
@@ -71,8 +72,6 @@ public class FragmentUploadReview extends Fragment implements TaskListener, OnPh
         initRecyclerView();
         getPhotoPage();
         initPullRefresh();
-
-        textNoPhoto = (TextView) getActivity().findViewById(R.id.upload_text_no_photo);
     }
 
     private void initAdmobModel() {
@@ -150,21 +149,21 @@ public class FragmentUploadReview extends Fragment implements TaskListener, OnPh
     }
 
     private void getPhotoMore() {
-        PhotoReviewUserService photoReviewUserService = new PhotoReviewUserService(FLAG_PAGE_MORE);
-        photoReviewUserService.addListener(this);
-        photoReviewUserService.execute(page);
+        PhotoReviewAdminService photoReviewAdminService = new PhotoReviewAdminService(FLAG_PAGE_MORE);
+        photoReviewAdminService.addListener(this);
+        photoReviewAdminService.execute(page);
     }
 
     private void getPhotoPage() {
-        PhotoReviewUserService photoReviewUserService = new PhotoReviewUserService(FLAG_PAGE_ONE);
-        photoReviewUserService.addListener(this);
-        photoReviewUserService.execute(0);
+        PhotoReviewAdminService photoReviewAdminService = new PhotoReviewAdminService(FLAG_PAGE_ONE);
+        photoReviewAdminService.addListener(this);
+        photoReviewAdminService.execute(0);
     }
 
     private void getPhotoRefresh() {
-        PhotoReviewUserService photoReviewUserService = new PhotoReviewUserService(FLAG_REFRESH);
-        photoReviewUserService.addListener(this);
-        photoReviewUserService.execute(0);
+        PhotoReviewAdminService photoReviewAdminService = new PhotoReviewAdminService(FLAG_REFRESH);
+        photoReviewAdminService.addListener(this);
+        photoReviewAdminService.execute(0);
     }
 
     private void addPhotoToList(boolean isClearList) {
@@ -179,7 +178,6 @@ public class FragmentUploadReview extends Fragment implements TaskListener, OnPh
         //Add admob to show list
         addAdmobToList(photoReviewModelListTemp);
     }
-
 
     @Override
     public void onResultAvailable(Object... objects) {
@@ -208,6 +206,7 @@ public class FragmentUploadReview extends Fragment implements TaskListener, OnPh
                 //Reset page to start
                 page = 1;
             }
+
         } else {
         }
         //Update list after change
@@ -217,20 +216,11 @@ public class FragmentUploadReview extends Fragment implements TaskListener, OnPh
     @Override
     public void onItemClick(PhotoReviewModel photoReviewModel, View type) {
         switch (type.getId()) {
-            case R.id.photo_item_view_header_image_love:
-                if (ConnectionUntil.isConnection(getActivity())) {
-//                    photoLoveAdapter.notifyDataSetChanged();
-//                    //Call service remove love in this photo
-//                    setPhotoLove(PhotoLoveUserService.LOVE_DOWN, photoModel);
-//                    //Handle local
-//                    photoModelList.remove(photoModel);
-                    if (photoReviewModelList.size() == 0) {
-                        //Show text when have photo
-                        textNoPhoto.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    DialogUntil.showNetworkStage(getActivity(), false);
-                }
+            case R.id.photo_item_review_admin_reject:
+
+                break;
+            case R.id.photo_item_review_admin_approve:
+                ((MainActivity) getActivity()).changeNavigationTabTo(3);
                 break;
             default:
                 break;

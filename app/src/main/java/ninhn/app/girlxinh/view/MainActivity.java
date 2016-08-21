@@ -1,7 +1,6 @@
 package ninhn.app.girlxinh.view;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -258,6 +257,14 @@ public class MainActivity extends AppCompatActivity implements AHBottomNavigatio
     public void setNavigationNotification(int tab, int total) {
         // Add or remove notification for each item
         ahBottomNavigation.setNotification(String.valueOf(total), tab);
+    }
+
+    public void hideNavigation(){
+        ahBottomNavigation.hideBottomNavigation();
+    }
+
+    public void restoreNagivation(){
+        ahBottomNavigation.restoreBottomNavigation();
     }
 
 

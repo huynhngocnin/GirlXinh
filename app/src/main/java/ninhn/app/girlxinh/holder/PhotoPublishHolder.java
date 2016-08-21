@@ -18,18 +18,16 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import ninhn.app.girlxinh.R;
-import ninhn.app.girlxinh.constant.AppConstant;
 import ninhn.app.girlxinh.helper.AppValue;
-import ninhn.app.girlxinh.listener.OnItemClickListener;
+import ninhn.app.girlxinh.listener.OnPhotoPublishItemClickListener;
 import ninhn.app.girlxinh.model.PhotoModel;
 
-import static ninhn.app.girlxinh.constant.UrlConstant.PHOTO_GET;
 import static ninhn.app.girlxinh.constant.UrlConstant.SOCIAL_URL;
 
 /**
  * Created by NinHN on 4/7/16.
  */
-public class PhotoHomeHolder extends RecyclerView.ViewHolder {
+public class PhotoPublishHolder extends RecyclerView.ViewHolder {
 
     private ImageView avatar;
     private TextView name;
@@ -45,7 +43,7 @@ public class PhotoHomeHolder extends RecyclerView.ViewHolder {
 
     private Button login;
 
-    public PhotoHomeHolder(View itemView) {
+    public PhotoPublishHolder(View itemView) {
         super(itemView);
         avatar = (ImageView) itemView.findViewById(R.id.photo_item_view_header_image_avatar);
         name = (TextView) itemView.findViewById(R.id.photo_item_view_header_text_name);
@@ -61,7 +59,7 @@ public class PhotoHomeHolder extends RecyclerView.ViewHolder {
         login = (Button) itemView.findViewById(R.id.photo_item_view_footer_button_login);
     }
 
-    public void bind(final Context context, final PhotoModel photoModel, final OnItemClickListener listener) {
+    public void bind(final Context context, final PhotoModel photoModel, final OnPhotoPublishItemClickListener listener) {
 
         Picasso.with(itemView.getContext())
                 .load(photoModel.getUploadAvatar())

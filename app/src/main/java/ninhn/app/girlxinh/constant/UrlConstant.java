@@ -18,8 +18,12 @@ public class UrlConstant {
 
     public static final String PHOTO_USER_UPLOAD = SERVER + "/user-photo-upload";
 
-    public static final String PHOTO_PUBLISH_USER = "/photo-publish-user";
-    public static final String PHOTO_REVIEW_USER = "/photo-review-user";
+    public static final String PHOTO_PUBLISH_USER = SERVER + "/photo-publish-user";
+    public static final String PHOTO_REVIEW_USER = SERVER + "/photo-review-user";
+    public static final String PHOTO_REVIEW_ADMIN = SERVER + "/photo-review-admin";
+    public static final String PHOTO_REVIEW_DELETE = SERVER + "/photo-review-delete";
+    public static final String PHOTO_REVIEW_REJECT = SERVER + "/photo-review-reject";
+    public static final String PHOTO_REVIEW_APPROVE = SERVER + "/photo-review-approve";
 
     public static final String CONDITION_START = "?";
     public static final String CONDITION_AND = "&";

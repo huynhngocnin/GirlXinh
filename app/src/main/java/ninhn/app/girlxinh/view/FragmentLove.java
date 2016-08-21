@@ -26,7 +26,7 @@ import ninhn.app.girlxinh.constant.UrlConstant;
 import ninhn.app.girlxinh.event.LoginChangedEvent;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.helper.BusProvider;
-import ninhn.app.girlxinh.listener.OnItemClickListener;
+import ninhn.app.girlxinh.listener.OnPhotoPublishItemClickListener;
 import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.PhotoModel;
 import ninhn.app.girlxinh.service.PhotoLoveUserService;
@@ -39,7 +39,7 @@ import ninhn.app.girlxinh.until.ToastUntil;
 /**
  * Created by NinHN on 4/10/16.
  */
-public class FragmentLove extends Fragment implements OnItemClickListener, TaskListener {
+public class FragmentLove extends Fragment implements OnPhotoPublishItemClickListener, TaskListener {
 
     private List<PhotoModel> photoModelList;
     private RecyclerView mRecyclerView;
@@ -70,8 +70,7 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.changeNavigationTabTo(3);
+                ((MainActivity) getActivity()).changeNavigationTabTo(3);
             }
         });
 
@@ -144,10 +143,10 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
             if (photoModelListTemp != null && photoModelListTemp.size() > 0) {
                 //Add new photo list just loaded
                 photoModelList.addAll(photoModelListTemp);
-                //Remove text show when no photo
+                //Remove text show when have photo
                 textNoPhoto.setVisibility(View.GONE);
             } else {
-                //Show text when have photo
+                //Show text when no photo
                 textNoPhoto.setVisibility(View.VISIBLE);
             }
             //Disable refresh control

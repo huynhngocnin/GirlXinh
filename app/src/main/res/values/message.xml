@@ -5,6 +5,7 @@
     <string name="require_login_home">Login to use social and download</string>
     <string name="require_login_love">Login to use love album</string>
     <string name="no_photo_is_loved">No photo is loved</string>
+    <string name="no_photo_to_review">No photo to review</string>
 
     <string name="login_fail">Login fail. please try again</string>
 

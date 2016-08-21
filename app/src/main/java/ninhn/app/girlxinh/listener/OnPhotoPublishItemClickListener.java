@@ -7,6 +7,6 @@ import ninhn.app.girlxinh.model.PhotoModel;
 /**
  * Created by NinHN on 4/8/16.
  */
-public interface OnItemClickListener {
+public interface OnPhotoPublishItemClickListener {
     void onItemClick(PhotoModel photoModel, View type);
 }

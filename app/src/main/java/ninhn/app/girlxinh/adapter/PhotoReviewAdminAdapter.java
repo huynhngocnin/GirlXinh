@@ -12,32 +12,33 @@ import java.util.List;
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.holder.AdmobViewHolder;
 import ninhn.app.girlxinh.holder.LoadingViewHolder;
-import ninhn.app.girlxinh.holder.PhotoHomeHolder;
-import ninhn.app.girlxinh.listener.OnItemClickListener;
+import ninhn.app.girlxinh.holder.PhotoReviewAdminHolder;
+import ninhn.app.girlxinh.listener.OnPhotoPublishItemClickListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
-import ninhn.app.girlxinh.model.PhotoModel;
+import ninhn.app.girlxinh.listener.OnPhotoReviewItemClickListener;
+import ninhn.app.girlxinh.model.PhotoReviewModel;
 
 /**
  * Created by ninhn on 4/8/2016.
  */
-public class PhotoHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PhotoReviewAdminAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
     private final int VIEW_TYPE_ADMOB = 2;
 
     private Context context;
-    private List<PhotoModel> photoModelList;
+    private List<PhotoReviewModel> photoReviewModelList;
 
     private OnLoadMoreListener mOnLoadMoreListener;
-    private OnItemClickListener listener;
+    private OnPhotoReviewItemClickListener listener;
 
     private boolean isLoading;
     private int visibleThreshold = 5;
     private int lastVisibleItem, totalItemCount;
 
-    public PhotoHomeAdapter(Context context, RecyclerView recyclerView, List<PhotoModel> photoModelList, OnItemClickListener listener) {
+    public PhotoReviewAdminAdapter(Context context, RecyclerView recyclerView, List<PhotoReviewModel> photoReviewModelList, OnPhotoReviewItemClickListener listener) {
         this.context = context;
-        this.photoModelList = photoModelList;
+        this.photoReviewModelList = photoReviewModelList;
         this.listener = listener;
         final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -64,13 +65,13 @@ public class PhotoHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        return photoModelList == null ? 0 : photoModelList.size();
+        return photoReviewModelList == null ? 0 : photoReviewModelList.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (photoModelList.get(position) != null) {
-            if (!context.getString(R.string.banner_ad_unit_id).equals(photoModelList.get(position).getId())) {
+        if (photoReviewModelList.get(position) != null) {
+            if (!context.getString(R.string.banner_ad_unit_id).equals(photoReviewModelList.get(position).getId())) {
                 return VIEW_TYPE_ITEM;
             } else {
                 return VIEW_TYPE_ADMOB;
@@ -85,7 +86,7 @@ public class PhotoHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         View view;
         if (viewType == VIEW_TYPE_ITEM) {
             view = LayoutInflater.from(this.context).inflate(R.layout.photo_item_view, parent, false);
-            return new PhotoHomeHolder(view);
+            return new PhotoReviewAdminHolder(view);
         } else if (viewType == VIEW_TYPE_LOADING) {
             view = LayoutInflater.from(this.context).inflate(R.layout.loading_item, parent, false);
             return new LoadingViewHolder(view);
@@ -98,8 +99,8 @@ public class PhotoHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof PhotoHomeHolder) {
-            ((PhotoHomeHolder) holder).bind(this.context, photoModelList.get(position), this.listener);
+        if (holder instanceof PhotoReviewAdminHolder) {
+            ((PhotoReviewAdminHolder) holder).bind(this.context, photoReviewModelList.get(position), this.listener);
         } else if (holder instanceof LoadingViewHolder) {
             LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
             loadingViewHolder.progressBar.setIndeterminate(true);

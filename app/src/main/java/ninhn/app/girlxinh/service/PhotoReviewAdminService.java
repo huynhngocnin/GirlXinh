@@ -21,7 +21,7 @@ import ninhn.app.girlxinh.model.PhotoReviewModel;
 /**
  * Created by NinHN on 08/21/16.
  */
-public class PhotoReviewUserService extends AsyncTask<Integer, Void, List<PhotoReviewModel>> {
+public class PhotoReviewAdminService extends AsyncTask<Integer, Void, List<PhotoReviewModel>> {
 
     private List<TaskListener> myListeners = new ArrayList<TaskListener>();
 
@@ -31,7 +31,7 @@ public class PhotoReviewUserService extends AsyncTask<Integer, Void, List<PhotoR
 
     private int type;
 
-    public PhotoReviewUserService(int type) {
+    public PhotoReviewAdminService(int type) {
         this.type = type;
     }
 
@@ -49,16 +49,15 @@ public class PhotoReviewUserService extends AsyncTask<Integer, Void, List<PhotoR
 
     @Override
     protected List<PhotoReviewModel> doInBackground(Integer... params) {
-        return callService(AppValue.getInstance().getUserModel().getId(), params[0]);
+        return callService(params[0]);
     }
 
-    private List<PhotoReviewModel> callService(String userId, int page) {
+    private List<PhotoReviewModel> callService(int page) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         try {
-            ResponseEntity<PhotoReviewModel[]> responseEntity = restTemplate.getForEntity(UrlConstant.PHOTO_REVIEW_USER +
-                    UrlConstant.CONDITION_START + UrlConstant.CONDITION_USER_ID + userId +
-                    UrlConstant.CONDITION_AND + UrlConstant.CONDITION_PAGE + page, PhotoReviewModel[].class);
+            ResponseEntity<PhotoReviewModel[]> responseEntity = restTemplate.getForEntity(UrlConstant.PHOTO_REVIEW_ADMIN +
+                    UrlConstant.CONDITION_START + UrlConstant.CONDITION_PAGE + page, PhotoReviewModel[].class);
             PhotoReviewModel[] photoArray = responseEntity.getBody();
             List<PhotoReviewModel> photolist = Arrays.asList(photoArray);
             return photolist;

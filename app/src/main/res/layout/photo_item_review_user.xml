@@ -39,7 +39,7 @@
             android:textSize="@dimen/photo_item_view_text_detail_padding" />
 
         <ImageView
-            android:id="@+id/photo_item_review_user_header_image_love"
+            android:id="@+id/photo_item_review_user_header_image_remove"
             android:layout_width="@dimen/photo_item_view_header_height"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -62,7 +62,7 @@
         android:src="@drawable/ic_body_load" />
 
     <TextView
-        android:id="@+id/photo_item_review_user_body_text_comment"
+        android:id="@+id/photo_item_review_user_body_text_feedback"
         android:layout_width="match_parent"
         android:textStyle="bold"
         android:layout_height="wrap_content"
