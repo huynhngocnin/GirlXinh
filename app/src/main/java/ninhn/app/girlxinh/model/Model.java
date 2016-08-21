@@ -11,6 +11,7 @@ public class Model {
     private String id;
     private Date lastUpTime;
     private Date createTime;
+    private boolean deleted = false;
 
     public String getId() {
         return id;
@@ -34,5 +35,13 @@ public class Model {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

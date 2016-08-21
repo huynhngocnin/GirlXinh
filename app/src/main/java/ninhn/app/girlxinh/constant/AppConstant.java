@@ -1,13 +1,16 @@
 package ninhn.app.girlxinh.constant;
 
+import java.util.ArrayList;
+
 /**
  * Created by NinHN on 5/22/16.
  */
 public class AppConstant {
 
     public static final String BLANK = "";
-
     public static final String _JPG = ".jpg";
+
+    public static final ArrayList ARRAY_EMPTY = new ArrayList<>();
 
 
     public static final int FLAG_PAGE_MORE = 2;

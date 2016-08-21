@@ -25,7 +25,7 @@ import static ninhn.app.girlxinh.constant.UrlConstant.CONDITION_USER_ID;
 /**
  * Created by NinHN on 5/23/16.
  */
-public class PhotoLoveService extends AsyncTask<String, Void, Boolean> {
+public class PhotoLoveUserService extends AsyncTask<String, Void, Boolean> {
 
     public static final String LOVE_UP = "1";
     public static final String LOVE_DOWN = "0";

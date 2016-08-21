@@ -5,8 +5,11 @@ import android.util.Log;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,13 +19,10 @@ import ninhn.app.girlxinh.constant.UrlConstant;
 import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.PhotoModel;
 
-import static ninhn.app.girlxinh.constant.UrlConstant.CONDITION_START;
-import static ninhn.app.girlxinh.constant.UrlConstant.CONDITION_USER_ID;
-
 /**
  * Created by NinHN on 5/23/16.
  */
-public class UserLoveService extends AsyncTask<String, Void, List<PhotoModel>> {
+public class PhotoPublishGlobalService extends AsyncTask<Integer, Void, List<PhotoModel>> {
 
     private List<TaskListener> myListeners = new ArrayList<TaskListener>();
 
@@ -30,31 +30,37 @@ public class UserLoveService extends AsyncTask<String, Void, List<PhotoModel>> {
         myListeners.add(tl);
     }
 
+    private int type;
+
+    public PhotoPublishGlobalService(int type) {
+        this.type = type;
+    }
+
     @Override
     protected void onPostExecute(List<PhotoModel> photoModels) {
         super.onPostExecute(photoModels);
         for (TaskListener tl : myListeners) {
-            tl.onResultAvailable(AppConstant.FLAG_PHOTO_LOAD, photoModels);
+            if (photoModels != null) {
+                tl.onResultAvailable(AppConstant.FLAG_PHOTO_LOAD, this.type, photoModels);
+            } else {
+                tl.onResultAvailable(AppConstant.FLAG_PHOTO_LOAD, this.type, AppConstant.ARRAY_EMPTY);
+            }
         }
     }
 
     @Override
-    protected List<PhotoModel> doInBackground(String... params) {
+    protected List<PhotoModel> doInBackground(Integer... params) {
         return callService(params[0]);
     }
 
-    private List<PhotoModel> callService(String userId) {
+    private List<PhotoModel> callService(int page) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         try {
-            Log.d(getClass().toString(), UrlConstant.PHOTO_USER_LOVE + CONDITION_START + CONDITION_USER_ID + userId);
-            ResponseEntity<PhotoModel[]> responseEntity = restTemplate.getForEntity(UrlConstant.PHOTO_USER_LOVE + CONDITION_START + CONDITION_USER_ID + userId, PhotoModel[].class);
+            ResponseEntity<PhotoModel[]> responseEntity = restTemplate.getForEntity(UrlConstant.PHOTO_LIST_PAGE + page, PhotoModel[].class);
             PhotoModel[] photoArray = responseEntity.getBody();
-            if (photoArray != null) {
-                List<PhotoModel> photolist = Arrays.asList(photoArray);
-                return photolist;
-            }
-            return AppConstant.ARRAY_EMPTY;
+            List<PhotoModel> photolist = Arrays.asList(photoArray);
+            return photolist;
         } catch (Exception e) {
             Log.d(getClass().toString(), e.getMessage(), e);
         }

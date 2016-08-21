@@ -22,6 +22,7 @@ import ninhn.app.girlxinh.constant.UrlConstant;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.listener.UploadListener;
 import ninhn.app.girlxinh.model.PhotoModel;
+import ninhn.app.girlxinh.model.PhotoReviewModel;
 import ninhn.app.girlxinh.until.ImageUntil;
 import ninhn.app.girlxinh.until.ToastUntil;
 
@@ -78,7 +79,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         if (imgFile.isFile()) {
             try {
                 //Set photo info
-                PhotoModel photoModel = new PhotoModel();
+                PhotoReviewModel photoModel = new PhotoReviewModel();
                 photoModel.setDescription(edtDescription.getText().toString());
                 photoModel.setUploadId(AppValue.getInstance().getUserModel().getId());
                 photoModel.setUploadName(AppValue.getInstance().getUserModel().getName());
@@ -103,7 +104,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                 changeControlToReUpload();
             }
         } else {
-            ToastUntil.showShort(this, "Vui long chon anh nha ku!");
+            ToastUntil.showShort(this, R.string.please_select_photo_before);
             changeControlToReUpload();
         }
     }

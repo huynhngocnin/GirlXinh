@@ -29,8 +29,8 @@ import ninhn.app.girlxinh.listener.OnItemClickListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
 import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.PhotoModel;
-import ninhn.app.girlxinh.service.PhotoGetService;
-import ninhn.app.girlxinh.service.PhotoLoveService;
+import ninhn.app.girlxinh.service.PhotoPublishGlobalService;
+import ninhn.app.girlxinh.service.PhotoLoveUserService;
 import ninhn.app.girlxinh.until.ConnectionUntil;
 import ninhn.app.girlxinh.until.DialogUntil;
 import ninhn.app.girlxinh.until.DownloadUntil;
@@ -91,12 +91,12 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
                     if (AppValue.getInstance().isLogin()) {
                         if (photoModel.getLove().contains(AppValue.getInstance().getUserModel().getId())) {
                             //Call service remove love in this photo
-                            setPhotoLove(PhotoLoveService.LOVE_DOWN, photoModel);
+                            setPhotoLove(PhotoLoveUserService.LOVE_DOWN, photoModel);
                             //Handle local
                             photoModel.getLove().remove(AppValue.getInstance().getUserModel().getId());
                         } else {
                             //Call service remove love in this photo
-                            setPhotoLove(PhotoLoveService.LOVE_UP, photoModel);
+                            setPhotoLove(PhotoLoveUserService.LOVE_UP, photoModel);
                             //Handle local
                             photoModel.getLove().add(AppValue.getInstance().getUserModel().getId());
                             //Set animation after loved
@@ -192,27 +192,27 @@ public class FragmentHome extends Fragment implements OnItemClickListener, TaskL
     }
 
     private void setPhotoLove(String loveType, PhotoModel photoModel) {
-        PhotoLoveService photoLoveService = new PhotoLoveService();
-        photoLoveService.addListener(this);
-        photoLoveService.execute(loveType, photoModel.getId(), AppValue.getInstance().getUserModel().getId());
+        PhotoLoveUserService photoLoveUserService = new PhotoLoveUserService();
+        photoLoveUserService.addListener(this);
+        photoLoveUserService.execute(loveType, photoModel.getId(), AppValue.getInstance().getUserModel().getId());
     }
 
     private void getPhotoMore() {
-        PhotoGetService photoGetService = new PhotoGetService(FLAG_PAGE_MORE);
-        photoGetService.addListener(this);
-        photoGetService.execute(page);
+        PhotoPublishGlobalService photoPublishGlobalService = new PhotoPublishGlobalService(FLAG_PAGE_MORE);
+        photoPublishGlobalService.addListener(this);
+        photoPublishGlobalService.execute(page);
     }
 
     private void getPhotoPage() {
-        PhotoGetService photoGetService = new PhotoGetService(FLAG_PAGE_ONE);
-        photoGetService.addListener(this);
-        photoGetService.execute(0);
+        PhotoPublishGlobalService photoPublishGlobalService = new PhotoPublishGlobalService(FLAG_PAGE_ONE);
+        photoPublishGlobalService.addListener(this);
+        photoPublishGlobalService.execute(0);
     }
 
     private void getPhotoRefresh() {
-        PhotoGetService photoGetService = new PhotoGetService(FLAG_REFRESH);
-        photoGetService.addListener(this);
-        photoGetService.execute(0);
+        PhotoPublishGlobalService photoPublishGlobalService = new PhotoPublishGlobalService(FLAG_REFRESH);
+        photoPublishGlobalService.addListener(this);
+        photoPublishGlobalService.execute(0);
     }
 
     private void initRecyclerView() {

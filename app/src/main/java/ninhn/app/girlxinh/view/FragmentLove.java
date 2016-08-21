@@ -29,7 +29,7 @@ import ninhn.app.girlxinh.helper.BusProvider;
 import ninhn.app.girlxinh.listener.OnItemClickListener;
 import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.PhotoModel;
-import ninhn.app.girlxinh.service.PhotoLoveService;
+import ninhn.app.girlxinh.service.PhotoLoveUserService;
 import ninhn.app.girlxinh.service.UserLoveService;
 import ninhn.app.girlxinh.until.ConnectionUntil;
 import ninhn.app.girlxinh.until.DialogUntil;
@@ -112,7 +112,7 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
                 if (ConnectionUntil.isConnection(getActivity())) {
                     photoLoveAdapter.notifyDataSetChanged();
                     //Call service remove love in this photo
-                    setPhotoLove(PhotoLoveService.LOVE_DOWN, photoModel);
+                    setPhotoLove(PhotoLoveUserService.LOVE_DOWN, photoModel);
                     //Handle local
                     photoModelList.remove(photoModel);
                     if (photoModelList.size() == 0) {
@@ -188,9 +188,9 @@ public class FragmentLove extends Fragment implements OnItemClickListener, TaskL
     }
 
     private void setPhotoLove(String loveType, PhotoModel photoModel) {
-        PhotoLoveService photoLoveService = new PhotoLoveService();
-        photoLoveService.addListener(this);
-        photoLoveService.execute(loveType, photoModel.getId(), AppValue.getInstance().getUserModel().getId());
+        PhotoLoveUserService photoLoveUserService = new PhotoLoveUserService();
+        photoLoveUserService.addListener(this);
+        photoLoveUserService.execute(loveType, photoModel.getId(), AppValue.getInstance().getUserModel().getId());
     }
 
     private void initPullRefresh() {

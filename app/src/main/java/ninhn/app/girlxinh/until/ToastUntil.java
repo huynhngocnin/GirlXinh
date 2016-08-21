@@ -16,7 +16,23 @@ public class ToastUntil {
         toast.show();
     }
 
+    public static void showShort(Context context, int message) {
+        if(toast!=null) {
+            toast.cancel();
+        }
+        toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
     public static void showLong(Context context, String message) {
+        if(toast!=null) {
+            toast.cancel();
+        }
+        toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    public static void showLong(Context context, int message) {
         if(toast!=null) {
             toast.cancel();
         }
