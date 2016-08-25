@@ -25,13 +25,12 @@ import ninhn.app.girlxinh.event.ConnectChangedEvent;
 import ninhn.app.girlxinh.event.LoginChangedEvent;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.helper.BusProvider;
-import ninhn.app.girlxinh.listener.HidingScrollListener;
-import ninhn.app.girlxinh.listener.OnPhotoPublishItemClickListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
+import ninhn.app.girlxinh.listener.OnPhotoPublishItemClickListener;
 import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.PhotoModel;
-import ninhn.app.girlxinh.service.PhotoPublishGlobalService;
 import ninhn.app.girlxinh.service.PhotoLoveUserService;
+import ninhn.app.girlxinh.service.PhotoPublishGlobalService;
 import ninhn.app.girlxinh.until.ConnectionUntil;
 import ninhn.app.girlxinh.until.DialogUntil;
 import ninhn.app.girlxinh.until.DownloadUntil;
@@ -233,18 +232,18 @@ public class FragmentHome extends Fragment implements OnPhotoPublishItemClickLis
             }
         });
 
-        //Setting up our OnScrollListener
-        mRecyclerView.setOnScrollListener(new HidingScrollListener() {
-            @Override
-            public void onHide() {
-                ((MainActivity) getActivity()).hideNavigation();
-            }
-
-            @Override
-            public void onShow() {
-                ((MainActivity) getActivity()).restoreNagivation();
-            }
-        });
+//        //Setting up our OnScrollListener
+//        mRecyclerView.setOnScrollListener(new HidingScrollListener() {
+//            @Override
+//            public void onHide() {
+//                ((MainActivity) getActivity()).hideNavigation();
+//            }
+//
+//            @Override
+//            public void onShow() {
+//                ((MainActivity) getActivity()).restoreNagivation();
+//            }
+//        });
 
     }
 

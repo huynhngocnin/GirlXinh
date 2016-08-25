@@ -259,13 +259,5 @@ public class MainActivity extends AppCompatActivity implements AHBottomNavigatio
         ahBottomNavigation.setNotification(String.valueOf(total), tab);
     }
 
-    public void hideNavigation(){
-        ahBottomNavigation.hideBottomNavigation();
-    }
-
-    public void restoreNagivation(){
-        ahBottomNavigation.restoreBottomNavigation();
-    }
-
 
 }

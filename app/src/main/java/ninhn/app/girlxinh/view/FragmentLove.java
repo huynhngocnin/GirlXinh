@@ -70,7 +70,8 @@ public class FragmentLove extends Fragment implements OnPhotoPublishItemClickLis
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).changeNavigationTabTo(3);
+                MainActivity mainActivity = (MainActivity) getActivity();
+                mainActivity.changeNavigationTabTo(3);
             }
         });
 

@@ -1,6 +1,5 @@
 package ninhn.app.girlxinh.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,28 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.baoyz.widget.PullRefreshLayout;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.PhotoReviewUserAdapter;
-import ninhn.app.girlxinh.constant.UrlConstant;
-import ninhn.app.girlxinh.helper.AppValue;
-import ninhn.app.girlxinh.listener.HidingScrollListener;
-import ninhn.app.girlxinh.listener.OnPhotoPublishItemClickListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
 import ninhn.app.girlxinh.listener.OnPhotoReviewItemClickListener;
 import ninhn.app.girlxinh.listener.TaskListener;
-import ninhn.app.girlxinh.model.PhotoModel;
 import ninhn.app.girlxinh.model.PhotoReviewModel;
-import ninhn.app.girlxinh.service.PhotoLoveUserService;
 import ninhn.app.girlxinh.service.PhotoReviewAdminService;
 import ninhn.app.girlxinh.until.ConnectionUntil;
-import ninhn.app.girlxinh.until.DialogUntil;
-import ninhn.app.girlxinh.until.DownloadUntil;
 import ninhn.app.girlxinh.until.ToastUntil;
 
 import static ninhn.app.girlxinh.constant.AppConstant.ADMOB_CYCLE_SHOW;
@@ -114,18 +103,18 @@ public class FragmentAdminReview extends Fragment implements TaskListener, OnPho
             }
         });
 
-        //Setting up our OnScrollListener
-        mRecyclerView.setOnScrollListener(new HidingScrollListener() {
-            @Override
-            public void onHide() {
-                ((MainActivity) getActivity()).hideNavigation();
-            }
-
-            @Override
-            public void onShow() {
-                ((MainActivity) getActivity()).restoreNagivation();
-            }
-        });
+//        //Setting up our OnScrollListener
+//        mRecyclerView.setOnScrollListener(new HidingScrollListener() {
+//            @Override
+//            public void onHide() {
+//                ((MainActivity) getActivity()).hideNavigation();
+//            }
+//
+//            @Override
+//            public void onShow() {
+//                ((MainActivity) getActivity()).restoreNagivation();
+//            }
+//        });
 
     }
 

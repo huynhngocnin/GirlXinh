@@ -1,6 +1,5 @@
 package ninhn.app.girlxinh.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,16 +17,10 @@ import java.util.List;
 
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.PhotoReviewUserAdapter;
-import ninhn.app.girlxinh.constant.UrlConstant;
-import ninhn.app.girlxinh.helper.AppValue;
-import ninhn.app.girlxinh.listener.HidingScrollListener;
-import ninhn.app.girlxinh.listener.OnPhotoPublishItemClickListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
 import ninhn.app.girlxinh.listener.OnPhotoReviewItemClickListener;
 import ninhn.app.girlxinh.listener.TaskListener;
-import ninhn.app.girlxinh.model.PhotoModel;
 import ninhn.app.girlxinh.model.PhotoReviewModel;
-import ninhn.app.girlxinh.service.PhotoLoveUserService;
 import ninhn.app.girlxinh.service.PhotoReviewUserService;
 import ninhn.app.girlxinh.until.ConnectionUntil;
 import ninhn.app.girlxinh.until.DialogUntil;
@@ -99,7 +92,7 @@ public class FragmentUploadReview extends Fragment implements TaskListener, OnPh
 
     private void initRecyclerView() {
         photoReviewModelList = new ArrayList<>();
-        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycleView_upload_publish);
+        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycleView_upload_review);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         photoReviewUserAdapter = new PhotoReviewUserAdapter(getActivity(), mRecyclerView, photoReviewModelList, this);
@@ -115,24 +108,24 @@ public class FragmentUploadReview extends Fragment implements TaskListener, OnPh
             }
         });
 
-        //Setting up our OnScrollListener
-        mRecyclerView.setOnScrollListener(new HidingScrollListener() {
-            @Override
-            public void onHide() {
-                ((MainActivity) getActivity()).hideNavigation();
-            }
-
-            @Override
-            public void onShow() {
-                ((MainActivity) getActivity()).restoreNagivation();
-            }
-        });
+//        //Setting up our OnScrollListener
+//        mRecyclerView.setOnScrollListener(new HidingScrollListener() {
+//            @Override
+//            public void onHide() {
+//                ((MainActivity) getActivity()).hideNavigation();
+//            }
+//
+//            @Override
+//            public void onShow() {
+//                ((MainActivity) getActivity()).restoreNagivation();
+//            }
+//        });
 
     }
 
     private void initPullRefresh() {
         //Map component to control
-        pullRefreshLayout = (PullRefreshLayout) getActivity().findViewById(R.id.pullRefreshLayout_upload_publish);
+        pullRefreshLayout = (PullRefreshLayout) getActivity().findViewById(R.id.pullRefreshLayout_upload_review);
 
         // listen refresh event
         pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {

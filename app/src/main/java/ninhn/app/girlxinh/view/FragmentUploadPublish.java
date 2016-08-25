@@ -21,9 +21,8 @@ import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.PhotoPublishAdapter;
 import ninhn.app.girlxinh.constant.UrlConstant;
 import ninhn.app.girlxinh.helper.AppValue;
-import ninhn.app.girlxinh.listener.HidingScrollListener;
-import ninhn.app.girlxinh.listener.OnPhotoPublishItemClickListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
+import ninhn.app.girlxinh.listener.OnPhotoPublishItemClickListener;
 import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.PhotoModel;
 import ninhn.app.girlxinh.service.PhotoLoveUserService;
@@ -112,18 +111,18 @@ public class FragmentUploadPublish extends Fragment implements TaskListener, OnP
             }
         });
 
-        //Setting up our OnScrollListener
-        mRecyclerView.setOnScrollListener(new HidingScrollListener() {
-            @Override
-            public void onHide() {
-                ((MainActivity) getActivity()).hideNavigation();
-            }
-
-            @Override
-            public void onShow() {
-                ((MainActivity) getActivity()).restoreNagivation();
-            }
-        });
+//        //Setting up our OnScrollListener
+//        mRecyclerView.setOnScrollListener(new HidingScrollListener() {
+//            @Override
+//            public void onHide() {
+//                ((MainActivity) getActivity()).hideNavigation();
+//            }
+//
+//            @Override
+//            public void onShow() {
+//                ((MainActivity) getActivity()).restoreNagivation();
+//            }
+//        });
 
     }
 
