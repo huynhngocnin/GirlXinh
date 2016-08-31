@@ -1,6 +1,7 @@
 package ninhn.app.girlxinh.model;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import ninhn.app.girlxinh.constant.AppConstant;
 /**
  * Created by ninhn on 4/7/2016.
  */
-public class PhotoModel extends Model {
+public class PhotoModel extends Model implements Serializable{
     private String uploadAvatar = AppConstant.BLANK;
     private String name = AppConstant.BLANK;
     private String description = AppConstant.BLANK;

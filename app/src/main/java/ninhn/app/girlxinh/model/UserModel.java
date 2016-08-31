@@ -1,11 +1,12 @@
 package ninhn.app.girlxinh.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by NinHN on 5/23/16.
  */
-public class UserModel extends Model{
+public class UserModel extends Model implements Serializable{
     private String name;
     private String phone;
     private String birthday;
@@ -14,6 +15,7 @@ public class UserModel extends Model{
     private String facebook;
     private List<String> love;
     private String avatar;
+    private String token;
 
     public String getName() {
         return name;
@@ -77,5 +79,13 @@ public class UserModel extends Model{
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
