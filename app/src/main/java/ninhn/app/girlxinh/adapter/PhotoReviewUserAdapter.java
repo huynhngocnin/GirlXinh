@@ -85,7 +85,7 @@ public class PhotoReviewUserAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         if (viewType == VIEW_TYPE_ITEM) {
-            view = LayoutInflater.from(this.context).inflate(R.layout.photo_item_view, parent, false);
+            view = LayoutInflater.from(this.context).inflate(R.layout.photo_item_review_user, parent, false);
             return new PhotoReviewUserHolder(view);
         } else if (viewType == VIEW_TYPE_LOADING) {
             view = LayoutInflater.from(this.context).inflate(R.layout.loading_item, parent, false);

@@ -11,9 +11,9 @@
         android:layout_height="wrap_content"
         android:background="@color/material_blue_grey_800"
         app:tabGravity="fill"
-        app:tabIndicatorColor="@color/orange"
+        app:tabIndicatorColor="@color/colorUploadButton"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/orange"
+        app:tabSelectedTextColor="@color/colorUploadButton"
         app:tabTextColor="@color/white" />
 
     <android.support.v4.view.ViewPager

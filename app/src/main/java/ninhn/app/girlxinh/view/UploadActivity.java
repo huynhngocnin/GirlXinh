@@ -2,6 +2,7 @@ package ninhn.app.girlxinh.view;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
@@ -29,6 +32,7 @@ import ninhn.app.girlxinh.until.ToastUntil;
 public class UploadActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final int PICK_PHOTO = 0;
+    public static final String UPLOAD_OK = "uploaded";
 
     private EditText edtDescription;
     private ImageView imgPhoto;
@@ -84,14 +88,28 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                 photoModel.setUploadId(AppValue.getInstance().getUserModel().getId());
                 photoModel.setUploadName(AppValue.getInstance().getUserModel().getName());
                 photoModel.setUploadAvatar(AppValue.getInstance().getUserModel().getAvatar());
+                //Conver object to json
+                ObjectMapper mapper = new ObjectMapper();
+                String jsonInString;
+                try {
+                    jsonInString = mapper.writeValueAsString(photoModel);
+                }catch (JsonProcessingException JPException){
+                    ToastUntil.showShort(this, JPException.getMessage());
+                    changeControlToReUpload();
+                    return;
+                }
                 //Set param to upload(photo File and photo Info)
                 RequestParams requestParams = new RequestParams();
                 requestParams.put(UrlConstant.PHOTO_FILE, imgFile);
-                requestParams.put(UrlConstant.PHOTO_INFO, photoModel);
+                requestParams.put(UrlConstant.PHOTO_INFO, jsonInString);
                 ImageUntil.uploadImage(this, requestParams, new UploadListener() {
                     @Override
                     public void onPostUploaded(boolean isSuccess, String message) {
                         if (isSuccess) {
+                            ToastUntil.showShort(getApplicationContext(), R.string.upload_success);
+                            Intent intent = getIntent();
+                            intent.putExtra(UPLOAD_OK, true);
+                            setResult(RESULT_OK, intent);
                             finish();
                         } else {
                             ToastUntil.showShort(getApplicationContext(), message);
@@ -137,12 +155,6 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                             .placeholder(R.drawable.loading_animation)
                             .into(imgPhoto);
                     imgFile = new File(ImageUntil.getPathFromURI(this, imageUri));
-//                    try {
-//                        InputStream imageStream = getContentResolver().openInputStream(imageUri);
-//                        Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
-//                    } catch (FileNotFoundException fileExeption) {
-//
-//                    }
                 }
         }
     }

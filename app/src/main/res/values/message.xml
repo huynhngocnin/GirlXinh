@@ -13,6 +13,7 @@
     <string name="network_connect_no">Unable access internet, please check internet connection</string>
     <string name="network_connect_yes">Internet is connected</string>
     <string name="please_select_photo_before">Please select photo before</string>
+    <string name="upload_success">Uploaded!</string>
 
 
 </resources>

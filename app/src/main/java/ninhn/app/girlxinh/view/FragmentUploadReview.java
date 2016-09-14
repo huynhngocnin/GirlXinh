@@ -90,6 +90,10 @@ public class FragmentUploadReview extends Fragment implements TaskListener, OnPh
         }
     }
 
+    public void handleUploadSuccess(){
+        getPhotoRefresh();
+    }
+
     private void initRecyclerView() {
         photoReviewModelList = new ArrayList<>();
         mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycleView_upload_review);
@@ -192,7 +196,7 @@ public class FragmentUploadReview extends Fragment implements TaskListener, OnPh
                 }
             } else if (FLAG_PAGE_ONE == (int) objects[1]) {
                 //Add list photo had just loaded and admob to list
-                addPhotoToList(true);
+                addPhotoToList(false);
             } else {
                 //Add list photo had just loaded and admob to list
                 addPhotoToList(true);

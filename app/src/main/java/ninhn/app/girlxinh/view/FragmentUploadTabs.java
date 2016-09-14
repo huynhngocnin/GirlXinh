@@ -1,5 +1,6 @@
 package ninhn.app.girlxinh.view;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,10 +22,14 @@ import ninhn.app.girlxinh.until.ToastUntil;
  */
 public class FragmentUploadTabs extends Fragment implements View.OnClickListener {
 
+    public static final int UPLOAD = 0;
+
     private static TabLayout tabLayout;
     private static ViewPager viewPager;
     private static FloatingActionButton floatUpload;
-    public static int int_items = 2;
+    private static int int_items = 2;
+    private FragmentUploadReview fragmentUploadReview = new FragmentUploadReview();
+    private FragmentUploadPublish fragmentUploadPublish = new FragmentUploadPublish();
 
     @Nullable
     @Override
@@ -73,7 +78,17 @@ public class FragmentUploadTabs extends Fragment implements View.OnClickListener
 
     private void showUploadActivity() {
         Intent intent = new Intent(getActivity(), UploadActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, UPLOAD);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == UPLOAD && resultCode == Activity.RESULT_OK) {
+            if (data.getExtras().getBoolean(UploadActivity.UPLOAD_OK)) {
+                fragmentUploadReview.handleUploadSuccess();
+            }
+        }
     }
 
     class MyAdapter extends FragmentPagerAdapter {
@@ -90,9 +105,9 @@ public class FragmentUploadTabs extends Fragment implements View.OnClickListener
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new FragmentUploadReview();
+                    return fragmentUploadReview;
                 case 1:
-                    return new FragmentUploadPublish();
+                    return fragmentUploadPublish;
             }
             return null;
         }
