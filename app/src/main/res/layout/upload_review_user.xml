@@ -11,13 +11,13 @@
     tools:context=".view.MainActivity">
 
     <com.baoyz.widget.PullRefreshLayout
-        android:id="@+id/pullRefreshLayout_upload_review"
+        android:id="@+id/pullRefreshLayout_upload_review_user"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:refreshType="material">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycleView_upload_review"
+            android:id="@+id/recycleView_upload_review_user"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/photo_item_view_margin_left"
@@ -25,7 +25,7 @@
     </com.baoyz.widget.PullRefreshLayout>
 
     <TextView
-        android:id="@+id/upload_text_no_photo"
+        android:id="@+id/upload_text_no_photo_user"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"

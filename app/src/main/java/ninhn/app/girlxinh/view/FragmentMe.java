@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -19,12 +18,10 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.login.widget.ProfilePictureView;
 import com.squareup.otto.Produce;
-import com.squareup.otto.Subscribe;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,8 +47,6 @@ public class FragmentMe extends Fragment implements TaskListener {
     private TextView textName;
     private ProfilePictureView profilePictureView;
     private CallbackManager callbackManager;
-
-    //private int loginStatus = AppConstant.BUS_LOGOUT;
 
     @Nullable
     @Override
@@ -215,8 +210,8 @@ public class FragmentMe extends Fragment implements TaskListener {
             if (object.has(JSONConstant.ID)) {
                 userModel.setFacebook(object.getString(JSONConstant.ID));
             }
-            //if (object.has(JSONConstant.FROM)) {
             userModel.setFrom(AppConstant.BLANK);
+            userModel.setRole(AppConstant.USER_ROLE_USER);
             //}
             return userModel;
         } catch (JSONException jsonException) {

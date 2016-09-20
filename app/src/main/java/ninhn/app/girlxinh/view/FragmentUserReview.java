@@ -23,7 +23,6 @@ import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.PhotoReviewModel;
 import ninhn.app.girlxinh.service.PhotoReviewUserService;
 import ninhn.app.girlxinh.until.ConnectionUntil;
-import ninhn.app.girlxinh.until.DialogUntil;
 import ninhn.app.girlxinh.until.ToastUntil;
 
 import static ninhn.app.girlxinh.constant.AppConstant.ADMOB_CYCLE_SHOW;
@@ -36,7 +35,7 @@ import static ninhn.app.girlxinh.constant.AppConstant.FLAG_REFRESH;
 /**
  * Created by NinHN on 7/31/2016.
  */
-public class FragmentUploadReview extends Fragment implements TaskListener, OnPhotoReviewItemClickListener {
+public class FragmentUserReview extends Fragment implements TaskListener, OnPhotoReviewItemClickListener {
 
     private List<PhotoReviewModel> photoReviewModelList;
     private RecyclerView mRecyclerView;
@@ -53,7 +52,7 @@ public class FragmentUploadReview extends Fragment implements TaskListener, OnPh
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.upload_review, null);
+        return inflater.inflate(R.layout.upload_review_user, null);
     }
 
     @Override
@@ -65,7 +64,7 @@ public class FragmentUploadReview extends Fragment implements TaskListener, OnPh
         getPhotoPage();
         initPullRefresh();
 
-        textNoPhoto = (TextView) getActivity().findViewById(R.id.upload_text_no_photo);
+        textNoPhoto = (TextView) getActivity().findViewById(R.id.upload_text_no_photo_user);
     }
 
     private void initAdmobModel() {
@@ -96,7 +95,7 @@ public class FragmentUploadReview extends Fragment implements TaskListener, OnPh
 
     private void initRecyclerView() {
         photoReviewModelList = new ArrayList<>();
-        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycleView_upload_review);
+        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycleView_upload_review_user);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         photoReviewUserAdapter = new PhotoReviewUserAdapter(getActivity(), mRecyclerView, photoReviewModelList, this);
@@ -112,31 +111,18 @@ public class FragmentUploadReview extends Fragment implements TaskListener, OnPh
             }
         });
 
-//        //Setting up our OnScrollListener
-//        mRecyclerView.setOnScrollListener(new HidingScrollListener() {
-//            @Override
-//            public void onHide() {
-//                ((MainActivity) getActivity()).hideNavigation();
-//            }
-//
-//            @Override
-//            public void onShow() {
-//                ((MainActivity) getActivity()).restoreNagivation();
-//            }
-//        });
-
     }
 
     private void initPullRefresh() {
         //Map component to control
-        pullRefreshLayout = (PullRefreshLayout) getActivity().findViewById(R.id.pullRefreshLayout_upload_review);
+        pullRefreshLayout = (PullRefreshLayout) getActivity().findViewById(R.id.pullRefreshLayout_upload_review_user);
 
         // listen refresh event
         pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 if (!ConnectionUntil.isConnection(getActivity())) {
-                    ToastUntil.showShort(getActivity(), getString(R.string.network_connect_no));
+                    ToastUntil.showShort(getActivity(), R.string.network_connect_no);
                     pullRefreshLayout.setRefreshing(false);
                 } else {
                     // start refresh
@@ -214,21 +200,6 @@ public class FragmentUploadReview extends Fragment implements TaskListener, OnPh
     @Override
     public void onItemClick(PhotoReviewModel photoReviewModel, View type) {
         switch (type.getId()) {
-            case R.id.photo_item_view_header_image_love:
-                if (ConnectionUntil.isConnection(getActivity())) {
-//                    photoLoveAdapter.notifyDataSetChanged();
-//                    //Call service remove love in this photo
-//                    setPhotoLove(PhotoLoveUserService.LOVE_DOWN, photoModel);
-//                    //Handle local
-//                    photoModelList.remove(photoModel);
-                    if (photoReviewModelList.size() == 0) {
-                        //Show text when have photo
-                        textNoPhoto.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    DialogUntil.showNetworkStage(getActivity(), false);
-                }
-                break;
             default:
                 break;
 

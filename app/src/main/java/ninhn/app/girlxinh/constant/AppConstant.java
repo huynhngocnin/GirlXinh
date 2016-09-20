@@ -18,6 +18,7 @@ public class AppConstant {
 
     public static final int FLAG_PHOTO_LOAD = 0;
     public static final int FLAG_PHOTO_LOVE = 1;
+    public static final int FLAG_PHOTO_REVIEW = 2;
 
     //Key is saved in share_preference
     public static final String USER_LOGIN = "userLogin";
@@ -33,4 +34,7 @@ public class AppConstant {
 
     public static final int ADMOB_INIT_POSITION = -1;
     public static final int ADMOB_CYCLE_SHOW = 10;
+
+    public static final int USER_ROLE_ADMIN = 1;
+    public static final int USER_ROLE_USER = 0;
 }

@@ -15,7 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ninhn.app.girlxinh.R;
-import ninhn.app.girlxinh.until.ToastUntil;
+import ninhn.app.girlxinh.constant.AppConstant;
+import ninhn.app.girlxinh.helper.AppValue;
 
 /**
  * Created by NinHN on 7/31/2016.
@@ -28,8 +29,9 @@ public class FragmentUploadTabs extends Fragment implements View.OnClickListener
     private static ViewPager viewPager;
     private static FloatingActionButton floatUpload;
     private static int int_items = 2;
-    private FragmentUploadReview fragmentUploadReview = new FragmentUploadReview();
-    private FragmentUploadPublish fragmentUploadPublish = new FragmentUploadPublish();
+    private FragmentUserReview fragmentUserReview = new FragmentUserReview();
+    private FragmentUserPublish fragmentUserPublish = new FragmentUserPublish();
+    private FragmentAdminReview fragmentAdminReview = new FragmentAdminReview();
 
     @Nullable
     @Override
@@ -86,7 +88,7 @@ public class FragmentUploadTabs extends Fragment implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == UPLOAD && resultCode == Activity.RESULT_OK) {
             if (data.getExtras().getBoolean(UploadActivity.UPLOAD_OK)) {
-                fragmentUploadReview.handleUploadSuccess();
+                fragmentUserReview.handleUploadSuccess();
             }
         }
     }
@@ -105,9 +107,13 @@ public class FragmentUploadTabs extends Fragment implements View.OnClickListener
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return fragmentUploadReview;
+                    if (AppConstant.USER_ROLE_USER == AppValue.getInstance().getUserModel().getRole()) {
+                        return fragmentUserReview;
+                    } else if (AppConstant.USER_ROLE_ADMIN == AppValue.getInstance().getUserModel().getRole()) {
+                        return fragmentAdminReview;
+                    }
                 case 1:
-                    return fragmentUploadPublish;
+                    return fragmentUserPublish;
             }
             return null;
         }

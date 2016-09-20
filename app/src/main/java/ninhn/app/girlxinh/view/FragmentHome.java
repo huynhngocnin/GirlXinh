@@ -106,7 +106,7 @@ public class FragmentHome extends Fragment implements OnPhotoPublishItemClickLis
                         }
                         photoPublishAdapter.notifyDataSetChanged();
                     } else {
-                        ToastUntil.showLong(getActivity(), getString(R.string.require_login_love));
+                        ToastUntil.showLong(getActivity(), R.string.require_login_love);
                     }
                 } else {
                     DialogUntil.showNetworkStage(getActivity(), false);
@@ -262,7 +262,7 @@ public class FragmentHome extends Fragment implements OnPhotoPublishItemClickLis
             @Override
             public void onRefresh() {
                 if (!ConnectionUntil.isConnection(getActivity())) {
-                    ToastUntil.showShort(getActivity(), getString(R.string.network_connect_no));
+                    ToastUntil.showShort(getActivity(), R.string.network_connect_no);
                     pullRefreshLayout.setRefreshing(false);
                 } else {
                     // start refresh

@@ -15,7 +15,6 @@ import ninhn.app.girlxinh.listener.TaskListener;
  * Created by NinHN on 5/23/16.
  */
 public class PhotoAdminApproveService extends AsyncTask<String, Void, Boolean> {
-
     private List<TaskListener> myListeners = new ArrayList<TaskListener>();
 
     public void addListener(TaskListener tl) {
@@ -32,14 +31,15 @@ public class PhotoAdminApproveService extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(String... params) {
-        return callService(params[0], params[1]);
+        return callService(params[0], params[1], params[1]);
     }
 
-    private Boolean callService(String userId, String photoId) {
+    private Boolean callService(String userId, String photoId, String approve) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         return restTemplate.getForObject(UrlConstant.PHOTO_REVIEW_APPROVE +
                 UrlConstant.CONDITION_START + UrlConstant.CONDITION_USER_ID + userId +
-                UrlConstant.CONDITION_AND + UrlConstant.CONDITION_PHOTO_ID + photoId, Boolean.class);
+                UrlConstant.CONDITION_AND + UrlConstant.CONDITION_PHOTO_ID + photoId +
+                UrlConstant.CONDITION_AND + UrlConstant.CONDITION_APPROVE + approve, Boolean.class);
     }
 }

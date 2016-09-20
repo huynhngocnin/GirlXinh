@@ -202,7 +202,7 @@ public class FragmentLove extends Fragment implements OnPhotoPublishItemClickLis
             @Override
             public void onRefresh() {
                 if (!ConnectionUntil.isConnection(getActivity())) {
-                    ToastUntil.showShort(getActivity(), getString(R.string.network_connect_no));
+                    ToastUntil.showShort(getActivity(), R.string.network_connect_no);
                     pullRefreshLayout.setRefreshing(false);
                 } else {
                     // start refresh

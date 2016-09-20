@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.baoyz.widget.PullRefreshLayout;
 
@@ -16,10 +17,13 @@ import java.util.List;
 
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.adapter.PhotoReviewUserAdapter;
+import ninhn.app.girlxinh.constant.UrlConstant;
+import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
 import ninhn.app.girlxinh.listener.OnPhotoReviewItemClickListener;
 import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.PhotoReviewModel;
+import ninhn.app.girlxinh.service.PhotoAdminApproveService;
 import ninhn.app.girlxinh.service.PhotoReviewAdminService;
 import ninhn.app.girlxinh.until.ConnectionUntil;
 import ninhn.app.girlxinh.until.ToastUntil;
@@ -29,6 +33,7 @@ import static ninhn.app.girlxinh.constant.AppConstant.ADMOB_INIT_POSITION;
 import static ninhn.app.girlxinh.constant.AppConstant.FLAG_PAGE_MORE;
 import static ninhn.app.girlxinh.constant.AppConstant.FLAG_PAGE_ONE;
 import static ninhn.app.girlxinh.constant.AppConstant.FLAG_PHOTO_LOAD;
+import static ninhn.app.girlxinh.constant.AppConstant.FLAG_PHOTO_REVIEW;
 import static ninhn.app.girlxinh.constant.AppConstant.FLAG_REFRESH;
 
 /**
@@ -46,11 +51,12 @@ public class FragmentAdminReview extends Fragment implements TaskListener, OnPho
     private int page = 1;
     private int admobCount = ADMOB_INIT_POSITION;
     private PhotoReviewModel admobModel;
+    private TextView textNoPhoto;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.upload_review, null);
+        return inflater.inflate(R.layout.upload_review_admin, null);
     }
 
     @Override
@@ -61,6 +67,8 @@ public class FragmentAdminReview extends Fragment implements TaskListener, OnPho
         initRecyclerView();
         getPhotoPage();
         initPullRefresh();
+
+        textNoPhoto = (TextView) getActivity().findViewById(R.id.upload_text_no_photo_admin);
     }
 
     private void initAdmobModel() {
@@ -87,7 +95,7 @@ public class FragmentAdminReview extends Fragment implements TaskListener, OnPho
 
     private void initRecyclerView() {
         photoReviewModelList = new ArrayList<>();
-        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycleView_upload_publish);
+        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycleView_upload_review_admin);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         photoReviewUserAdapter = new PhotoReviewUserAdapter(getActivity(), mRecyclerView, photoReviewModelList, this);
@@ -102,32 +110,18 @@ public class FragmentAdminReview extends Fragment implements TaskListener, OnPho
                 getPhotoMore();
             }
         });
-
-//        //Setting up our OnScrollListener
-//        mRecyclerView.setOnScrollListener(new HidingScrollListener() {
-//            @Override
-//            public void onHide() {
-//                ((MainActivity) getActivity()).hideNavigation();
-//            }
-//
-//            @Override
-//            public void onShow() {
-//                ((MainActivity) getActivity()).restoreNagivation();
-//            }
-//        });
-
     }
 
     private void initPullRefresh() {
         //Map component to control
-        pullRefreshLayout = (PullRefreshLayout) getActivity().findViewById(R.id.pullRefreshLayout_upload_publish);
+        pullRefreshLayout = (PullRefreshLayout) getActivity().findViewById(R.id.pullRefreshLayout_upload_review_admin);
 
         // listen refresh event
         pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 if (!ConnectionUntil.isConnection(getActivity())) {
-                    ToastUntil.showShort(getActivity(), getString(R.string.network_connect_no));
+                    ToastUntil.showShort(getActivity(), R.string.network_connect_no);
                     pullRefreshLayout.setRefreshing(false);
                 } else {
                     // start refresh
@@ -195,8 +189,7 @@ public class FragmentAdminReview extends Fragment implements TaskListener, OnPho
                 //Reset page to start
                 page = 1;
             }
-
-        } else {
+        } else if(FLAG_PHOTO_REVIEW == (int) objects[0]){
         }
         //Update list after change
         photoReviewUserAdapter.notifyDataSetChanged();
@@ -204,12 +197,18 @@ public class FragmentAdminReview extends Fragment implements TaskListener, OnPho
 
     @Override
     public void onItemClick(PhotoReviewModel photoReviewModel, View type) {
+        PhotoAdminApproveService photoAdminApproveService = new PhotoAdminApproveService();
+        photoAdminApproveService.addListener(this);
         switch (type.getId()) {
             case R.id.photo_item_review_admin_reject:
-
+                photoAdminApproveService.execute(AppValue.getInstance().getUserModel().getId(), photoReviewModel.getId(), UrlConstant.REVIEW_REJECT);
+                photoReviewModelList.remove(photoReviewModel);
+                photoReviewUserAdapter.notifyDataSetChanged();
                 break;
             case R.id.photo_item_review_admin_approve:
-                ((MainActivity) getActivity()).changeNavigationTabTo(3);
+                photoAdminApproveService.execute(AppValue.getInstance().getUserModel().getId(), photoReviewModel.getId(), UrlConstant.REVIEW_APPROVE);
+                photoReviewModelList.remove(photoReviewModel);
+                photoReviewUserAdapter.notifyDataSetChanged();
                 break;
             default:
                 break;

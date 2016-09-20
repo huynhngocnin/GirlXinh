@@ -42,7 +42,7 @@ import static ninhn.app.girlxinh.constant.AppConstant.FLAG_REFRESH;
 /**
  * Created by NinHN on 7/31/2016.
  */
-public class FragmentUploadPublish extends Fragment implements TaskListener, OnPhotoPublishItemClickListener {
+public class FragmentUserPublish extends Fragment implements TaskListener, OnPhotoPublishItemClickListener {
 
     private List<PhotoModel> photoModelList;
     private RecyclerView mRecyclerView;
@@ -135,7 +135,7 @@ public class FragmentUploadPublish extends Fragment implements TaskListener, OnP
             @Override
             public void onRefresh() {
                 if (!ConnectionUntil.isConnection(getActivity())) {
-                    ToastUntil.showShort(getActivity(), getString(R.string.network_connect_no));
+                    ToastUntil.showShort(getActivity(), R.string.network_connect_no);
                     pullRefreshLayout.setRefreshing(false);
                 } else {
                     // start refresh
@@ -252,7 +252,7 @@ public class FragmentUploadPublish extends Fragment implements TaskListener, OnP
                         }
                         photoPublishAdapter.notifyDataSetChanged();
                     } else {
-                        ToastUntil.showLong(getActivity(), getString(R.string.require_login_love));
+                        ToastUntil.showLong(getActivity(), R.string.require_login_love);
                     }
                 } else {
                     DialogUntil.showNetworkStage(getActivity(), false);

@@ -15,6 +15,7 @@ import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.model.DeviceInfo;
 import ninhn.app.girlxinh.until.ConnectionUntil;
 import ninhn.app.girlxinh.until.DialogUntil;
+import ninhn.app.girlxinh.until.SnackbarUtil;
 
 public class MainActivity extends AppCompatActivity implements AHBottomNavigation.OnTabSelectedListener {
 
@@ -115,7 +116,11 @@ public class MainActivity extends AppCompatActivity implements AHBottomNavigatio
                     displayFragmentLove();
                     break;
                 case 2:
-                    displayFragmentUpload();
+                    if (AppValue.getInstance().isLogin()) {
+                        displayFragmentUpload();
+                    } else {
+                        SnackbarUtil.showShort(ahBottomNavigation, R.string.require_login_upload);
+                    }
                     break;
                 case 3:
                     displayFragmentMe();
