@@ -37,6 +37,7 @@ import ninhn.app.girlxinh.helper.BusProvider;
 import ninhn.app.girlxinh.listener.TaskListener;
 import ninhn.app.girlxinh.model.UserModel;
 import ninhn.app.girlxinh.service.UserRegisterService;
+import ninhn.app.girlxinh.until.SnackbarUtil;
 
 /**
  * Created by NinHN on 4/10/16.
@@ -96,11 +97,11 @@ public class FragmentMe extends Fragment implements TaskListener {
             AppValue.getInstance().setUserModel(userModel);
             //Set status login
             AppValue.getInstance().setLogin(true);
-            //Set change status of Bus
-            BusProvider.getInstance().post(produceLoginEvent());
         } else {
-            Snackbar.make(textName, getString(R.string.login_fail), Snackbar.LENGTH_SHORT).show();
+            SnackbarUtil.showShort(textName, R.string.login_fail);
         }
+        //Set change status of Bus
+        BusProvider.getInstance().post(produceLoginEvent());
     }
 
     private void mapComponent() {

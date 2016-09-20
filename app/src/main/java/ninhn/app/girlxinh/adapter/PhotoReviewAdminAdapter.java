@@ -13,7 +13,6 @@ import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.holder.AdmobViewHolder;
 import ninhn.app.girlxinh.holder.LoadingViewHolder;
 import ninhn.app.girlxinh.holder.PhotoReviewAdminHolder;
-import ninhn.app.girlxinh.listener.OnPhotoPublishItemClickListener;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
 import ninhn.app.girlxinh.listener.OnPhotoReviewItemClickListener;
 import ninhn.app.girlxinh.model.PhotoReviewModel;
@@ -85,7 +84,7 @@ public class PhotoReviewAdminAdapter extends RecyclerView.Adapter<RecyclerView.V
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         if (viewType == VIEW_TYPE_ITEM) {
-            view = LayoutInflater.from(this.context).inflate(R.layout.photo_item_view, parent, false);
+            view = LayoutInflater.from(this.context).inflate(R.layout.photo_item_review_admin, parent, false);
             return new PhotoReviewAdminHolder(view);
         } else if (viewType == VIEW_TYPE_LOADING) {
             view = LayoutInflater.from(this.context).inflate(R.layout.loading_item, parent, false);

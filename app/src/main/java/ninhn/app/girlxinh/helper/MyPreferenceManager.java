@@ -19,6 +19,8 @@ import static ninhn.app.girlxinh.constant.AppConstant.USER_BIRTHDAY;
 import static ninhn.app.girlxinh.constant.AppConstant.USER_FACEBOOK;
 import static ninhn.app.girlxinh.constant.AppConstant.USER_FROM;
 import static ninhn.app.girlxinh.constant.AppConstant.USER_CREATED;
+import static ninhn.app.girlxinh.constant.AppConstant.USER_TOKEN;
+import static ninhn.app.girlxinh.constant.AppConstant.USER_ROLE;
 
 /**
  * Created by NinHN on 4/7/16.
@@ -69,6 +71,8 @@ public class MyPreferenceManager {
         editorUser.putString(USER_FACEBOOK, userModel.getFacebook());
         editorUser.putString(USER_AVATAR, userModel.getAvatar());
         editorUser.putLong(USER_CREATED, userModel.getCreateTime().getTime());
+        editorUser.putString(USER_TOKEN, userModel.getToken());
+        editorUser.putInt(USER_ROLE, userModel.getRole());
         editorUser.commit();
     }
 
@@ -83,6 +87,8 @@ public class MyPreferenceManager {
         userModel.setFacebook(prefUser.getString(USER_FACEBOOK, BLANK));
         userModel.setAvatar(prefUser.getString(USER_AVATAR, BLANK));
         userModel.setCreateTime(new Date(prefUser.getLong(USER_CREATED, 0)));
+        userModel.setToken(prefUser.getString(USER_TOKEN, BLANK));
+        userModel.setRole(prefUser.getInt(USER_ROLE, 0));
         return userModel;
     }
 

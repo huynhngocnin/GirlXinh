@@ -16,7 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ninhn.app.girlxinh.R;
+import ninhn.app.girlxinh.adapter.PhotoReviewAdminAdapter;
 import ninhn.app.girlxinh.adapter.PhotoReviewUserAdapter;
+import ninhn.app.girlxinh.constant.AppConstant;
 import ninhn.app.girlxinh.constant.UrlConstant;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.listener.OnLoadMoreListener;
@@ -43,7 +45,7 @@ public class FragmentAdminReview extends Fragment implements TaskListener, OnPho
 
     private List<PhotoReviewModel> photoReviewModelList;
     private RecyclerView mRecyclerView;
-    private PhotoReviewUserAdapter photoReviewUserAdapter;
+    private PhotoReviewAdminAdapter photoReviewAdminAdapter;
     private PullRefreshLayout pullRefreshLayout;
 
     private List<PhotoReviewModel> photoReviewModelListTemp;
@@ -98,14 +100,14 @@ public class FragmentAdminReview extends Fragment implements TaskListener, OnPho
         mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycleView_upload_review_admin);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        photoReviewUserAdapter = new PhotoReviewUserAdapter(getActivity(), mRecyclerView, photoReviewModelList, this);
-        mRecyclerView.setAdapter(photoReviewUserAdapter);
+        photoReviewAdminAdapter = new PhotoReviewAdminAdapter(getActivity(), mRecyclerView, photoReviewModelList, this);
+        mRecyclerView.setAdapter(photoReviewAdminAdapter);
 
-        photoReviewUserAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+        photoReviewAdminAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 photoReviewModelList.add(null);
-                photoReviewUserAdapter.notifyItemInserted(photoReviewModelList.size() - 1);
+                photoReviewAdminAdapter.notifyItemInserted(photoReviewModelList.size() - 1);
                 //Get more photo when scroll down to bottom
                 getPhotoMore();
             }
@@ -170,13 +172,13 @@ public class FragmentAdminReview extends Fragment implements TaskListener, OnPho
                 if (photoReviewModelList.size() > 0) {
                     //Remove loading item
                     photoReviewModelList.remove(photoReviewModelList.size() - 1);
-                    photoReviewUserAdapter.notifyItemRemoved(photoReviewModelList.size());
+                    photoReviewAdminAdapter.notifyItemRemoved(photoReviewModelList.size());
                     //Add list photo had just loaded and admob to list
                     addPhotoToList(false);
                     //count page
                     page++;
                     //Hide load more progress
-                    photoReviewUserAdapter.setLoaded();
+                    photoReviewAdminAdapter.setLoaded();
                 }
             } else if (FLAG_PAGE_ONE == (int) objects[1]) {
                 //Add list photo had just loaded and admob to list
@@ -192,7 +194,7 @@ public class FragmentAdminReview extends Fragment implements TaskListener, OnPho
         } else if(FLAG_PHOTO_REVIEW == (int) objects[0]){
         }
         //Update list after change
-        photoReviewUserAdapter.notifyDataSetChanged();
+        photoReviewAdminAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -201,14 +203,14 @@ public class FragmentAdminReview extends Fragment implements TaskListener, OnPho
         photoAdminApproveService.addListener(this);
         switch (type.getId()) {
             case R.id.photo_item_review_admin_reject:
-                photoAdminApproveService.execute(AppValue.getInstance().getUserModel().getId(), photoReviewModel.getId(), UrlConstant.REVIEW_REJECT);
+                photoAdminApproveService.execute(AppValue.getInstance().getUserModel().getId(), photoReviewModel.getName(), UrlConstant.REVIEW_REJECT, photoReviewModel.getMessage());
                 photoReviewModelList.remove(photoReviewModel);
-                photoReviewUserAdapter.notifyDataSetChanged();
+                photoReviewAdminAdapter.notifyDataSetChanged();
                 break;
             case R.id.photo_item_review_admin_approve:
-                photoAdminApproveService.execute(AppValue.getInstance().getUserModel().getId(), photoReviewModel.getId(), UrlConstant.REVIEW_APPROVE);
+                photoAdminApproveService.execute(AppValue.getInstance().getUserModel().getId(), photoReviewModel.getName(), UrlConstant.REVIEW_APPROVE, AppConstant.BLANK);
                 photoReviewModelList.remove(photoReviewModel);
-                photoReviewUserAdapter.notifyDataSetChanged();
+                photoReviewAdminAdapter.notifyDataSetChanged();
                 break;
             default:
                 break;

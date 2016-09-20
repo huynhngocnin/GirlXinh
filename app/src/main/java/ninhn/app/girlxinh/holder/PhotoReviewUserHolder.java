@@ -11,7 +11,6 @@ import com.squareup.picasso.Picasso;
 
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.helper.AppValue;
-import ninhn.app.girlxinh.listener.OnPhotoPublishItemClickListener;
 import ninhn.app.girlxinh.listener.OnPhotoReviewItemClickListener;
 import ninhn.app.girlxinh.model.PhotoReviewModel;
 

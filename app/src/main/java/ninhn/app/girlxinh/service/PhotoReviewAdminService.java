@@ -57,7 +57,9 @@ public class PhotoReviewAdminService extends AsyncTask<Integer, Void, List<Photo
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         try {
             ResponseEntity<PhotoReviewModel[]> responseEntity = restTemplate.getForEntity(UrlConstant.PHOTO_REVIEW_ADMIN +
-                    UrlConstant.CONDITION_START + UrlConstant.CONDITION_PAGE + page, PhotoReviewModel[].class);
+                    UrlConstant.CONDITION_START + UrlConstant.CONDITION_USER_ID + AppValue.getInstance().getUserModel().getId() +
+                    UrlConstant.CONDITION_AND + UrlConstant.CONDITION_PAGE + page,
+                    PhotoReviewModel[].class);
             PhotoReviewModel[] photoArray = responseEntity.getBody();
             List<PhotoReviewModel> photolist = Arrays.asList(photoArray);
             return photolist;

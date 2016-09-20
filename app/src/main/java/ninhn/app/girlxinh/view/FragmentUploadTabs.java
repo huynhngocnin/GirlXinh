@@ -14,9 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.otto.Subscribe;
+
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.constant.AppConstant;
+import ninhn.app.girlxinh.event.LoginChangedEvent;
 import ninhn.app.girlxinh.helper.AppValue;
+import ninhn.app.girlxinh.helper.BusProvider;
 
 /**
  * Created by NinHN on 7/31/2016.
@@ -48,7 +52,7 @@ public class FragmentUploadTabs extends Fragment implements View.OnClickListener
         /**
          *Set an Apater for the View Pager
          */
-        viewPager.setAdapter(new MyAdapter(getChildFragmentManager()));
+        viewPager.setAdapter(new TabsAdapter(getChildFragmentManager()));
 
         /**
          * Now , this is a workaround ,
@@ -65,6 +69,25 @@ public class FragmentUploadTabs extends Fragment implements View.OnClickListener
 
         return x;
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Register ourselves so that we can provide the initial value.
+        BusProvider.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.getInstance().unregister(this);
+    }
+
+    @Subscribe
+    public void onLoginChanged(LoginChangedEvent event) {
+        //Update tabview for user
+        viewPager.setAdapter(new TabsAdapter(getChildFragmentManager()));
     }
 
     @Override
@@ -93,9 +116,9 @@ public class FragmentUploadTabs extends Fragment implements View.OnClickListener
         }
     }
 
-    class MyAdapter extends FragmentPagerAdapter {
+    class TabsAdapter extends FragmentPagerAdapter {
 
-        public MyAdapter(FragmentManager fm) {
+        public TabsAdapter(FragmentManager fm) {
             super(fm);
         }
 

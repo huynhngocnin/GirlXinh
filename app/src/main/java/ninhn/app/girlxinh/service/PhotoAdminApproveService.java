@@ -10,6 +10,7 @@ import java.util.List;
 
 import ninhn.app.girlxinh.constant.UrlConstant;
 import ninhn.app.girlxinh.listener.TaskListener;
+import static ninhn.app.girlxinh.constant.AppConstant.FLAG_PHOTO_REVIEW;
 
 /**
  * Created by NinHN on 5/23/16.
@@ -25,21 +26,22 @@ public class PhotoAdminApproveService extends AsyncTask<String, Void, Boolean> {
     protected void onPostExecute(Boolean isDeleted) {
         super.onPostExecute(isDeleted);
         for (TaskListener tl : myListeners) {
-            tl.onResultAvailable(isDeleted);
+            tl.onResultAvailable(FLAG_PHOTO_REVIEW, isDeleted);
         }
     }
 
     @Override
     protected Boolean doInBackground(String... params) {
-        return callService(params[0], params[1], params[1]);
+        return callService(params[0], params[1], params[2], params[3]);
     }
 
-    private Boolean callService(String userId, String photoId, String approve) {
+    private Boolean callService(String userId, String photoName, String approve, String message) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         return restTemplate.getForObject(UrlConstant.PHOTO_REVIEW_APPROVE +
                 UrlConstant.CONDITION_START + UrlConstant.CONDITION_USER_ID + userId +
-                UrlConstant.CONDITION_AND + UrlConstant.CONDITION_PHOTO_ID + photoId +
-                UrlConstant.CONDITION_AND + UrlConstant.CONDITION_APPROVE + approve, Boolean.class);
+                UrlConstant.CONDITION_AND + UrlConstant.CONDITION_PHOTO_NAME + photoName +
+                UrlConstant.CONDITION_AND + UrlConstant.CONDITION_APPROVE + approve +
+                UrlConstant.CONDITION_AND + UrlConstant.CONDITION_MESSAGE + message, Boolean.class);
     }
 }
