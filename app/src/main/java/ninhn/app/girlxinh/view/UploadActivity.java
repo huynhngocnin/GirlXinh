@@ -1,10 +1,11 @@
 package ninhn.app.girlxinh.view;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,18 +17,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loopj.android.http.RequestParams;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import ninhn.app.girlxinh.R;
-import ninhn.app.girlxinh.constant.AppConstant;
 import ninhn.app.girlxinh.constant.UrlConstant;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.listener.UploadListener;
-import ninhn.app.girlxinh.model.PhotoModel;
 import ninhn.app.girlxinh.model.PhotoReviewModel;
 import ninhn.app.girlxinh.until.ImageUntil;
+import ninhn.app.girlxinh.until.SnackbarUtil;
 import ninhn.app.girlxinh.until.ToastUntil;
+
+import static ninhn.app.girlxinh.constant.AppConstant.PHOTO_SIZE_MIN;
+import static ninhn.app.girlxinh.constant.AppConstant.FILE_SIZE_MAX;
 
 public class UploadActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -93,7 +99,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                 String jsonInString;
                 try {
                     jsonInString = mapper.writeValueAsString(photoModel);
-                }catch (JsonProcessingException JPException){
+                } catch (JsonProcessingException JPException) {
                     ToastUntil.showShort(this, JPException.getMessage());
                     changeControlToReUpload();
                     return;
@@ -122,7 +128,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                 changeControlToReUpload();
             }
         } else {
-            ToastUntil.showShort(this, R.string.please_select_photo_before);
+            SnackbarUtil.showShort(btnUpload, R.string.please_select_photo_before);
             changeControlToReUpload();
         }
     }
@@ -141,6 +147,35 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         btnUpload.setEnabled(true);
     }
 
+    private boolean checkPhotoSize(Uri uri) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(new File(uri.getPath()).getAbsolutePath(), options);
+        int imageHeight = options.outHeight;
+        int imageWidth = options.outWidth;
+        if (imageWidth >= PHOTO_SIZE_MIN || imageHeight >= PHOTO_SIZE_MIN) {
+            long size = ImageUntil.getFileSize(this, uri);
+            if (size >= FILE_SIZE_MAX) {
+                //zip image file
+                Bitmap bitmap = BitmapFactory.decodeFile(ImageUntil.getPathFromURI(this, uri), options);
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 55, out);
+                byte[] bytes = out.toByteArray();
+                FileOutputStream stream = null;
+                try {
+                    stream = new FileOutputStream(ImageUntil.getPathFromURI(this, uri) + ".jpg");
+                    stream.write(bytes);
+                    stream.close();
+                    imgFile = new File(ImageUntil.getPathFromURI(this, uri) + ".jpg");
+                } catch (IOException ioException) {
+                    imgFile = null;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -148,13 +183,17 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
             case PICK_PHOTO:
                 if (resultCode == RESULT_OK) {
                     Uri imageUri = data.getData();
-                    Picasso.with(this)
-                            .load(imageUri)
-                            .resize(AppValue.getInstance().getDeviceInfo().getWidth(), 0)
-                            .error(R.drawable.upload_icon)
-                            .placeholder(R.drawable.loading_animation)
-                            .into(imgPhoto);
-                    imgFile = new File(ImageUntil.getPathFromURI(this, imageUri));
+                    if (checkPhotoSize(imageUri)) {
+                        Picasso.with(this)
+                                .load(imageUri)
+                                .resize(AppValue.getInstance().getDeviceInfo().getWidth(), 0)
+                                .error(R.drawable.upload_icon)
+                                .placeholder(R.drawable.loading_animation)
+                                .into(imgPhoto);
+                        imgFile = new File(ImageUntil.getPathFromURI(this, imageUri));
+                    } else {
+                        SnackbarUtil.showShort(btnUpload, R.string.upload_size_require);
+                    }
                 }
         }
     }

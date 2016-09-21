@@ -39,4 +39,7 @@ public class AppConstant {
 
     public static final int USER_ROLE_ADMIN = 1;
     public static final int USER_ROLE_USER = 0;
+
+    public static final int PHOTO_SIZE_MIN = 960;
+    public static final int FILE_SIZE_MAX = 3072;
 }

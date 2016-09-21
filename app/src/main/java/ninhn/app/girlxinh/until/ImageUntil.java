@@ -13,6 +13,8 @@ import cz.msebera.android.httpclient.Header;
 
 import org.json.JSONObject;
 
+import java.io.File;
+
 import ninhn.app.girlxinh.constant.UrlConstant;
 import ninhn.app.girlxinh.listener.UploadListener;
 
@@ -70,4 +72,10 @@ public class ImageUntil {
             callback.onPostUploaded(false, ex.getMessage());
         }
     }
+
+    public static long getFileSize(Context context, Uri uri) {
+        File img = new File(getPathFromURI(context, uri));
+        return img.length();
+    }
+
 }
