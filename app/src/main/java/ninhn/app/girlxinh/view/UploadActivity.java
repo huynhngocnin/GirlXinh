@@ -45,6 +45,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
     private Button btnUpload;
     private ProgressBar progressBar;
     private File imgFile;
+    private File tempFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +122,9 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                             ToastUntil.showShort(getApplicationContext(), message);
                             changeControlToReUpload();
                         }
+                        if (tempFile != null && tempFile.isFile()) {
+                            tempFile.delete();
+                        }
                     }
                 });
             } catch (FileNotFoundException fnfException) {
@@ -166,9 +170,13 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
                     stream = new FileOutputStream(ImageUntil.getPathFromURI(this, uri) + ".jpg");
                     stream.write(bytes);
                     stream.close();
-                    imgFile = new File(ImageUntil.getPathFromURI(this, uri) + ".jpg");
+                    tempFile = new File(ImageUntil.getPathFromURI(this, uri) + ".jpg");
+                    imgFile = tempFile;
+                    //size = imgFile.length();
                 } catch (IOException ioException) {
                     imgFile = null;
+                    tempFile = null;
+                    return false;
                 }
             }
             return true;

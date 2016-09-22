@@ -43,10 +43,10 @@ public class FragmentUploadTabs extends Fragment implements View.OnClickListener
         /**
          *Inflate tab_layout and setup Views.
          */
-        View x = inflater.inflate(R.layout.fragment_upload_tabs, null);
-        tabLayout = (TabLayout) x.findViewById(R.id.tabs_upload);
-        viewPager = (ViewPager) x.findViewById(R.id.viewpager_upload);
-        floatUpload = (FloatingActionButton) x.findViewById(R.id.float_upload_new);
+        View tabsView = inflater.inflate(R.layout.fragment_upload_tabs, null);
+        tabLayout = (TabLayout) tabsView.findViewById(R.id.tabs_upload);
+        viewPager = (ViewPager) tabsView.findViewById(R.id.viewpager_upload);
+        floatUpload = (FloatingActionButton) tabsView.findViewById(R.id.float_upload_new);
         floatUpload.setOnClickListener(this);
 
         /**
@@ -67,7 +67,7 @@ public class FragmentUploadTabs extends Fragment implements View.OnClickListener
             }
         });
 
-        return x;
+        return tabsView;
 
     }
 
@@ -88,6 +88,12 @@ public class FragmentUploadTabs extends Fragment implements View.OnClickListener
     public void onLoginChanged(LoginChangedEvent event) {
         //Update tabview for user
         viewPager.setAdapter(new TabsAdapter(getChildFragmentManager()));
+        tabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                tabLayout.setupWithViewPager(viewPager);
+            }
+        });
     }
 
     @Override

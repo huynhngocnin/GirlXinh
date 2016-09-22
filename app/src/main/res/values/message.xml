@@ -15,7 +15,7 @@
     <string name="network_connect_yes">Internet is connected</string>
     <string name="please_select_photo_before">Please select photo before</string>
     <string name="upload_success">Uploaded!</string>
-    <string name="upload_size_require">Please select photo have size > 960px</string>
+    <string name="upload_size_require">Please select photo have size more than 960px and file size less than 5Mb</string>
 
 
 </resources>
