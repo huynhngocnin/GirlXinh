@@ -9,6 +9,7 @@ public class AppConstant {
 
     public static final String BLANK = "";
     public static final String _JPG = ".jpg";
+    public static final String COMPRESSED_JPG = "_compressed.jpg";
 
     public static final ArrayList ARRAY_EMPTY = new ArrayList<>();
 
@@ -41,5 +42,7 @@ public class AppConstant {
     public static final int USER_ROLE_USER = 0;
 
     public static final int PHOTO_SIZE_MIN = 960;
-    public static final int FILE_SIZE_MAX = 3072;
+    public static final int FILE_SIZE_3MB = 3072000;
+    public static final int FILE_SIZE_6MB = 6144000;
+    public static final int FILE_SIZE_9MB = 9216000;
 }

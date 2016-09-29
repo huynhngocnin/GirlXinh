@@ -89,7 +89,7 @@ public class FragmentUserReview extends Fragment implements TaskListener, OnPhot
         }
     }
 
-    public void handleUploadSuccess(){
+    public void handleUploadSuccess() {
         getPhotoRefresh();
     }
 

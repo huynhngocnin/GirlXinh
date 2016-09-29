@@ -21,6 +21,7 @@ import ninhn.app.girlxinh.constant.AppConstant;
 import ninhn.app.girlxinh.event.LoginChangedEvent;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.helper.BusProvider;
+import ninhn.app.girlxinh.until.SnackbarUtil;
 
 /**
  * Created by NinHN on 7/31/2016.
@@ -117,7 +118,11 @@ public class FragmentUploadTabs extends Fragment implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == UPLOAD && resultCode == Activity.RESULT_OK) {
             if (data.getExtras().getBoolean(UploadActivity.UPLOAD_OK)) {
-                fragmentUserReview.handleUploadSuccess();
+                if (AppConstant.USER_ROLE_USER == AppValue.getInstance().getUserModel().getRole()) {
+                    fragmentUserReview.handleUploadSuccess();
+                }
+            }else {
+                SnackbarUtil.showShort(floatUpload, R.string.upload_fail);
             }
         }
     }

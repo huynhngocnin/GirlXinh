@@ -2,11 +2,15 @@ package ninhn.app.girlxinh.until;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 
 import java.io.File;
 
+import ninhn.app.girlxinh.Manifest;
 import ninhn.app.girlxinh.constant.AppConstant;
 import ninhn.app.girlxinh.model.PhotoModel;
 
@@ -44,4 +48,5 @@ public class DownloadUntil {
         //start to download
         downloadManager.enqueue(req);
     }
+
 }
