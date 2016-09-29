@@ -33,9 +33,11 @@ import java.io.OutputStream;
 
 import ninhn.app.girlxinh.R;
 import ninhn.app.girlxinh.constant.AppConstant;
+import ninhn.app.girlxinh.constant.JSONConstant;
 import ninhn.app.girlxinh.constant.UrlConstant;
 import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.listener.UploadListener;
+import ninhn.app.girlxinh.model.PhotoModel;
 import ninhn.app.girlxinh.model.PhotoReviewModel;
 import ninhn.app.girlxinh.until.ImageUntil;
 import ninhn.app.girlxinh.until.SnackbarUtil;
@@ -111,27 +113,55 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         changeControlToStartUpload();
         if (imgFile.isFile()) {
             try {
-                //Set photo info
-                PhotoReviewModel photoModel = new PhotoReviewModel();
-                photoModel.setDescription(edtDescription.getText().toString());
-                photoModel.setUploadId(AppValue.getInstance().getUserModel().getId());
-                photoModel.setUploadName(AppValue.getInstance().getUserModel().getName());
-                photoModel.setUploadAvatar(AppValue.getInstance().getUserModel().getAvatar());
-                //Conver object to json
-                ObjectMapper mapper = new ObjectMapper();
-                String jsonInString;
-                try {
-                    jsonInString = mapper.writeValueAsString(photoModel);
-                } catch (JsonProcessingException JPException) {
-                    ToastUntil.showShort(this, JPException.getMessage());
-                    changeControlToReUpload();
-                    return;
-                }
+                String url;
                 //Set param to upload(photo File and photo Info)
                 RequestParams requestParams = new RequestParams();
-                requestParams.put(UrlConstant.PHOTO_FILE, imgFile);
-                requestParams.put(UrlConstant.PHOTO_INFO, jsonInString);
-                ImageUntil.uploadImage(this, requestParams, new UploadListener() {
+                if (AppConstant.USER_ROLE_ADMIN == AppValue.getInstance().getUserModel().getRole()) {
+                    //Set photo info
+                    PhotoModel photoModel = new PhotoModel();
+                    photoModel.setDescription(edtDescription.getText().toString());
+                    photoModel.setUploadId(AppValue.getInstance().getUserModel().getId());
+                    photoModel.setUploadName(AppValue.getInstance().getUserModel().getName());
+                    photoModel.setUploadAvatar(AppValue.getInstance().getUserModel().getAvatar());
+                    //Conver object to json
+                    ObjectMapper mapper = new ObjectMapper();
+                    String jsonInString;
+                    try {
+                        jsonInString = mapper.writeValueAsString(photoModel);
+                    } catch (JsonProcessingException JPException) {
+                        SnackbarUtil.showShort(btnUpload, JPException.getMessage());
+                        changeControlToReUpload();
+                        return;
+                    }
+
+
+                    url = UrlConstant.PHOTO_ADMIN_UPLOAD;
+                    requestParams.put(UrlConstant.PHOTO_FILE, imgFile);
+                    requestParams.put(UrlConstant.PHOTO_INFO, jsonInString);
+                    requestParams.put(JSONConstant.USER_ID, AppValue.getInstance().getUserModel().getId());
+                } else {
+                    //Set photo info
+                    PhotoReviewModel photoModel = new PhotoReviewModel();
+                    photoModel.setDescription(edtDescription.getText().toString());
+                    photoModel.setUploadId(AppValue.getInstance().getUserModel().getId());
+                    photoModel.setUploadName(AppValue.getInstance().getUserModel().getName());
+                    photoModel.setUploadAvatar(AppValue.getInstance().getUserModel().getAvatar());
+                    //Conver object to json
+                    ObjectMapper mapper = new ObjectMapper();
+                    String jsonInString;
+                    try {
+                        jsonInString = mapper.writeValueAsString(photoModel);
+                    } catch (JsonProcessingException JPException) {
+                        ToastUntil.showShort(this, JPException.getMessage());
+                        changeControlToReUpload();
+                        return;
+                    }
+                    requestParams.put(UrlConstant.PHOTO_FILE, imgFile);
+                    requestParams.put(UrlConstant.PHOTO_INFO, jsonInString);
+                    url = UrlConstant.PHOTO_USER_UPLOAD;
+                }
+
+                ImageUntil.uploadImage(this, url, requestParams, new UploadListener() {
                     @Override
                     public void onPostUploaded(boolean isSuccess, String message) {
                         if (isSuccess) {
@@ -194,7 +224,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         return false;
     }
 
-    private boolean compressFile(Uri uri, int percent){
+    private boolean compressFile(Uri uri, int percent) {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
             // Assume block needs to be inside a Try/Catch block.

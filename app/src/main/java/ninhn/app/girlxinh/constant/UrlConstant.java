@@ -17,6 +17,7 @@ public class UrlConstant {
     public static final String PHOTO_USER_LOVE = SERVER + "/user-photo-love";
 
     public static final String PHOTO_USER_UPLOAD = SERVER + "/api/gcp/storage/public/user-photo-upload";
+    public static final String PHOTO_ADMIN_UPLOAD = SERVER + "/api/gcp/storage/public/admin-photo-upload";
 
     public static final String PHOTO_PUBLISH_USER = SERVER + "/photo-list-user";
     public static final String PHOTO_REVIEW_USER = SERVER + "/storage/review/photo-review-user";

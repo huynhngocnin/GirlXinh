@@ -15,7 +15,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 
+import ninhn.app.girlxinh.constant.AppConstant;
 import ninhn.app.girlxinh.constant.UrlConstant;
+import ninhn.app.girlxinh.helper.AppValue;
 import ninhn.app.girlxinh.listener.UploadListener;
 
 /**
@@ -42,10 +44,10 @@ public class ImageUntil {
      * @param rqParams
      * @param callback
      */
-    public static void uploadImage(final Context context, RequestParams rqParams, final UploadListener callback) {
+    public static void uploadImage(final Context context, String url, RequestParams rqParams, final UploadListener callback) {
         try {
             AsyncHttpClient client = new AsyncHttpClient();
-            client.post(UrlConstant.PHOTO_USER_UPLOAD, rqParams, new JsonHttpResponseHandler() {
+            client.post(url, rqParams, new JsonHttpResponseHandler() {
                 @Override
                 public void onStart() {
                     super.onStart();
