@@ -111,7 +111,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
 
     private void uploadPhoto() {
         changeControlToStartUpload();
-        if (imgFile.isFile()) {
+        if (imgFile != null && imgFile.isFile()) {
             try {
                 String url;
                 //Set param to upload(photo File and photo Info)
@@ -212,11 +212,11 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
         if (imageWidth >= PHOTO_SIZE_MIN || imageHeight >= PHOTO_SIZE_MIN) {
             long size = ImageUntil.getFileSize(this, uri);
             if (size >= FILE_SIZE_9MB) {
-                return compressFile(uri, 15);
+                return compressFile(uri, 10);
             } else if (size >= FILE_SIZE_6MB) {
-                return compressFile(uri, 25);
+                return compressFile(uri, 20);
             } else if (size >= FILE_SIZE_3MB) {
-                return compressFile(uri, 35);
+                return compressFile(uri, 30);
             }
             imgFile = new File(ImageUntil.getPathFromURI(this, uri));
             return true;
@@ -234,7 +234,7 @@ public class UploadActivity extends AppCompatActivity implements View.OnClickLis
             try {
                 fOut = new FileOutputStream(tempFile);
                 Bitmap pictureBitmap = BitmapFactory.decodeFile(ImageUntil.getPathFromURI(this, uri)); // obtaining the Bitmap
-                pictureBitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
+                pictureBitmap.compress(Bitmap.CompressFormat.JPEG, percent, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
                 fOut.flush(); // Not really required
                 fOut.close(); // do not forget to close the stream
                 imgFile = tempFile;

@@ -8,8 +8,8 @@ public class UrlConstant {
     public static final String PHOTO_GET = "/photo-get?id=";
 
 
-    //public static final String SERVER = "http://104.155.232.78:8008";
-    public static final String SERVER = "http://192.168.1.5:8008";
+    public static final String SERVER = "http://104.155.232.78:8008";
+    //public static final String SERVER = "http://192.168.1.5:8008";
     public static final String PHOTO_LIST = SERVER + "/photo-list-global";
     public static final String PHOTO_LIST_PAGE = PHOTO_LIST + "?page=";
     public static final String PHOTO_LOVE_UP = SERVER + "/photo-love-up";

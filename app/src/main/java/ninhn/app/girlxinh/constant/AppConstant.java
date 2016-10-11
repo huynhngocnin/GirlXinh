@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 public class AppConstant {
 
+    public static final String APP_URL = "https://play.google.com/store/apps/details?id=nin.app.talo";
     public static final String BLANK = "";
     public static final String _JPG = ".jpg";
     public static final String COMPRESSED_JPG = "_compressed.jpg";

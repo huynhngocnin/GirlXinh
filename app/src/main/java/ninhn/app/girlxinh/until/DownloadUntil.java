@@ -32,14 +32,14 @@ public class DownloadUntil {
         //path to save file after downloaded
         Uri dest = Uri.fromFile(file);
         DownloadManager.Request req = new DownloadManager.Request(uri);
-        req.setTitle(photo.getName());
-        req.setDescription(photo.getDescription());
+        req.setTitle(photo.getDescription());
+        req.setDescription(AppConstant.APP_URL);
 
         //set notification can be seen
         req.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
         //set Destination save
-        req.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, photo.getName() + AppConstant._JPG);
+        req.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, photo.getDescription() + AppConstant._JPG);
 
         //show file in android gallery after downloaded
         req.allowScanningByMediaScanner();

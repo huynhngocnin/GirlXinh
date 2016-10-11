@@ -35,7 +35,7 @@ import static ninhn.app.girlxinh.constant.AppConstant.FLAG_REFRESH;
 /**
  * Created by NinHN on 7/31/2016.
  */
-public class FragmentUserReview extends Fragment implements TaskListener, OnPhotoReviewItemClickListener {
+public class FragmentUserReview extends Fragment implements TaskListener {
 
     private List<PhotoReviewModel> photoReviewModelList;
     private RecyclerView mRecyclerView;
@@ -98,7 +98,7 @@ public class FragmentUserReview extends Fragment implements TaskListener, OnPhot
         mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.recycleView_upload_review_user);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        photoReviewUserAdapter = new PhotoReviewUserAdapter(getActivity(), mRecyclerView, photoReviewModelList, this);
+        photoReviewUserAdapter = new PhotoReviewUserAdapter(getActivity(), mRecyclerView, photoReviewModelList, null);
         mRecyclerView.setAdapter(photoReviewUserAdapter);
 
         photoReviewUserAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -197,12 +197,4 @@ public class FragmentUserReview extends Fragment implements TaskListener, OnPhot
         photoReviewUserAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onItemClick(PhotoReviewModel photoReviewModel, View type) {
-        switch (type.getId()) {
-            default:
-                break;
-
-        }
-    }
 }

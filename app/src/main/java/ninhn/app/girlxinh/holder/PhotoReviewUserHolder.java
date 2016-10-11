@@ -24,7 +24,6 @@ public class PhotoReviewUserHolder extends RecyclerView.ViewHolder {
     private TextView time;
     private TextView title;
     private ImageView image;
-    private ImageView remove;
     private TextView message;
 
     public PhotoReviewUserHolder(View itemView) {
@@ -34,7 +33,6 @@ public class PhotoReviewUserHolder extends RecyclerView.ViewHolder {
         time = (TextView) itemView.findViewById(R.id.photo_item_review_user_header_text_time);
         title = (TextView) itemView.findViewById(R.id.photo_item_review_user_body_text_title);
         image = (ImageView) itemView.findViewById(R.id.photo_item_review_user_body_image_background);
-        remove = (ImageView) itemView.findViewById(R.id.photo_item_review_user_header_image_remove);
         message = (TextView) itemView.findViewById(R.id.photo_item_review_user_body_text_feedback);
     }
 
@@ -59,13 +57,6 @@ public class PhotoReviewUserHolder extends RecyclerView.ViewHolder {
                 .error(R.drawable.ic_body_load_error)
                 .placeholder(R.drawable.loading_animation)
                 .into(image);
-
-        remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(photoReviewModel, remove);
-            }
-        });
 
         message.setText(photoReviewModel.getMessage());
 
